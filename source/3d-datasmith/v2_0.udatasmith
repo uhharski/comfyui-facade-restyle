@@ -1711,7 +1711,7 @@
 		<Material id="0" name="F6FBE00B-54A5-4A7B-BF70-BBFCA2E1CFA1"/>
 		<Material id="1" name="6962BB9B-244E-45A4-8D67-3640AA6C6FB9"/>
 	</StaticMesh>
-	<Actor name="CBDEFBEF-0D4E-4162-8C4C-64AC34CEB4E6" label="Partlemae_tee_6_9_enchanced_Project_Informations" mobility="Static">
+	<Actor name="CBDEFBEF-0D4E-4162-8C4C-64AC34CEB4E6" label="House_Anonymized_Project_Informations" mobility="Static">
 		<Transform tx="0.0" ty="0.0" tz="0.0" sx="1.0" sy="1.0" sz="1.0" qx="0.0" qy="0.0" qz="0.0" qw="1.0" qhex64="000000000000000000000000000000000000000000000000000000000000F03F"/>
 	</Actor>
 	<Actor name="794F67B2-2D70-4509-AF47-D71418DE2553" label="Elеmеnt_Modеli_-_Osi" mobility="Static">
@@ -4959,17 +4959,17 @@
 		<OpacityMaskClipValue value="0.3333"/>
 	</UEPbrMaterial>
 	<MetaData name="MetaData_CBDEFBEF-0D4E-4162-8C4C-64AC34CEB4E6" reference="Actor.CBDEFBEF-0D4E-4162-8C4C-64AC34CEB4E6">
-		<KeyValueProperty name="ProjectName" type="String" val="Pärtlemäe tee 6_9_enchanced"/>
-		<KeyValueProperty name="ProjectPath" type="String" val="C:\Users\vikto\Desktop\Dom\Projekt\Update_02.03.26\Pärtlemäe tee 6_9_enchanced.pln"/>
-		<KeyValueProperty name="ProjectLocation" type="String" val="C:\Users\vikto\Desktop\Dom\Projekt\Update_02.03.26\Pärtlemäe tee 6_9_enchanced.pln"/>
-		<KeyValueProperty name="Client" type="String" val="Grandmodum OÜ"/>
-		<KeyValueProperty name="Company" type="String" val="SOLPRO OÜ "/>
+		<KeyValueProperty name="ProjectName" type="String" val="House_Anonymized"/>
+		<KeyValueProperty name="ProjectPath" type="String" val="anonymized/House_Anonymized.pln"/>
+		<KeyValueProperty name="ProjectLocation" type="String" val="anonymized/House_Anonymized.pln"/>
+		<KeyValueProperty name="Client" type="String" val="Private"/>
+		<KeyValueProperty name="Company" type="String" val="Anonymized"/>
 		<KeyValueProperty name="Country" type="String" val=""/>
 		<KeyValueProperty name="PostalCode" type="String" val=""/>
-		<KeyValueProperty name="City" type="String" val="Tallinn"/>
+		<KeyValueProperty name="City" type="String" val=""/>
 		<KeyValueProperty name="Street" type="String" val=""/>
-		<KeyValueProperty name="MainArchitect" type="String" val="Diplomeeritud arhitekt Aleksandr  Bobrov A."/>
-		<KeyValueProperty name="Draftsperson" type="String" val="Arhitekt Aleksandr Juryevich Bobrov A."/>
+		<KeyValueProperty name="MainArchitect" type="String" val="Anonymized architect"/>
+		<KeyValueProperty name="Draftsperson" type="String" val="Anonymized architect"/>
 		<KeyValueProperty name="ProjectStatus" type="String" val="EP"/>
 		<KeyValueProperty name="DateOfIssue" type="String" val=""/>
 		<KeyValueProperty name="Keywords" type="String" val=""/>

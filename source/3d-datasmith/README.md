@@ -3,8 +3,7 @@
 **What this is:** the source 3D model of our house (the building under construction that
 this whole project is about), exported from **ArchiCAD 29** via the **Datasmith** format —
 Epic's interchange format for bringing architecture/BIM models into Unreal Engine.
-
-- Original location: `C:/Users/vikto/Desktop/Dom/3d/v2.0` (this is the versioned copy).
+ 
 - Exported with Datasmith SDK **5.7.3**, host application **Graphisoft ArchiCAD 29**.
 - Version tag: **v2.0** (there were earlier iterations of the model).
 
@@ -33,5 +32,9 @@ This scene is the ground-truth geometry: from it we render white-model views plu
 depth/lineart passes, which feed the Krea 2 Control pipeline (approach A in `PROJECT.md` § 3).
 The earlier VR walkthrough was also built from this model.
 
-**Note on publishing:** geometry of a private house design — decide whether to keep this
-directory public before pushing the repo to GitHub (see `PROJECT.md` § 8).
+**Privacy note (done 25.10):** the original export embedded the site address
+(“Pärtlemäe tee 6/9”), the city (Tallinn), the client company (Grandmodum OÜ), the design
+company (SOLPRO OÜ), the architect's name, and a Windows path with the username.
+This repo copy has been **anonymized** (`ProjectName` → `House_Anonymized`, client/company/
+architect/city emptied or genericized). The original on disk is untouched. Coordinates in
+the file were placeholder values (near Moscow), not the real site location.

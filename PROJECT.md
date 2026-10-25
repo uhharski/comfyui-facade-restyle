@@ -147,8 +147,9 @@ is a project asset and a differentiator:
   verify by trying to select text/lines in it. (Less critical now: Datasmith scene exists.)
 - Hardware (VRAM) — decides quantization choices and resolutions for measurements
 - Repository name and GitHub/HF account
-- Where the UE5 project lives and whether it can be published (license of any bought
-  assets in it, NDA on the house design?)
+- Where the UE5 project lives and whether it can be published — resolved in part: the repo
+  copy of the Datasmith export is anonymized (address/names/paths removed, see
+  `source/3d-datasmith/README.md`); still verify the house design itself is OK to publish.
 - Real floor heights and roof type details for the white model
 
 ## 9. How to restore project state (close pi and come back later)

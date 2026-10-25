@@ -64,10 +64,47 @@ Optional extensions:
   `krea2-nag`, `ComfyUI-Krea2T-Enhancer`, blueprints "Krea-2 Turbo"
 - 3D: **Unreal Engine 5 (existing project, see § 5.1)**, with Sweet Home 3D / Planner5D as a fallback
 
+### 5.2 Target hardware (measured 25.10)
+
+```
+GPU : NVIDIA GeForce RTX 5070, 12 GB VRAM (12227 MiB), driver 616.64
+CPU : AMD Ryzen 7 5700X 8-core
+RAM : 64 GB
+```
+
+Consequences for the measurements section (§ 4 "modest hardware"):
+- 12 GB VRAM is exactly the "modest hardware" claim we want to demonstrate: fp8 UNet
+  (13 GB checkpoints) will not fit fully resident → expect CPU offload and ComfyUI's
+  lowvram path; this is worth measuring and reporting honestly, not hiding.
+- Plan: keep control/VAE stages in fp8 or bf16, generate at 1024–1280 px first, record
+  peak VRAM + seconds/iteration per approach (A vs B). Record numbers in `docs/metrics.md`.
+
+### 5.3 Krea2 Control LoRA weights (installed 25.10)
+
+The `comfyui-krea2-controlnet` node was installed but its Control LoRA weights were missing
+(no depth/canny/lineart files anywhere under `models/loras`) — this was the hard blocker for
+Workflow A. Installed the public depth Control LoRA:
+- source: `Patil/Krea-2-depth-controlnet` (HF), file `depth-control-lora.safetensors`, 862 MB
+- installed as: `models/loras/Krea2/krea2_depth_control_lora.safetensors`
+- **License: Krea 2 Community License** (not MIT) — must be stated in the repo before the
+  model/outputs are published publicly.
+- Node defaults for the depth LoRA (from the node README): `channel_mode=grayscale`,
+  `normalize=per_image_minmax`, `invert=false` (invert only if near objects come out dark).
+- Only a depth LoRA exists publicly; canny/lineart/normal variants would need the matching
+  preprocessor image and may not be available — plan A uses depth as the primary control.
+
+Note: `models/diffusion_models/Krea 2/` contains community fp8/INT8 mixes (no official
+Krea-2-Raw). The depth LoRA is trained on Krea-2-Raw, so the first smoke test must verify it
+actually patches (the node raises an error if no compatible block weights are found) — try the
+turbo/plain fp8 mix first, and treat "LoRA silently does nothing" as a failure mode to report.
+
 ### 5.1 Existing UE5 source (my own work)
 
 Location: `C:/Users/vikto/Desktop/Dom/3d/v2.0` — copy versioned in this repo at
 `source/3d-datasmith/`
+
+There are **two** exports in that folder: `house.udatasmith` (04.03, older, v1) and
+`v2.0/v2_0.udatasmith` (05.03, newer). `v2.0` is the one used and copied into the repo.
 
 Format check (25.10): this is **not a .uproject** but a **Datasmith export from ArchiCAD 29**
 (`v2_0.udatasmith` + `v2_0_Assets/` with .udsmesh and .tiff textures, ~41 MB).
@@ -118,6 +155,7 @@ is a project asset and a differentiator:
 - [ ] 2. Render passes from UE5: façade ×3–4, one interior per room + depth/lineart passes;
       export a VR/turntable clip for later video experiments
 - [ ] 3. Workflow A: white model → depth → Krea2 Control → material variants
+      (prerequisite done 25.10: depth Control LoRA weights installed, § 5.3)
 - [ ] 4. Workflow B (for comparison): 2D plan straight into edit/style-ref — record the failure
 - [ ] 5. Evaluation sheet: geometry intact? materials recognizable? artifacts? VRAM/time
       (optional variant C: UE5 furniture blockers + inpaint masks → furniture at real
@@ -145,7 +183,7 @@ is a project asset and a differentiator:
 
 - Is the PDF vector or a scan? — likely vector (exported from ArchiCAD 29, see § 5.1);
   verify by trying to select text/lines in it. (Less critical now: Datasmith scene exists.)
-- Hardware (VRAM) — decides quantization choices and resolutions for measurements
+- ~~Hardware (VRAM)~~ — resolved: RTX 5070 12 GB, Ryzen 7 5700X, 64 GB RAM, see § 5.2
 - Repository name and GitHub/HF account
 - Where the UE5 project lives and whether it can be published — resolved in part: the repo
   copy of the Datasmith export is anonymized (address/names/paths removed, see

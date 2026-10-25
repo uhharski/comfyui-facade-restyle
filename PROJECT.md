@@ -66,7 +66,8 @@ Optional extensions:
 
 ### 5.1 Existing UE5 source (my own work)
 
-Location: `C:/Users/vikto/Desktop/Dom/3d/v2.0`
+Location: `C:/Users/vikto/Desktop/Dom/3d/v2.0` — copy versioned in this repo at
+`source/3d-datasmith/`
 
 Format check (25.10): this is **not a .uproject** but a **Datasmith export from ArchiCAD 29**
 (`v2_0.udatasmith` + `v2_0_Assets/` with .udsmesh and .tiff textures, ~41 MB).

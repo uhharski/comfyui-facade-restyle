@@ -1,0 +1,42 @@
+{
+  "_note": "Single source of truth for the measurement scripts in ../scripts. Paths are local to this machine; ComfyUI is assumed to be already running (the scripts never start it). ids/prefixes follow the workflow file names on purpose — the A/B/C labelling of the approaches is a writing decision, not a technical one, so it is not encoded here.",
+  "comfyui": {
+    "url": "http://127.0.0.1:8188",
+    "output_dir": "J:/AI/ComfyUI-Easy-Install/ComfyUI/output",
+    "input_dir": "J:/AI/ComfyUI-Easy-Install/ComfyUI/input"
+  },
+  "conditions": {
+    "gpu": "RTX 5070 12 GB",
+    "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+    "source_photo": "DJI_0021.JPG",
+    "seed": 20261103,
+    "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+    "canvas_note": "NOT unified today, and this is a real difference in cost: the Krea2 graph resizes to 1024x576 before latent, the MOSS graph has an aspect node set to custom 1024x1024, the Qwen graph works on a ~0.59 megapixel crop chosen around the touched mask (about 1024x576). Each measurement row states the real size of the saved result image. Unifying would mean editing the MOSS graph's aspect node (custom height 576) — a decision, not an automatic fix"
+  },
+  "workflows": [
+    {
+      "id": "krea2_edit",
+      "file": "krea2_edit.json",
+      "prefix": "krea2_edit",
+      "method": "image-edit conditioning only (no control signal): the photo is the input, the task is stated in words",
+      "control": "none",
+      "expect": "tends to drift: geometry comes only from the latent + prompt"
+    },
+    {
+      "id": "moss_inpaint",
+      "file": "moss_inpaint.json",
+      "prefix": "moss_inpaint",
+      "method": "color+depth control (MOSS) + layout boxes",
+      "control": "depth (Depth Anything V2) + colour reference + bounding boxes",
+      "expect": "expected to hold geometry: depth is an explicit control signal"
+    },
+    {
+      "id": "qwen_inpaint",
+      "file": "qwenImage_inpaint.json",
+      "prefix": "qwen_inpaint",
+      "method": "local inpaint by touched mask, result stitched back into the original pixels",
+      "control": "manual mask",
+      "expect": "geometry is preserved by construction outside the mask; only the masked region changes"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
- "collected_at": "2026-11-03T23:11:48",
+ "collected_at": "2026-11-04T01:31:55",
  "machine": {
   "error": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
  },
  "conditions": {
   "gpu": "RTX 5070 12 GB",
-  "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+  "note": "the agent backend CAN run a model on this same card, but whether one was resident during a given run is not assumed either way: every run record stores the free VRAM reported by /system_stats immediately before that run, and `run_workflow.py --cold` can clear the card first to make the starting state defined. Measured on 04.11 the five headless runs began with 10980, 4531, 1389, 841 and 165 MiB free — the largest peak (10742 MiB) happened when the card was empty, so an earlier blanket claim that a chat model was sitting on the GPU during these rows is not true of them and was removed",
   "source_photo": "DJI_0021.JPG",
   "seed": 20261103,
   "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
@@ -15,21 +15,28 @@
   {
    "id": "krea2_edit",
    "status": "scored",
-   "pair": "00001",
+   "pair": "00004",
    "files": {
-    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_in_00001_.png",
-    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_out_00001_.png",
-    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00110_.png"
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_in_00004_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_out_00004_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00113_.png"
    },
-   "pair_note": "result image matched by save time and aspect, not by counter: the result node is a separate SaveImage node with its own counter (this run: result counter 00110, depth pair 00001). Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter",
+   "pair_note": "result image matched by save time and aspect, not by counter: the result node is a separate SaveImage node with its own counter (this run: result counter 00113, depth pair 00004). Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: krea2_edit_00112_.png 1024x576 at 00:28:18 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 54 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 54.4,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1820x1024",
+    "1820x1024"
+   ],
    "result_candidates": [
-    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00110_.png"
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00112_.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00113_.png"
    ],
    "canvas_of_result": [
     1024,
     576
    ],
-   "captured_at": "2026-11-03T22:49:39",
+   "captured_at": "2026-11-04T00:30:12",
    "scores": {
     "size": [
      512,
@@ -44,21 +51,21 @@
      1024
     ],
     "aspect_mismatch": false,
-    "pearson_r": 0.9936,
-    "probe_1pct_r": 0.9894,
-    "probe_4pct_r": 0.9461,
-    "grad_r": 0.6553,
-    "mad": 0.0152,
-    "bad_frac_gt_0.15": 0.0061,
-    "probe_1pct_bad_frac": 0.0164,
-    "probe_4pct_bad_frac": 0.0596,
-    "tile_r_p10": 0.9166,
-    "tile_r_median": 0.9932,
+    "pearson_r": 0.9967,
+    "probe_1pct_r": 0.99,
+    "probe_4pct_r": 0.9476,
+    "grad_r": 0.6777,
+    "mad": 0.0342,
+    "bad_frac_gt_0.15": 0.0031,
+    "probe_1pct_bad_frac": 0.0147,
+    "probe_4pct_bad_frac": 0.056,
+    "tile_r_p10": 0.9338,
+    "tile_r_median": 0.9918,
     "tiles_used": 48,
     "tiles_flat_in_input": 0,
     "tiles_flat_in_result": 0
    },
-   "verdict": "global geometry held + no measurable depth change (0.61 % of the pixels off, under half the 1 % camera-nudge floor of 1.64 %)",
+   "verdict": "global geometry held + no measurable depth change (0.31 % of the pixels off, under half the 1 % camera-nudge floor of 1.47 %)",
    "settings": {
     "width": 1024,
     "height": 1024,
@@ -79,8 +86,474 @@
     "depth resolution": 1024
    },
    "timer_runs": [],
+   "timed_run_record": {
+    "id": "krea2_edit",
+    "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\krea2_edit.api.json",
+    "prompt_id": "499cd794-14d8-4679-b7d3-261f972890d5",
+    "wall_seconds": 4.2,
+    "vram_before": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 1389,
+     "comfyui_version": "0.43.2"
+    },
+    "vram_after": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 4339,
+     "comfyui_version": "0.43.2"
+    },
+    "conditions": {
+     "gpu": "RTX 5070 12 GB",
+     "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+     "source_photo": "DJI_0021.JPG",
+     "seed": 20261103,
+     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+     "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+    },
+    "at": "2026-11-04T00:29:51",
+    "outputs": [
+     "93",
+     "29"
+    ],
+    "peak_gpu_used_mib": 9708,
+    "vram_samples": 4,
+    "_record": "run_krea2_edit_20261104_002951.json"
+   },
+   "run_matched_by": "time window (this record was written by an older run_workflow.py, which did not list the files — weaker evidence, check it before quoting the cost columns)",
+   "other_run_records_of_this_graph": [
+    "run_krea2_edit_20261104_002513.json"
+   ],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "krea2_edit",
+   "status": "scored",
+   "pair": "00003",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_in_00003_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_out_00003_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00112_.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the result node is a separate SaveImage node with its own counter (this run: result counter 00112, depth pair 00003). Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 32 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 32.3,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1820x1024",
+    "1820x1024"
+   ],
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00112_.png"
+   ],
+   "canvas_of_result": [
+    1024,
+    576
+   ],
+   "captured_at": "2026-11-04T00:28:18",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1820,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1820,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9913,
+    "probe_1pct_r": 0.99,
+    "probe_4pct_r": 0.9476,
+    "grad_r": 0.5598,
+    "mad": 0.0181,
+    "bad_frac_gt_0.15": 0.0078,
+    "probe_1pct_bad_frac": 0.0147,
+    "probe_4pct_bad_frac": 0.056,
+    "tile_r_p10": 0.9023,
+    "tile_r_median": 0.9904,
+    "tiles_used": 48,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 0
+   },
+   "verdict": "global geometry held",
+   "settings": {
+    "width": 1024,
+    "height": 1024,
+    "text encoder": "QWEN\\qwen3vl_4b_fp8_scaled.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "seed": 20261103,
+    "steps": 10,
+    "cfg": 1,
+    "sampler": "euler_ancestral",
+    "scheduler": "normal",
+    "denoise": 1,
+    "lora": "Krea2\\krea2_identity_edit_v1_2.safetensors",
+    "lora strength": 1,
+    "input image": "DJI_0021.JPG",
+    "output prefix": "krea2_edit",
+    "diffusion model": "Krea 2\\kreavantisMASTERFP8_v10.safetensors",
+    "checkpoint": "depth_anything_v2_vits.pth",
+    "depth resolution": 1024
+   },
+   "timer_runs": [],
+   "timed_run_record": {
+    "id": "krea2_edit",
+    "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\krea2_edit.api.json",
+    "prompt_id": "499cd794-14d8-4679-b7d3-261f972890d5",
+    "wall_seconds": 4.2,
+    "vram_before": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 1389,
+     "comfyui_version": "0.43.2"
+    },
+    "vram_after": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 4339,
+     "comfyui_version": "0.43.2"
+    },
+    "conditions": {
+     "gpu": "RTX 5070 12 GB",
+     "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+     "source_photo": "DJI_0021.JPG",
+     "seed": 20261103,
+     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+     "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+    },
+    "at": "2026-11-04T00:29:51",
+    "outputs": [
+     "93",
+     "29"
+    ],
+    "peak_gpu_used_mib": 9708,
+    "vram_samples": 4,
+    "_record": "run_krea2_edit_20261104_002951.json"
+   },
+   "run_matched_by": "time window (this record was written by an older run_workflow.py, which did not list the files — weaker evidence, check it before quoting the cost columns)",
+   "other_run_records_of_this_graph": [
+    "run_krea2_edit_20261104_002513.json"
+   ],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "krea2_edit",
+   "status": "scored",
+   "pair": "00002",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_in_00002_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_out_00002_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00111_.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the result node is a separate SaveImage node with its own counter (this run: result counter 00111, depth pair 00002). Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 70 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory; the two maps of this pair have different working resolutions (4032x2268 against 1820x1024): an older version of this graph kept the source map at the photo's own size, while the graph as it is now passes the source through a VAE first, so its depth_in is at the canvas size. The score is computed at the smaller scale, and this row is not comparable with the others — it appears here only because the SaveImage counters match",
+   "pair_gap_s": 69.8,
+   "pair_scale_note": true,
+   "depth_sizes": [
+    "4032x2268",
+    "1820x1024"
+   ],
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00111_.png"
+   ],
+   "canvas_of_result": [
+    1024,
+    576
+   ],
+   "captured_at": "2026-11-04T00:26:20",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     4032,
+     2268
+    ],
+    "depth_out_raw_size": [
+     1820,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.3326,
+    "probe_1pct_r": 0.8082,
+    "probe_4pct_r": 0.5536,
+    "grad_r": 0.1317,
+    "mad": 0.2338,
+    "bad_frac_gt_0.15": 0.514,
+    "probe_1pct_bad_frac": 0.1526,
+    "probe_4pct_bad_frac": 0.3034,
+    "tile_r_p10": -0.5318,
+    "tile_r_median": 0.0849,
+    "tiles_used": 48,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 0
+   },
+   "verdict": "global geometry lost",
+   "settings": {
+    "width": 1024,
+    "height": 1024,
+    "text encoder": "QWEN\\qwen3vl_4b_fp8_scaled.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "seed": 20261103,
+    "steps": 10,
+    "cfg": 1,
+    "sampler": "euler_ancestral",
+    "scheduler": "normal",
+    "denoise": 1,
+    "lora": "Krea2\\krea2_identity_edit_v1_2.safetensors",
+    "lora strength": 1,
+    "input image": "DJI_0021.JPG",
+    "output prefix": "krea2_edit",
+    "diffusion model": "Krea 2\\kreavantisMASTERFP8_v10.safetensors",
+    "checkpoint": "depth_anything_v2_vits.pth",
+    "depth resolution": 1024
+   },
+   "timer_runs": [],
+   "timed_run_record": {
+    "id": "krea2_edit",
+    "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\krea2_edit.api.json",
+    "prompt_id": "3e4c1c55-6369-4241-a274-f809f5c16642",
+    "wall_seconds": 61.5,
+    "vram_before": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 10980,
+     "comfyui_version": "0.43.2"
+    },
+    "vram_after": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 4787,
+     "comfyui_version": "0.43.2"
+    },
+    "conditions": {
+     "gpu": "RTX 5070 12 GB",
+     "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+     "source_photo": "DJI_0021.JPG",
+     "seed": 20261103,
+     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+     "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+    },
+    "at": "2026-11-04T00:25:13",
+    "outputs": [
+     "29",
+     "93"
+    ],
+    "peak_gpu_used_mib": 10742,
+    "vram_samples": 59,
+    "_record": "run_krea2_edit_20261104_002513.json"
+   },
+   "run_matched_by": "time window (this record was written by an older run_workflow.py, which did not list the files — weaker evidence, check it before quoting the cost columns)",
+   "other_run_records_of_this_graph": [
+    "run_krea2_edit_20261104_002951.json"
+   ],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "moss_inpaint",
+   "status": "scored",
+   "pair": "00003",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_in_00003_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_out_00003_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00003_.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (Test), so the counters cannot line up. Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: Test_2026-11-04_00001_.png 1024x576 at 00:33:38 | Test_2026-11-04_00002_.png 2052x576 at 00:33:39 | Test_2026-11-04_00004_.png 2052x576 at 00:34:11 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 278 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 277.9,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1820x1024",
+    "1820x1024"
+   ],
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00001_.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00002_.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00003_.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00004_.png"
+   ],
+   "canvas_of_result": [
+    1024,
+    576
+   ],
+   "captured_at": "2026-11-04T00:38:49",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1820,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1820,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9958,
+    "probe_1pct_r": 0.9894,
+    "probe_4pct_r": 0.946,
+    "grad_r": 0.6525,
+    "mad": 0.0222,
+    "bad_frac_gt_0.15": 0.0031,
+    "probe_1pct_bad_frac": 0.0156,
+    "probe_4pct_bad_frac": 0.059,
+    "tile_r_p10": 0.9298,
+    "tile_r_median": 0.9901,
+    "tiles_used": 46,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 2
+   },
+   "verdict": "global geometry held + no measurable depth change (0.31 % of the pixels off, under half the 1 % camera-nudge floor of 1.56 %)",
+   "settings": {
+    "vae": "flux2-vae_small.safetensors",
+    "steps": 25,
+    "denoise": 1,
+    "cfg": 2.5,
+    "sampler": "er_sde",
+    "scheduler": "simple",
+    "base seed": 20261103,
+    "input image": "DJI_0021.JPG",
+    "max_resolution": 1024,
+    "custom width": 1024,
+    "custom height": 1024,
+    "proportion": "crop",
+    "sigma shift": 4,
+    "output prefix": "ComfyUI",
+    "width": 0,
+    "height": 0,
+    "seed": 7584161123816341,
+    "depth resolution": 518,
+    "checkpoint": "depth_anything_v2_vits.pth"
+   },
+   "timer_runs": [],
    "timed_run_record": null,
-   "other_run_records_of_this_graph": [],
+   "run_matched_by": "no run record wrote any of these files",
+   "other_run_records_of_this_graph": [
+    "run_moss_inpaint_20261104_003342.json",
+    "run_moss_inpaint_20261104_003446.json"
+   ],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "moss_inpaint",
+   "status": "scored",
+   "pair": "00002",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_in_00002_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_out_00002_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00001_.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (Test), so the counters cannot line up. Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: Test_2026-11-04_00002_.png 2052x576 at 00:33:39 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 44 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 43.6,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1820x1024",
+    "1820x1024"
+   ],
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00001_.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00002_.png"
+   ],
+   "canvas_of_result": [
+    1024,
+    576
+   ],
+   "captured_at": "2026-11-04T00:33:39",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1820,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1820,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9947,
+    "probe_1pct_r": 0.9894,
+    "probe_4pct_r": 0.946,
+    "grad_r": 0.6008,
+    "mad": 0.0207,
+    "bad_frac_gt_0.15": 0.0038,
+    "probe_1pct_bad_frac": 0.0156,
+    "probe_4pct_bad_frac": 0.059,
+    "tile_r_p10": 0.9252,
+    "tile_r_median": 0.9821,
+    "tiles_used": 46,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 2
+   },
+   "verdict": "global geometry held + no measurable depth change (0.38 % of the pixels off, under half the 1 % camera-nudge floor of 1.56 %)",
+   "settings": {
+    "vae": "flux2-vae_small.safetensors",
+    "steps": 25,
+    "denoise": 1,
+    "cfg": 2.5,
+    "sampler": "er_sde",
+    "scheduler": "simple",
+    "base seed": 20261103,
+    "input image": "DJI_0021.JPG",
+    "max_resolution": 1024,
+    "custom width": 1024,
+    "custom height": 1024,
+    "proportion": "crop",
+    "sigma shift": 4,
+    "output prefix": "ComfyUI",
+    "width": 0,
+    "height": 0,
+    "seed": 7584161123816341,
+    "depth resolution": 518,
+    "checkpoint": "depth_anything_v2_vits.pth"
+   },
+   "timer_runs": [],
+   "timed_run_record": {
+    "id": "moss_inpaint",
+    "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\moss_inpaint.api.json",
+    "prompt_id": "69349f5d-b862-4d27-a638-d726c46a3896",
+    "wall_seconds": 52.4,
+    "vram_before": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 165,
+     "comfyui_version": "0.43.2"
+    },
+    "vram_after": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 4329,
+     "comfyui_version": "0.43.2"
+    },
+    "conditions": {
+     "gpu": "RTX 5070 12 GB",
+     "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+     "source_photo": "DJI_0021.JPG",
+     "seed": 20261103,
+     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+     "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+    },
+    "at": "2026-11-04T00:34:46",
+    "outputs": [
+     "118",
+     "124",
+     "105",
+     "87",
+     "28",
+     "93",
+     "77",
+     "107",
+     "102",
+     "112",
+     "125",
+     "126"
+    ],
+    "peak_gpu_used_mib": 11293,
+    "vram_samples": 50,
+    "_record": "run_moss_inpaint_20261104_003446.json"
+   },
+   "run_matched_by": "time window (this record was written by an older run_workflow.py, which did not list the files — weaker evidence, check it before quoting the cost columns)",
+   "other_run_records_of_this_graph": [
+    "run_moss_inpaint_20261104_003342.json"
+   ],
    "object_info": "cache/live"
   },
   {
@@ -92,7 +565,13 @@
     "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_out_00001_.png",
     "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00011_.png"
    },
-   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (Test), so the counters cannot line up. Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: Test_2026-11-03_00012_.png 2052x576 at 22:03:35 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter",
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (Test), so the counters cannot line up. Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: Test_2026-11-03_00012_.png 2052x576 at 22:03:35 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 42 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 42.0,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1820x1024",
+    "1820x1024"
+   ],
    "result_candidates": [
     "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00011_.png",
     "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00012_.png"
@@ -154,6 +633,220 @@
    },
    "timer_runs": [],
    "timed_run_record": null,
+   "run_matched_by": "no run record wrote any of these files",
+   "other_run_records_of_this_graph": [
+    "run_moss_inpaint_20261104_003342.json",
+    "run_moss_inpaint_20261104_003446.json"
+   ],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "qwen_inpaint",
+   "status": "scored",
+   "pair": "00003",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_in_00003_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_out_00003_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00045.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (qwen21_inpaint), so the counters cannot line up. Chose 1049x590 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 53 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 53.0,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1821x1024",
+    "1821x1024"
+   ],
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00045.png"
+   ],
+   "canvas_of_result": [
+    1049,
+    590
+   ],
+   "captured_at": "2026-11-04T00:39:39",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1821,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1821,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9996,
+    "probe_1pct_r": 0.9895,
+    "probe_4pct_r": 0.9461,
+    "grad_r": 0.98,
+    "mad": 0.0069,
+    "bad_frac_gt_0.15": 0.0001,
+    "probe_1pct_bad_frac": 0.0157,
+    "probe_4pct_bad_frac": 0.0589,
+    "tile_r_p10": 0.9912,
+    "tile_r_median": 0.9991,
+    "tiles_used": 48,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 0
+   },
+   "verdict": "global geometry held + no measurable depth change (0.01 % of the pixels off, under half the 1 % camera-nudge floor of 1.57 %)",
+   "settings": {
+    "input image": "DJI_0021.JPG",
+    "megapixels": 0.59,
+    "seed": 20261103,
+    "text encoder": "QWEN\\qwen3vl_8b_fp8_scaled.safetensors",
+    "vae": "qwen_image_2.1_vae_bf16.safetensors",
+    "diffusion model": "QWEN\\qwenImage21_bf16.safetensors",
+    "checkpoint": "sam3.1_multiplex_fp16.safetensors",
+    "output prefix": "qwen21_inpaint",
+    "depth resolution": 1024,
+    "steps": 25,
+    "cfg": 1,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   },
+   "timer_runs": [],
+   "timed_run_record": {
+    "id": "qwen_inpaint",
+    "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\qwenImage_inpaint.api.json",
+    "prompt_id": "590dee99-c3f6-48af-a7d0-5fd68f0615fb",
+    "wall_seconds": 86.8,
+    "vram_before": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 841,
+     "comfyui_version": "0.43.2"
+    },
+    "vram_after": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 10074,
+     "comfyui_version": "0.43.2"
+    },
+    "conditions": {
+     "gpu": "RTX 5070 12 GB",
+     "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+     "source_photo": "DJI_0021.JPG",
+     "seed": 20261103,
+     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+     "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+    },
+    "at": "2026-11-04T00:39:33",
+    "outputs": [],
+    "peak_gpu_used_mib": 10070,
+    "vram_samples": 83,
+    "_record": "run_qwen_inpaint_20261104_003933.json"
+   },
+   "run_matched_by": "time window (this record was written by an older run_workflow.py, which did not list the files — weaker evidence, check it before quoting the cost columns)",
+   "other_run_records_of_this_graph": [],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "qwen_inpaint",
+   "status": "scored",
+   "pair": "00002",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_in_00002_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_out_00002_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00041.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (qwen21_inpaint), so the counters cannot line up. Chose 1049x590 (last image saved at or before its own depth map, same aspect as it); not chosen: qwen21_inpaint_00040.png 1049x590 at 22:08:06 | qwen21_inpaint_00042.png 1049x590 at 22:09:52 | qwen21_inpaint_00043.png 1049x590 at 22:09:56 | qwen21_inpaint_00044.png 1049x590 at 22:09:58 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 8859 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 8858.7,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1821x1024",
+    "1821x1024"
+   ],
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00040.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00041.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00042.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00043.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00044.png"
+   ],
+   "canvas_of_result": [
+    1049,
+    590
+   ],
+   "captured_at": "2026-11-04T00:37:25",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1821,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1821,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9993,
+    "probe_1pct_r": 0.9895,
+    "probe_4pct_r": 0.9461,
+    "grad_r": 0.9788,
+    "mad": 0.0089,
+    "bad_frac_gt_0.15": 0.0001,
+    "probe_1pct_bad_frac": 0.0157,
+    "probe_4pct_bad_frac": 0.0589,
+    "tile_r_p10": 0.9892,
+    "tile_r_median": 0.999,
+    "tiles_used": 48,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 0
+   },
+   "verdict": "global geometry held + no measurable depth change (0.01 % of the pixels off, under half the 1 % camera-nudge floor of 1.57 %)",
+   "settings": {
+    "input image": "DJI_0021.JPG",
+    "megapixels": 0.59,
+    "seed": 20261103,
+    "text encoder": "QWEN\\qwen3vl_8b_fp8_scaled.safetensors",
+    "vae": "qwen_image_2.1_vae_bf16.safetensors",
+    "diffusion model": "QWEN\\qwenImage21_bf16.safetensors",
+    "checkpoint": "sam3.1_multiplex_fp16.safetensors",
+    "output prefix": "qwen21_inpaint",
+    "depth resolution": 1024,
+    "steps": 25,
+    "cfg": 1,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   },
+   "timer_runs": [],
+   "timed_run_record": {
+    "id": "qwen_inpaint",
+    "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\qwenImage_inpaint.api.json",
+    "prompt_id": "590dee99-c3f6-48af-a7d0-5fd68f0615fb",
+    "wall_seconds": 86.8,
+    "vram_before": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 841,
+     "comfyui_version": "0.43.2"
+    },
+    "vram_after": {
+     "vram_total_mib": 12199,
+     "vram_free_mib": 10074,
+     "comfyui_version": "0.43.2"
+    },
+    "conditions": {
+     "gpu": "RTX 5070 12 GB",
+     "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+     "source_photo": "DJI_0021.JPG",
+     "seed": 20261103,
+     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+     "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+    },
+    "at": "2026-11-04T00:39:33",
+    "outputs": [],
+    "peak_gpu_used_mib": 10070,
+    "vram_samples": 83,
+    "_record": "run_qwen_inpaint_20261104_003933.json"
+   },
+   "run_matched_by": "time window (this record was written by an older run_workflow.py, which did not list the files — weaker evidence, check it before quoting the cost columns)",
    "other_run_records_of_this_graph": [],
    "object_info": "cache/live"
   },
@@ -166,7 +859,13 @@
     "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_out_00001_.png",
     "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00040.png"
    },
-   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (qwen21_inpaint), so the counters cannot line up. Chose 1049x590 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter",
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (qwen21_inpaint), so the counters cannot line up. Chose 1049x590 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter; the two maps of this pair were written 94 s apart: the counter matched them, but a run that reused a cached source map writes only its own depth_out, so this pair spans two executions. The depth numbers stay comparable (the source map of a fixed input photo is bit-identical run to run, verified on all three graphs), but this row cannot carry one run's time or memory",
+   "pair_gap_s": 93.8,
+   "pair_scale_note": false,
+   "depth_sizes": [
+    "1821x1024",
+    "1821x1024"
+   ],
    "result_candidates": [
     "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00040.png"
    ],
@@ -222,7 +921,10 @@
    },
    "timer_runs": [],
    "timed_run_record": null,
-   "other_run_records_of_this_graph": [],
+   "run_matched_by": "no run record wrote any of these files",
+   "other_run_records_of_this_graph": [
+    "run_qwen_inpaint_20261104_003933.json"
+   ],
    "object_info": "cache/live"
   }
  ]

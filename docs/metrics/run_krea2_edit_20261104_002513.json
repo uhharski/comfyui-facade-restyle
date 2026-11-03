@@ -1,0 +1,31 @@
+{
+ "id": "krea2_edit",
+ "api_graph": "J:\\Projects\\AI\\Test\\workflows\\_api\\krea2_edit.api.json",
+ "prompt_id": "3e4c1c55-6369-4241-a274-f809f5c16642",
+ "wall_seconds": 61.5,
+ "vram_before": {
+  "vram_total_mib": 12199,
+  "vram_free_mib": 10980,
+  "comfyui_version": "0.43.2"
+ },
+ "vram_after": {
+  "vram_total_mib": 12199,
+  "vram_free_mib": 4787,
+  "comfyui_version": "0.43.2"
+ },
+ "conditions": {
+  "gpu": "RTX 5070 12 GB",
+  "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+  "source_photo": "DJI_0021.JPG",
+  "seed": 20261103,
+  "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+  "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+ },
+ "at": "2026-11-04T00:25:13",
+ "outputs": [
+  "29",
+  "93"
+ ],
+ "peak_gpu_used_mib": 10742,
+ "vram_samples": 59
+}

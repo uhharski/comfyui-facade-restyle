@@ -9,7 +9,7 @@ not come from widgets” — an old number left in a widget of a saved workflow 
 not mean the graph uses it. The canvas that was really generated is recorded per
 run in `docs/metrics.md`, read from the saved result image.
 
-Common measurement input: `DJI_0021.JPG`; GPU `RTX 5070 12 GB`. a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had.
+Common measurement input: `DJI_0021.JPG`; GPU `RTX 5070 12 GB`. the agent backend CAN run a model on this same card, but whether one was resident during a given run is not assumed either way: every run record stores the free VRAM reported by /system_stats immediately before that run, and `run_workflow.py --cold` can clear the card first to make the starting state defined. Measured on 04.11 the five headless runs began with 10980, 4531, 1389, 841 and 165 MiB free — the largest peak (10742 MiB) happened when the card was empty, so an earlier blanket claim that a chat model was sitting on the GPU during these rows is not true of them and was removed.
 
 ## `krea2_edit.json`  (id `krea2_edit`)
 
@@ -17,6 +17,8 @@ Common measurement input: `DJI_0021.JPG`; GPU `RTX 5070 12 GB`. a local chat mod
 - control signal: none
 - what we expect to see: tends to drift: geometry comes only from the latent + prompt
 - measurement outputs: `krea2_edit_depth_in-*.png`, `krea2_edit_depth_out-*.png`, plus the result image itself
+- headless replay: possible with `python scripts/run_workflow.py krea2_edit`
+- repeating the same graph gives: NOT reproducible with a fixed seed: the same API graph and the same seed 20261103 produced krea2_edit_00111.png and krea2_edit_00114.png, and those two files differ (mean absolute difference 0.0139, 1.5 % of pixels differ by more than 0.1). That difference is this method's noise floor: any claim about changing the material has to be larger than it. Two explanations are possible and not separated here - a seed that a Krea2 Edit conditioning node does not honour the way a KSampler does, or non-deterministic GPU kernels; checking which would need the same graph with a different seed and a fixed algorithm, which is not measured yet
 
 **Models and weights in this graph**
 
@@ -92,6 +94,8 @@ _(заполняется после прогона / to fill after the run)_
 - control signal: depth (Depth Anything V2) + colour reference + bounding boxes
 - what we expect to see: expected to hold geometry: depth is an explicit control signal
 - measurement outputs: `moss_inpaint_depth_in-*.png`, `moss_inpaint_depth_out-*.png`, plus the result image itself
+- headless replay: possible with `python scripts/run_workflow.py moss_inpaint`
+- repeating the same graph gives: reproducible while the graph is frozen: two headless replays of workflows/_api/moss_inpaint.api.json wrote bit-identical results (MOSS Box Edit/Test_2026-11-04_00001_.png == Test_2026-11-04_00005_.png). This says nothing about pressing Run in the UI: the LCSeed node in that graph generates a fresh seed for every queued run unless it is switched to a fixed mode, which is why the nine UI runs on 03.11/04.11 differ
 
 **Models and weights in this graph**
 
@@ -199,6 +203,7 @@ _(заполняется после прогона / to fill after the run)_
 - control signal: manual mask
 - what we expect to see: geometry is preserved by construction outside the mask; only the masked region changes
 - measurement outputs: `qwen_inpaint_depth_in-*.png`, `qwen_inpaint_depth_out-*.png`, plus the result image itself
+- headless replay: **blocked** — the MaskByTouch node stores its touched points as UI state, not in the exported graph, so a headless replay of its API graph fails with 'RuntimeError: Mask by Touch: the picks were made on another picture' (measured 04.11 00:39, prompt 590dee99; the run reported status error, executed in 2.37 s and wrote no file). Its rows are produced by UI runs only. To make it measurable like the others: save the mask as a file (the node offers that) and replace the touch node with a mask loader
 
 **Models and weights in this graph**
 

@@ -1,0 +1,95 @@
+{
+ "collected_at": "2026-11-03T21:01:06",
+ "machine": {
+  "vram_total_mib": 12199,
+  "vram_free_mib": 8231,
+  "comfyui_version": "0.43.2"
+ },
+ "conditions": {
+  "gpu": "RTX 5070 12 GB",
+  "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+  "source_photo": "DJI_0021.JPG",
+  "seed": 20261103,
+  "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
+  "canvas_note": "NOT unified today, and this is a real difference in cost: the Krea2 graph resizes to 1024x576 before latent, the MOSS graph has an aspect node set to custom 1024x1024, the Qwen graph works on a ~0.59 megapixel crop chosen around the touched mask (about 1024x576). Each measurement row states the real size of the saved result image. Unifying would mean editing the MOSS graph's aspect node (custom height 576) — a decision, not an automatic fix"
+ },
+ "runs": [
+  {
+   "id": "krea2_edit",
+   "status": "no depth_in/depth_out pair found",
+   "searched_prefix": "krea2_edit",
+   "settings": {
+    "width": 1024,
+    "height": 1024,
+    "text encoder": "QWEN\\qwen3vl_4b_fp8_scaled.safetensors",
+    "vae": "qwen_image_vae.safetensors",
+    "seed": 20261103,
+    "steps": 10,
+    "cfg": 1,
+    "sampler": "euler_ancestral",
+    "scheduler": "normal",
+    "denoise": 1,
+    "lora": "Krea2\\krea2_identity_edit_v1_2.safetensors",
+    "lora strength": 1,
+    "input image": "DJI_0021.JPG",
+    "output prefix": "krea2_edit",
+    "diffusion model": "Krea 2\\kreavantisMASTERFP8_v10.safetensors",
+    "checkpoint": "depth_anything_v2_vits.pth",
+    "depth resolution": 1024
+   },
+   "timer_runs": [],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "moss_inpaint",
+   "status": "no depth_in/depth_out pair found",
+   "searched_prefix": "moss_inpaint",
+   "settings": {
+    "vae": "flux2-vae_small.safetensors",
+    "steps": 25,
+    "denoise": 1,
+    "cfg": 2.5,
+    "sampler": "er_sde",
+    "scheduler": "simple",
+    "base seed": 20261103,
+    "input image": "DJI_0021.JPG",
+    "max_resolution": 1024,
+    "custom width": 1024,
+    "custom height": 1024,
+    "proportion": "crop",
+    "sigma shift": 4,
+    "output prefix": "ComfyUI",
+    "width": 0,
+    "height": 0,
+    "seed": 7584161123816341,
+    "depth resolution": 518,
+    "checkpoint": "depth_anything_v2_vits.pth"
+   },
+   "timer_runs": [],
+   "object_info": "cache/live"
+  },
+  {
+   "id": "qwen_inpaint",
+   "status": "no depth_in/depth_out pair found",
+   "searched_prefix": "qwen_inpaint",
+   "settings": {
+    "input image": "DJI_0021.JPG",
+    "megapixels": 0.59,
+    "seed": 20261103,
+    "text encoder": "QWEN\\qwen3vl_8b_fp8_scaled.safetensors",
+    "vae": "qwen_image_2.1_vae_bf16.safetensors",
+    "diffusion model": "QWEN\\qwenImage21_bf16.safetensors",
+    "checkpoint": "sam3.1_multiplex_fp16.safetensors",
+    "output prefix": "qwen21_inpaint",
+    "depth resolution": 1024,
+    "steps": 25,
+    "cfg": 1,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "denoise": 1
+   },
+   "timer_runs": [],
+   "object_info": "cache/live"
+  }
+ ]
+}

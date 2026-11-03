@@ -55,9 +55,11 @@ def main() -> int:
 
     api_path = API_DIR / (Path(entry["file"]).stem + ".api.json")
     if not api_path.exists():
-        print(f"no API-format export: {api_path}\n"
-              f"open {entry['file']} in ComfyUI and use 'Save (API format)' into "
-              f"workflows/_api/, then re-run.")
+        print(f"no API-format graph at {api_path}\n"
+              f"either queue {entry['file']} in the UI once and run\n"
+              f"  python scripts/import_api_from_history.py\n"
+              f"(that takes the graph that really ran, out of the server history), or export it\n"
+              f"by hand: ComfyUI menu File -> Export (API), save into workflows/_api/")
         return 2
 
     url = manifest["comfyui"]["url"].rstrip("/")

@@ -79,13 +79,23 @@ def main() -> int:
     ]
     for entry in manifest["workflows"]:
         prov = lib.provenance(entry)
+        api_graph = lib.WORKFLOWS / "_api" / (Path(entry["file"]).stem + ".api.json")
+        replay = entry.get("replay") or {}
+        replay_txt = (("**blocked** — " + replay["why"]) if replay.get("headless") == "blocked"
+                      else (f"possible with `python scripts/run_workflow.py {entry['id']}`"
+                            if api_graph.exists() else
+                            f"not set up yet: no {api_graph.relative_to(lib.ROOT).as_posix()} "
+                            "(queue the graph once in the UI, then run "
+                            "`python scripts/import_api_from_history.py`)"))
         lines += [f"## `{entry['file']}`  (id `{entry['id']}`)", "",
                   f"- method: {entry['method']}",
                   f"- control signal: {entry['control']}",
                   f"- what we expect to see: {entry['expect']}",
                   f"- measurement outputs: `{entry['prefix']}_depth_in-*.png`, "
                   f"`{entry['prefix']}_depth_out-*.png`, plus the result image itself",
-                  ""]
+                  f"- headless replay: {replay_txt}"] + (
+            [f"- repeating the same graph gives: {replay['determinism']}"]
+            if replay.get("determinism") else []) + [""]
         if prov["object_info"] == "UNAVAILABLE":
             lines += ["_(parameter names could not be resolved: ComfyUI was not reachable and "
                       "there is no `.object_info.json` cache, so the values below are positional)_",

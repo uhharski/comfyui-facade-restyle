@@ -290,6 +290,26 @@ def output_dir(manifest: dict) -> Path:
     return Path(manifest["comfyui"]["output_dir"])
 
 
+def snapshot_output(manifest: dict) -> dict[str, float]:
+    """{file name relative to the output dir: modification time} — taken before and after a
+    headless run, the difference is exactly the set of images that run wrote. Counters and
+    timestamps cannot do this reliably: ComfyUI skips re-running cached nodes, so a run may
+    write a depth_out without any depth_in, and counters of different prefixes drift apart."""
+    root = output_dir(manifest)
+    if not root.exists():
+        return {}
+    return {p.relative_to(root).as_posix(): p.stat().st_mtime
+            for p in root.glob("**/*.png") if p.is_file()}
+
+
+def new_files(before: dict[str, float], after: dict[str, float]) -> list[str]:
+    """Files that appeared or were rewritten between two snapshots."""
+    return sorted(k for k, t in after.items() if k not in before or t > before[k] + 0.01)
+
+
+PAIR_GAP_WARN_S = 30          # beyond this the two maps of a "pair" are not one run's output
+
+
 RESULT_BEFORE_S, RESULT_AFTER_S = 120, 20   # how far from a depth map a result may have been saved
 
 
@@ -402,9 +422,53 @@ def find_measurement_pairs(manifest: dict, prefix: str, result_prefix: str | Non
                     "no result image found for this run — the graph's result SaveImage uses a "
                     "different prefix (fix: set it to the graph id, or list it as "
                     "result_prefix in workflows/manifest.json)")
+        gap = abs(found["depth_in"].stat().st_mtime - found["depth_out"].stat().st_mtime)
+        scale_note = ""
+        din, dout = _png_size(found["depth_in"]), _png_size(found["depth_out"])
+        big = _scale(found["depth_in"]) / _scale(found["depth_out"])
+        # A source map kept at the photo's own resolution (4032x2268) next to a depth map of the
+        # generated canvas (1820x1024) means the two files come from different versions of the
+        # graph: the current one encodes/decodes the source through a VAE before Depth Anything,
+        # so its depth_in is at canvas size. Written as sizes, because that is what makes the
+        # mismatch visible without opening any file.
+        if big > 1.5 or big < 1 / 1.5:
+            scale_note = (f"the two maps of this pair have different working resolutions "
+                          f"({din} against {dout}): an older version of this graph kept the source "
+                          "map at the photo's own size, while the graph as it is now passes the "
+                          "source through a VAE first, so its depth_in is at the canvas size. The "
+                          "score is computed at the smaller scale, and this row is not comparable "
+                          "with the others — it appears here only because the SaveImage counters "
+                          "match")
+        if gap > PAIR_GAP_WARN_S:
+            notes.append(
+                f"the two maps of this pair were written {round(gap)} s apart: the counter "
+                "matched them, but a run that reused a cached source map writes only its own "
+                "depth_out, so this pair spans two executions. The depth numbers stay comparable "
+                "(the source map of a fixed input photo is bit-identical run to run, verified on "
+                "all three graphs), but this row cannot carry one run's time or memory")
+        if scale_note:
+            notes.append(scale_note)
         ready.append({"key": key, **found, "note": "; ".join(notes),
-                      "mtime": pair_time})
+                      "mtime": pair_time,
+                      # how far apart the two maps of this "pair" were written. Pairing is done
+                      # by the SaveImage counter, which is only safe when one run really wrote
+                      # both files. Measured here: runs that reused a cached source map left a
+                      # depth_out without its depth_in, and the matching depth_in turned up 55-70
+                      # s later - belonging to another execution.
+                      "pair_gap_s": round(gap, 1),
+                      "pair_scale_note": bool(scale_note),
+                      "depth_sizes": [din, dout]})
     return sorted(ready, key=lambda x: x["mtime"], reverse=True)
+
+
+def _scale(path: Path) -> float:
+    """Longer edge of an image: enough to tell 4032 from 1820 without opening either."""
+    try:
+        from PIL import Image
+        with Image.open(path) as img:
+            return float(max(img.width, img.height))
+    except Exception:
+        return 0.0
 
 
 def _png_size(path: Path) -> str:

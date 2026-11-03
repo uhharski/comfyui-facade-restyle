@@ -7,7 +7,7 @@
   },
   "conditions": {
     "gpu": "RTX 5070 12 GB",
-    "note": "a local chat model (the agent backend) also sits on the GPU during these runs; every measurement records the free VRAM reported by /system_stats, so the reader knows what the graphs really had",
+    "note": "the agent backend CAN run a model on this same card, but whether one was resident during a given run is not assumed either way: every run record stores the free VRAM reported by /system_stats immediately before that run, and `run_workflow.py --cold` can clear the card first to make the starting state defined. Measured on 04.11 the five headless runs began with 10980, 4531, 1389, 841 and 165 MiB free — the largest peak (10742 MiB) happened when the card was empty, so an earlier blanket claim that a chat model was sitting on the GPU during these rows is not true of them and was removed",
     "source_photo": "DJI_0021.JPG",
     "seed": 20261103,
     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
@@ -20,7 +20,11 @@
       "prefix": "krea2_edit",
       "method": "image-edit conditioning only (no control signal): the photo is the input, the task is stated in words",
       "control": "none",
-      "expect": "tends to drift: geometry comes only from the latent + prompt"
+      "expect": "tends to drift: geometry comes only from the latent + prompt",
+      "replay": {
+        "headless": "possible",
+        "determinism": "NOT reproducible with a fixed seed: the same API graph and the same seed 20261103 produced krea2_edit_00111.png and krea2_edit_00114.png, and those two files differ (mean absolute difference 0.0139, 1.5 % of pixels differ by more than 0.1). That difference is this method's noise floor: any claim about changing the material has to be larger than it. Two explanations are possible and not separated here - a seed that a Krea2 Edit conditioning node does not honour the way a KSampler does, or non-deterministic GPU kernels; checking which would need the same graph with a different seed and a fixed algorithm, which is not measured yet"
+      }
     },
     {
       "id": "moss_inpaint",
@@ -30,7 +34,11 @@
       "result_prefix_note": "the measurement nodes save as moss_inpaint_depth_*, but the graph's own result nodes save under a date-typed prefix into a subfolder (`MOSS Box Edit/Test_2026-11-03_NNNNN_.png`). Two files are written per run, about a second apart: the render (1024x576) and a side-by-side source+result stitch (2052x576) from the LCImageStitchMulti/LCDynamicOverlay nodes. The scripts pick the candidate whose aspect ratio matches the depth map and is the last one saved at or before it, and list everything they skipped; if a future run produces two candidates of the same aspect, pin it here with \"result_pick\": \"<counter>\". Real fix: set those SaveImage nodes' prefix to `moss_inpaint` so the counters line up",
       "method": "color+depth control (MOSS) + layout boxes",
       "control": "depth (Depth Anything V2) + colour reference + bounding boxes",
-      "expect": "expected to hold geometry: depth is an explicit control signal"
+      "expect": "expected to hold geometry: depth is an explicit control signal",
+      "replay": {
+        "headless": "possible",
+        "determinism": "reproducible while the graph is frozen: two headless replays of workflows/_api/moss_inpaint.api.json wrote bit-identical results (MOSS Box Edit/Test_2026-11-04_00001_.png == Test_2026-11-04_00005_.png). This says nothing about pressing Run in the UI: the LCSeed node in that graph generates a fresh seed for every queued run unless it is switched to a fixed mode, which is why the nine UI runs on 03.11/04.11 differ"
+      }
     },
     {
       "id": "qwen_inpaint",
@@ -40,7 +48,11 @@
       "result_prefix_note": "the graph's result node saves as qwen21_inpaint_NNNN.png while the measurement nodes save as qwen_inpaint_depth_*; the id of this entry is qwen_inpaint. Two names for one graph is a documentation bug — either rename the result node's prefix to qwen_inpaint or change this entry; until then the result image is matched by save time and the row is flagged",
       "method": "local inpaint by touched mask, result stitched back into the original pixels",
       "control": "manual mask",
-      "expect": "geometry is preserved by construction outside the mask; only the masked region changes"
+      "expect": "geometry is preserved by construction outside the mask; only the masked region changes",
+      "replay": {
+        "headless": "blocked",
+        "why": "the MaskByTouch node stores its touched points as UI state, not in the exported graph, so a headless replay of its API graph fails with 'RuntimeError: Mask by Touch: the picks were made on another picture' (measured 04.11 00:39, prompt 590dee99; the run reported status error, executed in 2.37 s and wrote no file). Its rows are produced by UI runs only. To make it measurable like the others: save the mask as a file (the node offers that) and replace the touch node with a mask loader"
+      }
     }
   ]
 }

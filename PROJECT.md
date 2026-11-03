@@ -197,6 +197,9 @@ Three layers, in order of importance:
 1. **These files** (`PROJECT.md` + `PROGRESS.md`) are the long-term memory. To resume in a
    brand-new session, first message: "read PROJECT.md and PROGRESS.md, continue from step N of
    the work plan". Enough for any model to pick up the work.
+   If `NEXT.md` exists in this folder, read it too: it is the open task list as it stood when the
+   last session ended (what to do first, which decisions are still the user's, and the commands
+   that reproduce the current tables).
 2. **Git history** in this folder — versions, diffs, and the "activity trace" the job
    requirements ask for. Commit after every meaningful step (see § 6 schedule).
 3. **The pi session itself** — saved automatically per folder:

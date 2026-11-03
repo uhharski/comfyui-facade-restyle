@@ -11,3 +11,6 @@ scripts/__pycache__/
 # 2048px copies in source/photos/web/ go into git (see source/photos/README.md)
 source/photos/*.JPG
 source/photos/*.jpg
+
+# compiled helper scripts
+__pycache__/

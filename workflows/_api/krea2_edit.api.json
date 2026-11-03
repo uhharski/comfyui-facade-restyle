@@ -1,0 +1,337 @@
+{
+  "29": {
+    "inputs": {
+      "filename_prefix": "krea2_edit",
+      "images": [
+        "54",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image",
+      "cnr_id": "comfy-core",
+      "ver": "0.25.0"
+    }
+  },
+  "53": {
+    "inputs": {
+      "seed": 20261103,
+      "steps": 10,
+      "cfg": 1,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 1,
+      "model": [
+        "79",
+        0
+      ],
+      "positive": [
+        "84",
+        0
+      ],
+      "negative": [
+        "85",
+        0
+      ],
+      "latent_image": [
+        "82",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler",
+      "cnr_id": "comfy-core",
+      "ver": "0.25.0"
+    }
+  },
+  "54": {
+    "inputs": {
+      "samples": [
+        "53",
+        0
+      ],
+      "vae": [
+        "57",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "VAE Decode",
+      "cnr_id": "comfy-core",
+      "ver": "0.25.0"
+    }
+  },
+  "55": {
+    "inputs": {
+      "unet_name": "Krea 2\\kreavantisMASTERFP8_v10.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Load Diffusion Model",
+      "cnr_id": "comfy-core",
+      "ver": "0.25.0"
+    }
+  },
+  "56": {
+    "inputs": {
+      "clip_name": "QWEN\\qwen3vl_4b_fp8_scaled.safetensors",
+      "type": "krea2",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Load CLIP",
+      "cnr_id": "comfy-core",
+      "ver": "0.25.0"
+    }
+  },
+  "57": {
+    "inputs": {
+      "vae_name": "qwen_image_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Load VAE",
+      "cnr_id": "comfy-core",
+      "ver": "0.25.0"
+    }
+  },
+  "71": {
+    "inputs": {
+      "lora_name": "Krea2\\krea2_identity_edit_v1_2.safetensors",
+      "strength_model": 1,
+      "model": [
+        "55",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "Load LoRA",
+      "cnr_id": "comfy-core",
+      "ver": "0.26.0"
+    }
+  },
+  "72": {
+    "inputs": {
+      "image": "DJI_0021.JPG"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image",
+      "cnr_id": "comfy-core",
+      "ver": "0.26.0"
+    }
+  },
+  "73": {
+    "inputs": {
+      "pixels": [
+        "86",
+        0
+      ],
+      "vae": [
+        "57",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode",
+      "cnr_id": "comfy-core",
+      "ver": "0.3.50"
+    }
+  },
+  "79": {
+    "inputs": {
+      "ref_boost": 1,
+      "ref_boost_a": 1,
+      "fit_mode": "fit",
+      "model": [
+        "71",
+        0
+      ],
+      "source_latent": [
+        "73",
+        0
+      ]
+    },
+    "class_type": "Krea2EditModelPatch",
+    "_meta": {
+      "title": "Krea2 Edit (source patch)",
+      "cnr_id": "comfyui-krea2edit",
+      "ver": "207c52d52b25f5ed23cd9bc5c2d88c6cf3026686"
+    }
+  },
+  "82": {
+    "inputs": {
+      "width": [
+        "86",
+        1
+      ],
+      "height": [
+        "86",
+        2
+      ],
+      "batch_size": 1
+    },
+    "class_type": "EmptySD3LatentImage",
+    "_meta": {
+      "title": "EmptySD3LatentImage",
+      "cnr_id": "comfy-core",
+      "ver": "0.26.0"
+    }
+  },
+  "84": {
+    "inputs": {
+      "prompt": "Same house, same camera angle, same time of day, same weather. Keep the building exactly as it is: geometry, volume, roofline and slopes, wall proportions, the exact positions and sizes of every window and door opening, the plot, the ground level and the surrounding trees. Change only the exterior finishes: light warm-grey plaster on the main wall volumes, dark graphite window frames and entrance door, a dark standing-seam metal roof. Photorealistic architectural photography, diffuse overcast daylight, natural colours, sharp focus.",
+      "grounding_px": 1536,
+      "system_prompt": "blurry, low quality, low resolution, jpeg artifacts, pixelated, out of focus, soft edges, hazy, construction waste, building materials, scaffolding, stacked bricks, bags of cement, dirt heaps, mud, trenches, excavator, construction machinery, gravel piles, unfinished ground, construction debris, trash, tools, changed building structure, altered proportions, modified roofline, added extra floors, shifted walls, deformed architecture, plastic render, drawing, distorted geometry.",
+      "clip": [
+        "56",
+        0
+      ],
+      "image": [
+        "86",
+        0
+      ]
+    },
+    "class_type": "Krea2EditGroundedEncode",
+    "_meta": {
+      "title": "Krea2 Edit (grounded encode)",
+      "cnr_id": "comfyui-krea2edit",
+      "ver": "207c52d52b25f5ed23cd9bc5c2d88c6cf3026686"
+    }
+  },
+  "85": {
+    "inputs": {
+      "prompt": "people, cars, construction site machinery, new openings, extra storeys, changed roofline, warped walls, duplicate windows, text, watermark, blurry, low quality",
+      "grounding_px": 1536,
+      "system_prompt": "",
+      "clip": [
+        "56",
+        0
+      ],
+      "image": [
+        "86",
+        0
+      ]
+    },
+    "class_type": "Krea2EditGroundedEncode",
+    "_meta": {
+      "title": "Krea2 Edit (grounded encode)",
+      "cnr_id": "comfyui-krea2edit",
+      "ver": "207c52d52b25f5ed23cd9bc5c2d88c6cf3026686"
+    }
+  },
+  "86": {
+    "inputs": {
+      "width": 1024,
+      "height": 576,
+      "upscale_method": "nearest-exact",
+      "keep_proportion": "resize",
+      "pad_color": "0, 0, 0",
+      "crop_position": "center",
+      "divisible_by": 2,
+      "device": "cpu",
+      "image": [
+        "72",
+        0
+      ]
+    },
+    "class_type": "ImageResizeKJv2",
+    "_meta": {
+      "title": "Resize Image v2",
+      "cnr_id": "comfyui-kjnodes",
+      "ver": "e27a505b3ba6ce42687fe00500deda103d9d6071"
+    }
+  },
+  "90": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vits.pth",
+      "resolution": 1024
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth of SOURCE (krea2_edit)",
+      "cnr_id": "comfyui_controlnet_aux",
+      "ver": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c"
+    }
+  },
+  "91": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vits.pth",
+      "resolution": 1024,
+      "image": [
+        "54",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth of RESULT (krea2_edit)",
+      "cnr_id": "comfyui_controlnet_aux",
+      "ver": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c"
+    }
+  },
+  "92": {
+    "inputs": {
+      "filename_prefix": "krea2_edit_depth_in",
+      "images": [
+        "90",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth IN (krea2_edit)",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "93": {
+    "inputs": {
+      "filename_prefix": "krea2_edit_depth_out",
+      "images": [
+        "91",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth OUT (krea2_edit)",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "94": {
+    "inputs": {
+      "image_a": [
+        "90",
+        0
+      ],
+      "image_b": [
+        "91",
+        0
+      ]
+    },
+    "class_type": "LCBatchImageComparer",
+    "_meta": {
+      "title": "Geometry A/B: depth IN vs OUT (krea2_edit)",
+      "cnr_id": "comfyui_lc123_nodes",
+      "ver": "1.55.4"
+    }
+  },
+  "95": {
+    "inputs": {},
+    "class_type": "LCTimer",
+    "_meta": {
+      "title": "Run timer (krea2_edit)",
+      "cnr_id": "comfyui_lc123_nodes",
+      "ver": "1.55.4"
+    }
+  }
+}

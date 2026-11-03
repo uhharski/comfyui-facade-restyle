@@ -1,0 +1,647 @@
+{
+  "23": {
+    "inputs": {
+      "base_model": "MOSS Image (SFT)",
+      "goal": "Optimal",
+      "model_file": "moss_image_sft_bf16.safetensors",
+      "text_encoder": "qwen3.5_9b_int8_convrot.safetensors",
+      "vae": "flux2-vae_small.safetensors",
+      "speed_ups": "Auto",
+      "attention": "auto",
+      "fp16_accumulation": "auto",
+      "step_cache": "auto",
+      "torch_compile": "off",
+      "qwen21_cache": "auto",
+      "clip_type": "auto",
+      "spectrum": ""
+    },
+    "class_type": "LCOptimizer",
+    "_meta": {
+      "title": "LC Model Optimizer ⚡",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "573d8e1f7a5a76fb7c93ad7a317b8ff42426c986"
+    }
+  },
+  "26": {
+    "inputs": {
+      "total_steps": 25,
+      "detailer_steps": 25,
+      "denoise": 1,
+      "_gap1": "",
+      "cfg": 2.5,
+      "_gap2": "",
+      "sampler_name": "er_sde",
+      "scheduler": "simple"
+    },
+    "class_type": "LCSamplerConfigureSimple",
+    "_meta": {
+      "title": "LC Sampler Configure Simple",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "573d8e1f7a5a76fb7c93ad7a317b8ff42426c986"
+    }
+  },
+  "27": {
+    "inputs": {
+      "model_1": [
+        "23",
+        0
+      ],
+      "clip_1": [
+        "23",
+        1
+      ],
+      "vae_1": [
+        "23",
+        2
+      ],
+      "width": [
+        "30",
+        2
+      ],
+      "height": [
+        "30",
+        3
+      ],
+      "latent": [
+        "30",
+        4
+      ],
+      "positive_prompt": [
+        "41",
+        0
+      ],
+      "seed": [
+        "28",
+        0
+      ],
+      "total_steps": [
+        "26",
+        0
+      ],
+      "cfg_1": [
+        "26",
+        1
+      ],
+      "denoise": [
+        "26",
+        2
+      ],
+      "sampler_name": [
+        "26",
+        3
+      ],
+      "scheduler": [
+        "26",
+        4
+      ],
+      "detailer_steps": [
+        "26",
+        5
+      ]
+    },
+    "class_type": "LCPipeEdit",
+    "_meta": {
+      "title": "LC Pipe (in/edit)",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "573d8e1f7a5a76fb7c93ad7a317b8ff42426c986"
+    }
+  },
+  "28": {
+    "inputs": {
+      "base_seed": 20261103
+    },
+    "class_type": "LCSeed",
+    "_meta": {
+      "title": "🌱LC Seed",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "573d8e1f7a5a76fb7c93ad7a317b8ff42426c986"
+    }
+  },
+  "29": {
+    "inputs": {
+      "image": "DJI_0021.JPG"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Load Image",
+      "cnr_id": "comfy-core",
+      "ver": "0.37.0"
+    }
+  },
+  "30": {
+    "inputs": {
+      "max_resolution": 1024,
+      "resolution_source": false,
+      "aspect_ratio": "custom",
+      "custom_width": 1024,
+      "custom_height": 1024,
+      "swap_dimensions": "Off",
+      "upscale_method": "lanczos",
+      "proportion": "crop",
+      "crop_location": "center",
+      "pad_color": "0, 0, 0",
+      "divisible_by": 8,
+      "batch_size": 1,
+      "image": [
+        "29",
+        0
+      ]
+    },
+    "class_type": "AspectRatioSimplifier",
+    "_meta": {
+      "title": "📐 LC Aspect Ratio Simplifier",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "573d8e1f7a5a76fb7c93ad7a317b8ff42426c986"
+    }
+  },
+  "32": {
+    "inputs": {},
+    "class_type": "LCLabel",
+    "_meta": {
+      "title": "LC Label 🏷️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "0058958ed6e5016a80302e9a458af90008eadc77"
+    }
+  },
+  "33": {
+    "inputs": {
+      "_image_path": "{\"filename\":\"Logo no background_00001_.png\",\"subfolder\":\"\"}"
+    },
+    "class_type": "LCImageLabel",
+    "_meta": {
+      "title": "LC Image Label"
+    }
+  },
+  "34": {
+    "inputs": {},
+    "class_type": "LCLabel",
+    "_meta": {
+      "title": "LC Label 🏷️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "0058958ed6e5016a80302e9a458af90008eadc77"
+    }
+  },
+  "36": {
+    "inputs": {},
+    "class_type": "LCLabel",
+    "_meta": {
+      "title": "LC Label 🏷️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "0058958ed6e5016a80302e9a458af90008eadc77"
+    }
+  },
+  "38": {
+    "inputs": {},
+    "class_type": "LCLabel",
+    "_meta": {
+      "title": "LC Label 🏷️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "45c0fd983d47677b1febbad80d1496a0dc0ebbb4"
+    }
+  },
+  "41": {
+    "inputs": {
+      "positive": "Purposely empty"
+    },
+    "class_type": "LCPositive",
+    "_meta": {
+      "title": "Base prompt (Placeholder)",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "573d8e1f7a5a76fb7c93ad7a317b8ff42426c986"
+    }
+  },
+  "75": {
+    "inputs": {
+      "folder": "MOSS Box Edit ",
+      "prefix": "Test",
+      "suffix": "",
+      "timestamp": "%Y-%m-%d",
+      "path_separator": "auto"
+    },
+    "class_type": "LCEasyFolder",
+    "_meta": {
+      "title": "LC Easy Folder 📂",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "0d3f2dfe9b1ac48e0e28c28c692d3886a8f292a4"
+    }
+  },
+  "77": {
+    "inputs": {
+      "filename_prefix": [
+        "75",
+        0
+      ],
+      "images": [
+        "113",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image",
+      "cnr_id": "comfy-core",
+      "ver": "0.41.2"
+    }
+  },
+  "80": {
+    "inputs": {
+      "pipe": [
+        "27",
+        0
+      ]
+    },
+    "class_type": "LCPipeOut",
+    "_meta": {
+      "title": "LC Pipe Out",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "81": {
+    "inputs": {
+      "positive": "High-resolution architectural visualization. \npreserve geometry, the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing from image 1\nExtremely strict adherence to the reference image geometry from image 1: exact replica of the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing. Apply modern facade finishing materials while keeping the architectural layout and silhouette 100% identical to the source structure, photorealistic render, crisp architectural lines, physically correct geometry.\n\nfacing brick masonry cladding, pale ash-grey brick, warm light beige brick tones, running bond pattern, horizontal brick coursing, thin flush mortar joints, matte chalky brick texture, subtle surface imperfections, smooth painted fibre-cement render, charcoal graphite smooth walls, seamless flush joints, matte monolithic finish, vertical wood slat cladding, narrow vertical larch planks, warm natural wood tones, amber honey wood, smooth planed wood texture, visible wood grain, vertical rhythm, narrow shadow gaps, soft matte surfaces, no gloss, soft daylight, subtle joint shadows, architectural material study, high-resolution facade texture, PBR materials, physically accurate textures, photorealistic architectural visualization, detailed surface finish\n\nphotorealistic, 8k resolution, professional architectural photography, soft natural daylight, sharp focus."
+    },
+    "class_type": "LCPositive",
+    "_meta": {
+      "title": "Prompt",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "82": {
+    "inputs": {
+      "negative": "worst quality, bad anatomy, watermark, jpeg artifact, censored"
+    },
+    "class_type": "LCNegative",
+    "_meta": {
+      "title": "LC Negative",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "86": {
+    "inputs": {
+      "prompt": [
+        "81",
+        0
+      ],
+      "canvas": "single",
+      "width": 0,
+      "height": 0,
+      "elements": [
+        "105",
+        2
+      ]
+    },
+    "class_type": "LCMOSSLayoutPrompt",
+    "_meta": {
+      "title": "LC MOSS Layout Prompt 🗺️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "87": {
+    "inputs": {
+      "text": [
+        "86",
+        3
+      ]
+    },
+    "class_type": "LCShowText",
+    "_meta": {
+      "title": "LC Show Text 🔤",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "93": {
+    "inputs": {
+      "image": [
+        "113",
+        0
+      ]
+    },
+    "class_type": "LCPreviewImage",
+    "_meta": {
+      "title": "LC Preview Image 🖼️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "102": {
+    "inputs": {
+      "mode": "always",
+      "volume": 0.5,
+      "file": "elevator-chime.mp3",
+      "▶ preview": null,
+      "any": [
+        "77",
+        0
+      ]
+    },
+    "class_type": "LCNotify",
+    "_meta": {
+      "title": "LC Notify 🔊",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "105": {
+    "inputs": {
+      "size": "use image size",
+      "width": 1024,
+      "height": 1024,
+      "boxes": "[{\"x\":0.10790821369614417,\"y\":0.051781612112339115,\"w\":0.6530092312769444,\"h\":0.9069201218383105,\"name\":\"jacket\",\"kind\":\"change\",\"desc\":\"a bright red quilted puffer jacket with a fur-lined hood, zipped open over a cream cable-knit sweater\"}]",
+      "block": false,
+      "keep_boxes": true,
+      "image": [
+        "30",
+        0
+      ]
+    },
+    "class_type": "LCBoundingBoxes",
+    "_meta": {
+      "title": "LC Bounding Boxes 🔲",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "107": {
+    "inputs": {
+      "opacity": 0.24,
+      "image_a": [
+        "105",
+        0
+      ],
+      "image_b": [
+        "113",
+        0
+      ]
+    },
+    "class_type": "LCDynamicOverlay",
+    "_meta": {
+      "title": "LC Dynamic Overlay",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "110": {
+    "inputs": {
+      "direction": "right",
+      "match_size": "match first",
+      "align": "center",
+      "gap": 4,
+      "gap_color": "#000000",
+      "image_01": [
+        "107",
+        0
+      ],
+      "image_02": [
+        "113",
+        0
+      ]
+    },
+    "class_type": "LCImageStitchMulti",
+    "_meta": {
+      "title": "LC Image Stitch Multi 🖼️🪡",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "720a7705cb1dbb2d31b96e55ca766fe358b53088"
+    }
+  },
+  "112": {
+    "inputs": {
+      "filename_prefix": [
+        "75",
+        0
+      ],
+      "images": [
+        "110",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save Image",
+      "cnr_id": "comfy-core",
+      "ver": "0.41.2"
+    }
+  },
+  "113": {
+    "inputs": {
+      "prompt": [
+        "86",
+        0
+      ],
+      "negative": [
+        "82",
+        0
+      ],
+      "seed": [
+        "80",
+        17
+      ],
+      "steps": [
+        "80",
+        18
+      ],
+      "cfg": [
+        "80",
+        19
+      ],
+      "sampler_name": [
+        "80",
+        23
+      ],
+      "scheduler": [
+        "80",
+        24
+      ],
+      "grow": 16,
+      "feather": 64,
+      "keep": 0,
+      "model": [
+        "115",
+        0
+      ],
+      "clip": [
+        "80",
+        2
+      ],
+      "vae": [
+        "80",
+        3
+      ],
+      "image": [
+        "30",
+        0
+      ],
+      "elements": [
+        "105",
+        2
+      ]
+    },
+    "class_type": "LCMOSSBoxEdit",
+    "_meta": {
+      "title": "LC MOSS Box Edit 🖌️ (BETA)",
+      "cnr_id": "ComfyUI_LC_MaskMaker_nodes",
+      "ver": "9b91b1f247f606cd7d1a1e90f7e896ecf77b6d8d"
+    }
+  },
+  "114": {
+    "inputs": {
+      "model": "Depth Anything V2 Small (Apache-2.0)",
+      "resolution": 518,
+      "invert": false,
+      "image": [
+        "30",
+        0
+      ]
+    },
+    "class_type": "LCDepthAnythingV2",
+    "_meta": {
+      "title": "LC Depth Anything V2 🌊",
+      "cnr_id": "ComfyUI_LC_MaskMaker_nodes",
+      "ver": "9b91b1f247f606cd7d1a1e90f7e896ecf77b6d8d"
+    }
+  },
+  "115": {
+    "inputs": {
+      "control_file": "MOSS\\moss-color-depth-control.safetensors",
+      "strength": 1,
+      "color_end": 0,
+      "depth_end": 0.5,
+      "model": [
+        "80",
+        1
+      ],
+      "vae": [
+        "80",
+        3
+      ],
+      "depth_map": [
+        "114",
+        0
+      ]
+    },
+    "class_type": "LCMOSSControl",
+    "_meta": {
+      "title": "LC MOSS Control 🕹️",
+      "cnr_id": "ComfyUI_LC_MaskMaker_nodes",
+      "ver": "9b91b1f247f606cd7d1a1e90f7e896ecf77b6d8d"
+    }
+  },
+  "118": {
+    "inputs": {
+      "image": [
+        "114",
+        0
+      ]
+    },
+    "class_type": "LCPreviewImage",
+    "_meta": {
+      "title": "LC Preview Image 🖼️",
+      "cnr_id": "ComfyUI_LC123_nodes",
+      "ver": "f5a4b1ac52e643c97d51efa843d52a4c760507c2"
+    }
+  },
+  "120": {
+    "inputs": {
+      "value": true
+    },
+    "class_type": "PrimitiveBoolean",
+    "_meta": {
+      "title": "Use 🥅 Controlnet",
+      "cnr_id": "comfy-core",
+      "ver": "0.42.0"
+    }
+  },
+  "122": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vits.pth",
+      "resolution": 1024,
+      "image": [
+        "30",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth of SOURCE (moss_inpaint)",
+      "cnr_id": "comfyui_controlnet_aux",
+      "ver": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c"
+    }
+  },
+  "123": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vits.pth",
+      "resolution": 1024,
+      "image": [
+        "113",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth of RESULT (moss_inpaint)",
+      "cnr_id": "comfyui_controlnet_aux",
+      "ver": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c"
+    }
+  },
+  "124": {
+    "inputs": {
+      "filename_prefix": "moss_inpaint_depth_in",
+      "images": [
+        "122",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth IN (moss_inpaint)",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "125": {
+    "inputs": {
+      "filename_prefix": "moss_inpaint_depth_out",
+      "images": [
+        "123",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth OUT (moss_inpaint)",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "126": {
+    "inputs": {
+      "image_a": [
+        "122",
+        0
+      ],
+      "image_b": [
+        "123",
+        0
+      ]
+    },
+    "class_type": "LCBatchImageComparer",
+    "_meta": {
+      "title": "Geometry A/B: depth IN vs OUT (moss_inpaint)",
+      "cnr_id": "comfyui_lc123_nodes",
+      "ver": "1.55.4"
+    }
+  },
+  "127": {
+    "inputs": {},
+    "class_type": "LCTimer",
+    "_meta": {
+      "title": "Run timer (moss_inpaint)",
+      "cnr_id": "comfyui_lc123_nodes",
+      "ver": "1.55.4"
+    }
+  }
+}

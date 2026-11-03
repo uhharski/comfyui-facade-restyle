@@ -1,0 +1,663 @@
+{
+  "1": {
+    "inputs": {
+      "note": "{\"v\": 1, \"title\": \"Qwen Image 2.1 Inpaint\", \"subtitle\": \"Click a thing in your picture and say what to change. Only that part is repainted.\", \"author\": \"AusBoss\", \"layout\": \"card\", \"accent\": \"\", \"body\": \"1. Load your image. You can crop it right there with the blue handles.\\n2. On **Mask by Touch**, click the thing you want to change. It lights up before you click.\\n3. In **What to change**, say it the way you would ask a person: \\\"Replace the cup with a glass of orange juice.\\\"\\n4. Press **Run**.\\n\\nOnly the picked part is repainted. Everything outside it stays your own picture.\\n\\n### Tips\\n- Wrong thing picked? The arrows under the picture swap it for the next thing it could mean.\\n- Name everything that should go: \\\"the iced coffee and its straw\\\". What you do not name can stay.\\n- To remove something, pick it and write \\\"Remove the cup.\\\" Pick its shadow too, or the shadow stays.\\n- To add something, switch to **Draw** and paint where it should go, with some room. Say how big: \\\"Add small black sunglasses on her eyes.\\\"\\n- Not what you wanted? Run it again. The seed changes each run.\\n\\n### Switches\\n- **Fast** on: 8 steps with the Viggle Turbo LoRA from the list below. Off: 25 steps without it, about twice as long.\\n\\nNeeds ComfyUI 0.38 or newer and AusBoss nodes 2.11.0 or newer (update first).\", \"models\": [{\"name\": \"qwen_image_2.1_int8_convrot.safetensors\", \"dir\": \"diffusion_models\", \"size\": \"7.26 GB\", \"url\": \"https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/diffusion_models/qwen_image_2.1_int8_convrot.safetensors\", \"note\": \"\"}, {\"name\": \"qwen3vl_8b_int8_convrot.safetensors\", \"dir\": \"text_encoders\", \"size\": \"9.35 GB\", \"url\": \"https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/text_encoders/qwen3vl_8b_int8_convrot.safetensors\", \"note\": \"\"}, {\"name\": \"qwen_image_2.1_vae_bf16.safetensors\", \"dir\": \"vae\", \"size\": \"676 MB\", \"url\": \"https://huggingface.co/Comfy-Org/Qwen-Image-2.1/resolve/main/vae/qwen_image_2.1_vae_bf16.safetensors\", \"note\": \"\"}, {\"name\": \"sam3.1_multiplex_fp16.safetensors\", \"dir\": \"checkpoints\", \"size\": \"1.75 GB\", \"url\": \"https://huggingface.co/Comfy-Org/sam3.1/resolve/main/checkpoints/sam3.1_multiplex_fp16.safetensors\", \"note\": \"by Meta, packaged by Comfy-Org\"}, {\"name\": \"Qwen-Image-2.1-viggle-turbo-v0.3-6step-lora-r128.safetensors\", \"dir\": \"loras\", \"size\": \"680 MB\", \"url\": \"https://huggingface.co/Viggle/Qwen-Image-2.1-viggle-turbo/resolve/main/Qwen-Image-2.1-viggle-turbo-v0.3-6step-lora-r128.safetensors\", \"note\": \"optional, for Fast · Qwen Research License, research use\"}], \"packs\": [{\"name\": \"ComfyUI-AusBoss\", \"url\": \"https://github.com/ausboss/ComfyUI-AusBoss\", \"node\": \"AUSBOSS_NODES_MaskByTouch\"}], \"links\": [{\"label\": \"YouTube · this workflow\", \"url\": \"https://youtu.be/iMgaiXoB0v4\"}, {\"label\": \"GitHub · ausboss\", \"url\": \"https://github.com/ausboss\"}, {\"label\": \"Civitai · AusBoss\", \"url\": \"https://civitai.com/user/AusBoss\"}, {\"label\": \"X · Zanzibased\", \"url\": \"https://x.com/Zanzibased\"}]}"
+    },
+    "class_type": "AUSBOSS_NODES_WorkflowNote",
+    "_meta": {
+      "title": "🆎 AusBoss",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "2": {
+    "inputs": {
+      "image": "DJI_0021.JPG",
+      "rotation_degrees": 0,
+      "crop_aspect_ratio": "free",
+      "crop_x": 0,
+      "crop_y": 0,
+      "crop_width": 0,
+      "crop_height": 0,
+      "pad_left": 0,
+      "pad_top": 0,
+      "pad_right": 0,
+      "pad_bottom": 0,
+      "feather": 24,
+      "canvas_multiple": 1,
+      "fill_color": "#808080",
+      "resize_to_megapixels": true,
+      "megapixels": 0.59,
+      "resize_method": "lanczos",
+      "resolution_steps": 1,
+      "stitch_blend": 32,
+      "stitch_grow": 0,
+      "painted_area": "fill"
+    },
+    "class_type": "AUSBOSS_NODES_ImageCropRotatePad",
+    "_meta": {
+      "title": "Image Crop + Rotate + Pad - Your picture",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "3": {
+    "inputs": {
+      "touches": "{\"v\":1,\"key\":\"4032x2268-7448001981bf90d7\",\"items\":[{\"t\":\"name\",\"op\":1,\"w\":\"car\",\"x\":2180,\"y\":1030,\"q\":1,\"g\":1},{\"t\":\"name\",\"op\":1,\"w\":\"chair\",\"x\":2285,\"y\":1717,\"q\":1,\"g\":2},{\"t\":\"name\",\"op\":1,\"w\":\"table\",\"x\":865,\"y\":1824,\"q\":1,\"g\":3}]}",
+      "grow": 16,
+      "soften": 0,
+      "smooth": 0,
+      "fill_holes": true,
+      "if_nothing": "stop the run",
+      "free_vram": true,
+      "invert": false,
+      "ask": "",
+      "fine_edges": "off",
+      "image": [
+        "2",
+        0
+      ],
+      "model": [
+        "11",
+        0
+      ],
+      "clip": [
+        "11",
+        1
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_MaskByTouch",
+    "_meta": {
+      "title": "Mask by Touch - Click what to change",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "4": {
+    "inputs": {
+      "text": "rebuild the surface here as light warm-grey plaster with a dark graphite window frame, photorealistic, keep the exact shape and position of the opening and everything around it"
+    },
+    "class_type": "AUSBOSS_NODES_Text",
+    "_meta": {
+      "title": "Text - What to change",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "5": {
+    "inputs": {
+      "seed": 20261103
+    },
+    "class_type": "AUSBOSS_NODES_Seed",
+    "_meta": {
+      "title": "Seed",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "6": {
+    "inputs": {
+      "value": 25
+    },
+    "class_type": "AUSBOSS_NODES_Integer",
+    "_meta": {
+      "title": "Integer - Steps",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "8": {
+    "inputs": {
+      "clip_name": "QWEN\\qwen3vl_8b_fp8_scaled.safetensors",
+      "type": "qwen_image",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Text encoder",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "9": {
+    "inputs": {
+      "vae_name": "qwen_image_2.1_vae_bf16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "VAE",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "10": {
+    "inputs": {
+      "unet_name": "QWEN\\qwenImage21_bf16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Diffusion model",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "11": {
+    "inputs": {
+      "ckpt_name": "sam3.1_multiplex_fp16.safetensors"
+    },
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {
+      "title": "SAM 3 model",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "12": {
+    "inputs": {
+      "loras": "[{\"id\":\"rmvz3tb7m1\",\"name\":\"QWEN\\\\Qwen-Image-2.1-viggle-turbo-v0.3-6step-lora-r128.safetensors\",\"strength\":1,\"strength_clip\":1,\"enabled\":false,\"triggers\":\"\"}]",
+      "trigger_separator": ", ",
+      "on_missing": "error",
+      "model": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_LoraLoader",
+    "_meta": {
+      "title": "LoRA Loader - Speed LoRA",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "13": {
+    "inputs": {
+      "text": [
+        "29:19",
+        0
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_ShowText",
+    "_meta": {
+      "title": "Show Text - Request sent to Qwen",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "14": {
+    "inputs": {
+      "image_a": [
+        "2",
+        0
+      ],
+      "image_b": [
+        "29:28",
+        0
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_Compare",
+    "_meta": {
+      "title": "Image Compare A/B - Before and after",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "15": {
+    "inputs": {
+      "filename_prefix": "qwen21_inpaint",
+      "format": "png",
+      "save_metadata": true,
+      "exact_name": "",
+      "on_existing": "overwrite",
+      "output_dir": "",
+      "caption": "",
+      "name_counter": true,
+      "name_date": false,
+      "name_time": false,
+      "name_size": false,
+      "name_batch": false,
+      "preview": true,
+      "step_preview": false,
+      "images": [
+        "29:28",
+        0
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_SaveImage",
+    "_meta": {
+      "title": "Save Image",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "16": {
+    "inputs": {},
+    "class_type": "AUSBOSS_NODES_RunTimer",
+    "_meta": {
+      "title": "Run Timer",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "31": {
+    "inputs": {
+      "text": "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "32": {
+    "inputs": {
+      "text": "⬇️#3 Click the thing you want to change.\n###### It lights up before you click. Wrong thing? The **‹ ›** arrows under the picture swap it. **Draw** paints an area by hand."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "33": {
+    "inputs": {
+      "text": "⬇️#4 Say what to change.\n###### Like you would ask a person.\n\n⬇️#7 Click **Fast** to toggle fast mode.\n###### On: 8 steps with the [Viggle Turbo LoRA](#12). Off: 25 steps without it."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "34": {
+    "inputs": {
+      "text": "Two boxes do the work.\n###### Cut out the picked part, then paint it and put it back. Double-click one to see inside."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "40": {
+    "inputs": {
+      "text": "[▶ **Watch the video**](https://youtu.be/iMgaiXoB0v4)\n###### This workflow, start to finish, on YouTube."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "41": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vits.pth",
+      "resolution": 1024,
+      "image": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth of SOURCE (qwen_inpaint)",
+      "cnr_id": "comfyui_controlnet_aux",
+      "ver": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c"
+    }
+  },
+  "42": {
+    "inputs": {
+      "ckpt_name": "depth_anything_v2_vits.pth",
+      "resolution": 1024,
+      "image": [
+        "29:28",
+        0
+      ]
+    },
+    "class_type": "DepthAnythingV2Preprocessor",
+    "_meta": {
+      "title": "Depth of RESULT (qwen_inpaint)",
+      "cnr_id": "comfyui_controlnet_aux",
+      "ver": "a587a4c1594524c1d2de5cd1a86cd868ff448e1c"
+    }
+  },
+  "43": {
+    "inputs": {
+      "filename_prefix": "qwen_inpaint_depth_in",
+      "images": [
+        "41",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth IN (qwen_inpaint)",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "44": {
+    "inputs": {
+      "filename_prefix": "qwen_inpaint_depth_out",
+      "images": [
+        "42",
+        0
+      ]
+    },
+    "class_type": "SaveImage",
+    "_meta": {
+      "title": "Save depth OUT (qwen_inpaint)",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "45": {
+    "inputs": {
+      "image_a": [
+        "41",
+        0
+      ],
+      "image_b": [
+        "42",
+        0
+      ]
+    },
+    "class_type": "LCBatchImageComparer",
+    "_meta": {
+      "title": "Geometry A/B: depth IN vs OUT (qwen_inpaint)",
+      "cnr_id": "comfyui_lc123_nodes",
+      "ver": "1.55.4"
+    }
+  },
+  "46": {
+    "inputs": {},
+    "class_type": "LCTimer",
+    "_meta": {
+      "title": "Run timer (qwen_inpaint)",
+      "cnr_id": "comfyui_lc123_nodes",
+      "ver": "1.55.4"
+    }
+  },
+  "30:17": {
+    "inputs": {
+      "context_factor": 1.6,
+      "blend_pixels": 8,
+      "output_multiple": 32,
+      "target_width": 0,
+      "target_height": 0,
+      "mask_grow": 0,
+      "mask_blur": 0,
+      "invert_mask": false,
+      "context_pixels": 0,
+      "target_megapixels": 1.5,
+      "rescale_algorithm": "bicubic",
+      "extend_left": 0,
+      "extend_right": 0,
+      "extend_up": 0,
+      "extend_down": 0,
+      "keep_inside": true,
+      "image": [
+        "2",
+        0
+      ],
+      "mask": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_CropForInpaint",
+    "_meta": {
+      "title": "Crop For Inpaint - Crop around the picked part",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "30:18": {
+    "inputs": {
+      "expand": 8,
+      "tapered_corners": true,
+      "mask": [
+        "30:17",
+        1
+      ]
+    },
+    "class_type": "GrowMask",
+    "_meta": {
+      "title": "Grow Mask - A little past the picked part",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "30:35": {
+    "inputs": {
+      "text": "A window around the picked part is cut out with room to spare.\n###### It is brought to about 1.5 megapixels, so small parts get full detail."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "30:36": {
+    "inputs": {
+      "text": "The picked part, 8 pixels wider, so the new part reaches a little past its edge."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "29:19": {
+    "inputs": {
+      "f_string": "{a} Keep everything else exactly the same.",
+      "values.a": [
+        "4",
+        0
+      ]
+    },
+    "class_type": "StringFormat",
+    "_meta": {
+      "title": "Format Text - Your request, and keep the rest",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:20": {
+    "inputs": {
+      "prompt": [
+        "29:19",
+        0
+      ],
+      "negative_prompt": "",
+      "resolution": 0,
+      "clip": [
+        "8",
+        0
+      ],
+      "images.image_1": [
+        "30:17",
+        0
+      ],
+      "vae": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "TextEncodeQwenImage21",
+    "_meta": {
+      "title": "Text Encode Qwen Image 2.1 - The crop and your request",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:21": {
+    "inputs": {
+      "pixels": [
+        "30:17",
+        0
+      ],
+      "vae": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "VAEEncode",
+    "_meta": {
+      "title": "VAE Encode - The crop as the starting point",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:22": {
+    "inputs": {
+      "samples": [
+        "29:21",
+        0
+      ],
+      "mask": [
+        "30:18",
+        0
+      ]
+    },
+    "class_type": "SetLatentNoiseMask",
+    "_meta": {
+      "title": "Set Latent Noise Mask - Only the picked part may change",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:23": {
+    "inputs": {
+      "device": "auto",
+      "dtype": "default",
+      "model": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "QwenImage21Cache",
+    "_meta": {
+      "title": "Reference cache",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:26": {
+    "inputs": {
+      "seed": [
+        "5",
+        0
+      ],
+      "steps": [
+        "6",
+        0
+      ],
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1,
+      "model": [
+        "29:23",
+        0
+      ],
+      "positive": [
+        "29:20",
+        0
+      ],
+      "negative": [
+        "29:20",
+        1
+      ],
+      "latent_image": [
+        "29:22",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "Sampler - CFG 1, euler",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:27": {
+    "inputs": {
+      "samples": [
+        "29:26",
+        0
+      ],
+      "vae": [
+        "9",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decode",
+      "cnr_id": "comfy-core",
+      "ver": "0.43.2"
+    }
+  },
+  "29:28": {
+    "inputs": {
+      "fix_edge_halo": false,
+      "color_match": 0,
+      "seam": "classic",
+      "stitcher": [
+        "30:17",
+        2
+      ],
+      "inpainted": [
+        "29:27",
+        0
+      ]
+    },
+    "class_type": "AUSBOSS_NODES_StitchInpaint",
+    "_meta": {
+      "title": "Stitch Inpaint - Put the new part back",
+      "cnr_id": "comfyui-workflow-encrypt",
+      "ver": "1.0.0"
+    }
+  },
+  "29:37": {
+    "inputs": {
+      "text": "Your words, plus one sentence that asks Qwen to keep everything else.\n###### Qwen sees the crop as it is."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "29:38": {
+    "inputs": {
+      "text": "The crop is the starting point, and only the picked part may change.\n###### Steps come from the top level, CFG 1."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  },
+  "29:39": {
+    "inputs": {
+      "text": "The new part goes back into your picture with a narrow soft edge.\n###### Everything outside it stays your own picture."
+    },
+    "class_type": "AUSBOSS_NODES_Callout",
+    "_meta": {
+      "title": "Callout",
+      "cnr_id": "ausboss-nodes",
+      "ver": "1.0.0"
+    }
+  }
+}

@@ -6,6 +6,77 @@ a new agent session only needs to read both.
 
 ---
 
+## 2026-11-03 (23:00) — the third method ran; three rows exist; the metric itself is now the problem
+
+### Done
+- Ran the instrumented `krea2_edit` graph in the UI (22:49) → its depth pair appeared →
+  `collect_metrics.py` now scores **all three methods**. Table is complete for one run each.
+- Added the missing half of the measurement chain: `collect_metrics.py` reads
+  `docs/metrics/run_*.json` written by `run_workflow.py` (wall time + whole-GPU peak) and puts a
+  record in a row **only if that run was going on when the row's files were saved** — the two
+  columns `run time (s)` / `peak GPU used` replace the never-populated `graph timer` column, and
+  the header says plainly why they are dashes until a headless run exists.
+- Generated the conditions block straight into `docs/metrics.md` (shared input photo, fixed seed,
+  GPU + the fact that a local chat model occupies the card, and what is **not** controlled) so a
+  reader sees the fairness caveats next to the numbers instead of having to open the manifest.
+- Wrote `scripts/contact_sheet.py` → `docs/gallery/compare.png`: the source photo and the three
+  results at the same tile width, each labelled with the numbers of that same run. The tiles come
+  from `measurements.json`, so the picture and the table cannot drift apart.
+
+### Fixed: the two result-matching rules were wrong in a way that mattered
+- Matched “nearest in time” picked, for the MOSS graph, `Test_2026-11-03_00012_.png` **2052×576**
+  — that is the source+result stitch made by the LCImageStitchMulti node, not the render. So the
+  first MOSS row quoted a canvas that was never generated, and the contact sheet showed a
+  layout/preview image instead of a house. Measured on this machine: a graph writes its result PNG
+  **0–1 s before** the depth map made from it, then a second later the stitches/overlays.
+  New rule: keep only candidates with the **aspect ratio of the depth map**, take the last one
+  saved at or before it, list everything skipped (`result_candidates` + the note), and allow
+  `result_pick` in the manifest to pin a file. MOSS now resolves to `00011` **1024×576** and the
+  2052×576 stitch is named as skipped. My earlier `canvas_note` (“MOSS generated 2052×576”) was
+  wrong and is corrected — all three methods are actually at ~1024×576, so the cost comparison is
+  close to fair after all.
+- `verdict()` had no case for “the method did nothing”. Now the local-change claim is judged by
+  each run's own floor, measured: the same bad-fraction on the input map against itself = **0.0 at
+  0 %, 1.64 % at a 1 % camera nudge, 3.1 % at 2 %, 6.0 % at 4 %**. Below half the 1 % figure the
+  verdict says “no measurable depth change”. All three rows land there (0.61 / 0.38 / 0.01 %).
+
+### Numbers of this first complete comparison (one run each, seed 20261103)
+| method | canvas | r | edges r | pixels off | flat tiles Δ |
+|---|---|---|---|---|---|
+| krea2_edit (no control) | 1024×576 | 0.9936 | 0.6553 | 0.61 % | 0 |
+| moss_inpaint (color+depth+boxes) | 1024×576 | 0.9947 | 0.6008 | 0.38 % | +2 |
+| qwen_inpaint (mask+stitch) | 1049×590 | 0.9993 | 0.9788 | 0.01 % | 0 |
+
+### What the images say that the numbers did not (the human half, now part of the method)
+- All three produced a believable different finish of the *same* house: Krea2 → smooth beige
+  plaster; Qwen → same, cleanest, facade only; MOSS → yellow brick with wooden frames.
+  So the material task succeeded while `bad_frac` stayed ~0 → **the depth metric is blind to a
+  colour/texture swap**, which is expected (a flat wall stays flat in depth) and is now written
+  into the docs instead of pretending the number covers it.
+- **The global r failed to notice that MOSS moved the camera**: its tile shows the house from a
+  different, closer angle, yet r = 0.9947. `edges r` (0.60) and the tile columns did notice.
+  Conclusion for the README and for the metric: global pearson on normalised depth is a coarse
+  “same house, roughly same place” test, not a viewpoint test.
+
+### Problems / next step
+1. **A second measure is needed for “the finish actually changed”**: the geometry metric cannot
+   see it. Cheapest honest option: an appearance delta inside a stated facade region (colour
+   histogram + texture energy against the source, with the region drawn once by hand or reused
+   from the MOSS layout boxes) — plus the existing human check via `contact_sheet.py`. Not
+   written yet; do not claim “materials measured” until it is.
+2. Time/VRAM still empty: run `python scripts/run_workflow.py <id>` with ComfyUI up — the API
+   graphs for all three are already in `workflows/_api/`. Also worth re-checking why `LCTimer`
+   keeps `lc_runs` empty (the UI run at 22:49 recorded nothing).
+3. Multiple seeds per method: one run per method is not a comparison — variance is unknown, and
+   Krea2/Qwen/MOSS all need the same *explicit* material instruction (the current prompts differ:
+   the MOSS run changed the viewpoint and the window frames, i.e. it solved a different task).
+4. Naming fix in the graphs (result SaveImage = graph id) would remove the ⚠ flags entirely.
+5. Then: README arc + conclusions; the honest arc is now: “built three controllable pipelines →
+   all three keep the house → the metric I wrote cannot see the part that matters (the finish) and
+   under-detects a viewpoint change → here is what it does catch and what I would add next”.
+
+---
+
 ## 2026-11-03 (late) — measurement scripts fixed, first two rows of the table are real
 
 ⚠ The previous work session (03.11, 19:00–22:10) was **never written here** — the state below

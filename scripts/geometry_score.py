@@ -18,6 +18,12 @@ What the numbers mean
                  window and roof lines stayed where they were, not only the big masses.
   mad, bad_frac  mean absolute difference, and the fraction of pixels differing by more than
                  0.15 after normalisation (local violations: something moved or appeared).
+  probe_*_bad    the same bad_frac for the input map against its own 1 % / 4 % nudged copy.
+                 This is the floor of “something changed”: measured on this project's source
+                 photo, identical = 0.0000, 1 % nudge = 0.0164, 2 % = 0.0309, 4 % = 0.0596.
+                 A method below the 1 % floor changed nothing in the depth map that a nudge of
+                 the camera would not also change — that is what “no measurable local change”
+                 says in the verdict, and it is judged by each run's own floor, not a constant.
   tile_r_p10 /   local correlations on an 8x6 grid. The usual failure is not the whole image
   tile_r_median  shifting, but one region repainted as a texture blob: the 10th percentile
                  catches that while the global r still looks fine. Flat tiles (sky, blank
@@ -27,8 +33,13 @@ What the numbers mean
 
 The verdict separates the two things a material swap affects differently:
   global geometry — is it still the same house in the same place?  (r against probe_1pct_r)
-  local change    — was something actually replaced?  bad_frac; for this task a local change
-                    is the goal, so it is reported, not punished.
+  local change    — was something actually replaced?  bad_frac against the probe floors; for a
+                    material swap a local change is the goal, so it is reported, not punished.
+                    Note the limit of this number: it measures DEPTH. A colour-only change is
+                    allowed to leave it untouched, and a method whose whole job is outside a
+                    small mask (the Qwen inpaint) changes almost no pixels by construction.
+                    “No depth change” therefore says the geometry test cannot see the edit —
+                    whether the material itself looks right stays a separate, human check.
 
 Calibration measured with this exact formula on the aerial photos of this project:
 identical = 1.00, nudged 1 % = 0.81, nudged 4 % = 0.56, a different frame of the same
@@ -130,6 +141,10 @@ def score(depth_in: Path, depth_out: Path, width: int = 512) -> dict:
         "grad_r": round(_pearson(_grad_mag(a), _grad_mag(b)), 4),
         "mad": round(float(diff.mean()), 4),
         "bad_frac_gt_0.15": round(float((diff > 0.15).mean()), 4),
+        # the same measure applied to the input against its own nudged copies: the floor below
+        # which "something changed" cannot be told apart from a small viewpoint change
+        "probe_1pct_bad_frac": round(float((np.abs(a - np.roll(a, shift_1, axis=1)) > 0.15).mean()), 4),
+        "probe_4pct_bad_frac": round(float((np.abs(a - np.roll(a, shift_4, axis=1)) > 0.15).mean()), 4),
         # local structure: the 10th percentile and the median of the tile correlations
         "tile_r_p10": round(tiles_sorted[max(0, int(len(tiles_sorted) * 0.10))], 4) if tiles else None,
         "tile_r_median": round(tiles_sorted[len(tiles_sorted) // 2], 4) if tiles else None,
@@ -165,6 +180,14 @@ def verdict(scores: dict) -> str:
     if scores["bad_frac_gt_0.15"] > 0.20:
         pct = round(scores["bad_frac_gt_0.15"] * 100)
         base += f" + a large local change ({pct} % of the pixels off by more than 0.15)"
+    # the opposite case, judged by this run's own floor: below half of what a 1 % camera nudge
+    # costs, nothing in the depth map can be told from a small viewpoint change
+    floor = scores.get("probe_1pct_bad_frac") or 0.0
+    if floor and scores["bad_frac_gt_0.15"] < 0.5 * floor:
+        base += (" + no measurable depth change "
+                 f"({round(scores['bad_frac_gt_0.15'] * 100, 2)} % of the pixels off, "
+                 f"under half the 1 % camera-nudge floor of "
+                 f"{round(floor * 100, 2)} %)")
     tile = scores.get("tile_r_p10")
     if tile is not None and tile < 0.0:
         base += f" + at least one region contradicts the input (10th-percentile local r {tile})"

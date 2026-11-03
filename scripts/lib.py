@@ -11,6 +11,7 @@ drops the ones that are connected — and says plainly when a parameter comes fr
 """
 from __future__ import annotations
 
+import datetime as dt
 import glob
 import json
 import re
@@ -289,20 +290,29 @@ def output_dir(manifest: dict) -> Path:
     return Path(manifest["comfyui"]["output_dir"])
 
 
-RESULT_TIME_WINDOW_S = 1800     # how far apart the save times of one run may be
+RESULT_BEFORE_S, RESULT_AFTER_S = 120, 20   # how far from a depth map a result may have been saved
 
 
 def find_measurement_pairs(manifest: dict, prefix: str, result_prefix: str | None = None,
-                          ) -> list[dict]:
+                          result_pick: str | None = None) -> list[dict]:
     """Pair what one run saved: the two depth maps (by SaveImage counter suffix) plus the
     result image itself, whose real pixel size is the only trustworthy record of the canvas.
 
     result_prefix — the prefix the result SaveImage node really uses. It is a separate widget
     in the graph and in two of our graphs it drifted from the measurement prefix (the Qwen
-    graph saves results as `qwen21_inpaint_*`, the MOSS graph as the default `ComfyUI_*`).
-    Counters restart per prefix, so a matching counter across two different prefixes is not a
-    proof of being the same run; the fallback match is therefore made by save time (inside
-    RESULT_TIME_WINDOW_S) and is labelled in the returned note, never presented as certain.
+    graph saves results as `qwen21_inpaint_*`, the MOSS graph as a date prefix inside a
+    subfolder). Even inside one graph the result node and the measurement nodes are separate
+    SaveImage nodes with independent counters (one run: result `krea2_edit_00110`, depth pair
+    `00001`), so a counter match is only meaningful inside the same prefix. Wherever the
+    counters cannot line up, the match is made by save time and aspect ratio, and is labelled
+    in the returned note, never presented as certain. What was measured on this machine (03.11,
+    all three graphs): a graph writes its result PNG 0–1 s BEFORE the depth map made from it, and
+    then a second later writes overlays/stitches built from it — the nearest-in-time match once
+    picked a 2052x576 side-by-side stitch instead of the 1024x576 render. So the rule is: among
+    the files saved inside RESULT_BEFORE_S/RESULT_AFTER_S of the depth map, keep those with the
+    depth map's aspect ratio, and take the last one saved at or before it. Every skipped
+    candidate is listed with its size; `result_pick` (a counter of this run or a file name)
+    overrides the choice.
     """
     root = output_dir(manifest)
     if not root.exists():
@@ -337,6 +347,10 @@ def find_measurement_pairs(manifest: dict, prefix: str, result_prefix: str | Non
         if "depth_in" not in found or "depth_out" not in found:
             continue                     # an interrupted run: not a measurement
         pair_time = max(v.stat().st_mtime for v in found.values())
+        # the depth of the RESULT is computed from the result image, so on this machine the
+        # result PNG is written 0–1 s BEFORE its depth_out (measured on all three graphs, 03.11).
+        # That is the reference point for finding it; a wider window before, a narrow one after.
+        ref = found["depth_out"].stat().st_mtime
         notes: list[str] = []
 
         same_key = [p for p in results if COUNTER_RE.search(p.name).group(1) == key
@@ -344,17 +358,45 @@ def find_measurement_pairs(manifest: dict, prefix: str, result_prefix: str | Non
         if same_key:
             found["result"] = same_key[0]
         else:
-            near = [p for p in results
-                    if abs(p.stat().st_mtime - pair_time) <= RESULT_TIME_WINDOW_S]
-            near.sort(key=lambda p: abs(p.stat().st_mtime - pair_time))
-            if near:
-                found["result"] = near[0]
+            # One run writes several images seconds apart: the render, then overlays/stitches
+            # made from it (for the MOSS graph the match nearest in time was a 2052x576
+            # side-by-side stitch, not the 1024x576 render). Two measurable properties tell them
+            # apart: the render is the LAST image saved at or before its own depth map, and its
+            # aspect ratio is the aspect the depth maps have (a stitch of two images is wider).
+            # Everything considered is listed with its size, and result_pick in the manifest (a
+            # counter of this run or an exact file name) overrides the choice.
+            in_window = [p for p in results
+                         if ref - RESULT_BEFORE_S <= p.stat().st_mtime <= ref + RESULT_AFTER_S]
+            want_aspect = _aspect(found["depth_out"])
+            shaped = [p for p in in_window if abs(_aspect(p) - want_aspect) <= 0.02 * want_aspect]
+            exact = [p for p in (in_window or results) if result_pick and (
+                p.name == result_pick or COUNTER_RE.search(p.name).group(1) == result_pick)]
+            pool = exact or shaped or in_window
+            before = [p for p in pool if p.stat().st_mtime <= ref + 2]
+            chosen = max(before, key=lambda p: p.stat().st_mtime) if before else \
+                min(pool, key=lambda p: abs(p.stat().st_mtime - ref)) if pool else None
+            if chosen:
+                found["result"] = chosen
+                found["candidates"] = sorted(in_window, key=lambda p: p.stat().st_mtime)
+                got = COUNTER_RE.search(chosen.name).group(1)
+                same_prefix = not result_prefix
+                why = ("the result node is a separate SaveImage node with its own counter "
+                       f"(this run: result counter {got}, depth pair {key})"
+                       if same_prefix else
+                       "the graph saves its result under a different prefix "
+                       f"({', '.join(result_prefixes)}), so the counters cannot line up")
+                skipped = " | ".join(
+                    f"{p.name} {_png_size(p)} at {dt.datetime.fromtimestamp(p.stat().st_mtime):%H:%M:%S}"
+                    for p in sorted(in_window, key=lambda p: p.stat().st_mtime) if p != chosen) or "none"
+                extra = ("" if shaped else
+                         " — no candidate had the aspect ratio of the depth map, so the choice "
+                         "rests on time alone: check it before quoting this row")
                 notes.append(
-                    "result image matched by save time (within "
-                    f"{int(abs(near[0].stat().st_mtime - pair_time))} s), not by counter: this "
-                    "graph saves its result under a different prefix, so counters do not line "
-                    "up — treat the canvas column as indicative until the graph's result "
-                    "SaveImage node is renamed to the graph id")
+                    "result image matched by save time and aspect, not by counter: "
+                    f"{why}. Chose {_png_size(chosen)} (last image saved at or before its own "
+                    f"depth map, same aspect as it); not chosen: {skipped}{extra} — the canvas "
+                    "column is indicative until the graph's result SaveImage node uses the graph "
+                    "id and the measurement nodes share its counter")
             else:
                 notes.append(
                     "no result image found for this run — the graph's result SaveImage uses a "
@@ -363,3 +405,23 @@ def find_measurement_pairs(manifest: dict, prefix: str, result_prefix: str | Non
         ready.append({"key": key, **found, "note": "; ".join(notes),
                       "mtime": pair_time})
     return sorted(ready, key=lambda x: x["mtime"], reverse=True)
+
+
+def _png_size(path: Path) -> str:
+    """WxH of an image, for notes: a 2052x576 next to a 1024x576 is a stitch made from two
+    images, and writing the sizes is what makes that visible without opening any file."""
+    try:
+        from PIL import Image
+        with Image.open(path) as img:
+            return f"{img.width}x{img.height}"
+    except Exception:
+        return "?x?"
+
+
+def _aspect(path: Path) -> float:
+    try:
+        from PIL import Image
+        with Image.open(path) as img:
+            return img.width / img.height
+    except Exception:
+        return 0.0

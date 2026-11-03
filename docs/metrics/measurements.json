@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-03T22:33:55",
+ "collected_at": "2026-11-03T23:11:48",
  "machine": {
   "error": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
  },
@@ -9,13 +9,56 @@
   "source_photo": "DJI_0021.JPG",
   "seed": 20261103,
   "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
-  "canvas_note": "NOT unified today, and this is a real difference in cost: the Krea2 graph resizes to 1024x576 before latent, the MOSS graph has an aspect node set to custom 1024x1024, the Qwen graph works on a ~0.59 megapixel crop chosen around the touched mask (about 1024x576). Each measurement row states the real size of the saved result image. Unifying would mean editing the MOSS graph's aspect node (custom height 576) — a decision, not an automatic fix"
+  "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
  },
  "runs": [
   {
    "id": "krea2_edit",
-   "status": "no depth_in/depth_out pair found",
-   "searched_prefix": "krea2_edit",
+   "status": "scored",
+   "pair": "00001",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_in_00001_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_depth_out_00001_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00110_.png"
+   },
+   "pair_note": "result image matched by save time and aspect, not by counter: the result node is a separate SaveImage node with its own counter (this run: result counter 00110, depth pair 00001). Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter",
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00110_.png"
+   ],
+   "canvas_of_result": [
+    1024,
+    576
+   ],
+   "captured_at": "2026-11-03T22:49:39",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1820,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1820,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9936,
+    "probe_1pct_r": 0.9894,
+    "probe_4pct_r": 0.9461,
+    "grad_r": 0.6553,
+    "mad": 0.0152,
+    "bad_frac_gt_0.15": 0.0061,
+    "probe_1pct_bad_frac": 0.0164,
+    "probe_4pct_bad_frac": 0.0596,
+    "tile_r_p10": 0.9166,
+    "tile_r_median": 0.9932,
+    "tiles_used": 48,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 0
+   },
+   "verdict": "global geometry held + no measurable depth change (0.61 % of the pixels off, under half the 1 % camera-nudge floor of 1.64 %)",
    "settings": {
     "width": 1024,
     "height": 1024,
@@ -36,6 +79,8 @@
     "depth resolution": 1024
    },
    "timer_runs": [],
+   "timed_run_record": null,
+   "other_run_records_of_this_graph": [],
    "object_info": "cache/live"
   },
   {
@@ -45,11 +90,15 @@
    "files": {
     "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_in_00001_.png",
     "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_out_00001_.png",
-    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00012_.png"
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00011_.png"
    },
-   "pair_note": "result image matched by save time (within 0 s), not by counter: this graph saves its result under a different prefix, so counters do not line up — treat the canvas column as indicative until the graph's result SaveImage node is renamed to the graph id",
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (Test), so the counters cannot line up. Chose 1024x576 (last image saved at or before its own depth map, same aspect as it); not chosen: Test_2026-11-03_00012_.png 2052x576 at 22:03:35 — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter",
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00011_.png",
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00012_.png"
+   ],
    "canvas_of_result": [
-    2052,
+    1024,
     576
    ],
    "captured_at": "2026-11-03T22:03:35",
@@ -73,13 +122,15 @@
     "grad_r": 0.6008,
     "mad": 0.0207,
     "bad_frac_gt_0.15": 0.0038,
+    "probe_1pct_bad_frac": 0.0156,
+    "probe_4pct_bad_frac": 0.059,
     "tile_r_p10": 0.9252,
     "tile_r_median": 0.9821,
     "tiles_used": 46,
     "tiles_flat_in_input": 0,
     "tiles_flat_in_result": 2
    },
-   "verdict": "global geometry held",
+   "verdict": "global geometry held + no measurable depth change (0.38 % of the pixels off, under half the 1 % camera-nudge floor of 1.56 %)",
    "settings": {
     "vae": "flux2-vae_small.safetensors",
     "steps": 25,
@@ -102,6 +153,8 @@
     "checkpoint": "depth_anything_v2_vits.pth"
    },
    "timer_runs": [],
+   "timed_run_record": null,
+   "other_run_records_of_this_graph": [],
    "object_info": "cache/live"
   },
   {
@@ -113,7 +166,10 @@
     "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_out_00001_.png",
     "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00040.png"
    },
-   "pair_note": "result image matched by save time (within 0 s), not by counter: this graph saves its result under a different prefix, so counters do not line up — treat the canvas column as indicative until the graph's result SaveImage node is renamed to the graph id",
+   "pair_note": "result image matched by save time and aspect, not by counter: the graph saves its result under a different prefix (qwen21_inpaint), so the counters cannot line up. Chose 1049x590 (last image saved at or before its own depth map, same aspect as it); not chosen: none — the canvas column is indicative until the graph's result SaveImage node uses the graph id and the measurement nodes share its counter",
+   "result_candidates": [
+    "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00040.png"
+   ],
    "canvas_of_result": [
     1049,
     590
@@ -139,13 +195,15 @@
     "grad_r": 0.9788,
     "mad": 0.0089,
     "bad_frac_gt_0.15": 0.0001,
+    "probe_1pct_bad_frac": 0.0157,
+    "probe_4pct_bad_frac": 0.0589,
     "tile_r_p10": 0.9892,
     "tile_r_median": 0.999,
     "tiles_used": 48,
     "tiles_flat_in_input": 0,
     "tiles_flat_in_result": 0
    },
-   "verdict": "global geometry held",
+   "verdict": "global geometry held + no measurable depth change (0.01 % of the pixels off, under half the 1 % camera-nudge floor of 1.57 %)",
    "settings": {
     "input image": "DJI_0021.JPG",
     "megapixels": 0.59,
@@ -163,6 +221,8 @@
     "denoise": 1
    },
    "timer_runs": [],
+   "timed_run_record": null,
+   "other_run_records_of_this_graph": [],
    "object_info": "cache/live"
   }
  ]

@@ -11,7 +11,7 @@
     "source_photo": "DJI_0021.JPG",
     "seed": 20261103,
     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
-    "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 2052x576 (its aspect node is set to custom 1024x1024, but an incoming link overrides it — a widget value is not what ran), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent and has no measured run yet. Each row states the real size of the saved result image; unifying the canvases would mean editing the graphs, and that is a decision to make after the first complete comparison, not an automatic fix"
+    "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
   },
   "workflows": [
     {
@@ -27,7 +27,7 @@
       "file": "moss_inpaint.json",
       "prefix": "moss_inpaint",
       "result_prefix": "Test",
-      "result_prefix_note": "the measurement nodes save as moss_inpaint_depth_*, but the graph's own result nodes save under a date-typed prefix into a subfolder (`MOSS Box Edit/Test_2026-11-03_NNNNN_.png`). Counters restart per prefix, so the result image can only be matched to a depth pair by save time — the row is flagged. Fix in the graph: set those SaveImage nodes' prefix to `moss_inpaint`",
+      "result_prefix_note": "the measurement nodes save as moss_inpaint_depth_*, but the graph's own result nodes save under a date-typed prefix into a subfolder (`MOSS Box Edit/Test_2026-11-03_NNNNN_.png`). Two files are written per run, about a second apart: the render (1024x576) and a side-by-side source+result stitch (2052x576) from the LCImageStitchMulti/LCDynamicOverlay nodes. The scripts pick the candidate whose aspect ratio matches the depth map and is the last one saved at or before it, and list everything they skipped; if a future run produces two candidates of the same aspect, pin it here with \"result_pick\": \"<counter>\". Real fix: set those SaveImage nodes' prefix to `moss_inpaint` so the counters line up",
       "method": "color+depth control (MOSS) + layout boxes",
       "control": "depth (Depth Anything V2) + colour reference + bounding boxes",
       "expect": "expected to hold geometry: depth is an explicit control signal"

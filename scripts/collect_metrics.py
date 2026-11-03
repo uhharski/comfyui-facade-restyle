@@ -34,10 +34,16 @@ END = "<!-- MEASUREMENTS:END -->"
 HEADER_MD = """# Measurements (generated table at the bottom)
 
 How to read this file
-* the scale of these numbers was measured, not guessed. With this exact formula on the
-  aerial photos of this project: identical = 1.00, nudged 1 % sideways = 0.81, nudged 4 %
-  = 0.56, a different frame of the same flight = about 0.0. Those are the `probe` columns,
-  and they are recomputed for every run from the input map itself
+* the scale of these numbers was measured, not guessed — and there are TWO scales, do not mix
+  them up:
+  - **photos**, with this exact formula on the aerial photos of this project: identical = 1.00,
+    nudged 1 % sideways = 0.81, nudged 4 % = 0.56, a different frame of the same flight ≈ 0.0
+  - **depth maps**, which is what the rows below actually compare: they are far smoother, so
+    the same nudges cost much less — on this source photo the depth probe measures 0.99 at 1 %
+    and 0.95 at 4 %
+  the `probe` columns are recomputed for every run from the input map itself, which is why the
+  two scales do not invalidate each other: a row is read against its own probe, never against
+  the other scale
 * every row is ONE run whose depth maps were saved by the graph itself:
   `<prefix>_depth_in-*.png` (the real photo) and `<prefix>_depth_out-*.png` (the result)
 * the numbers are defined in `scripts/geometry_score.py` — one identical formula for all
@@ -52,8 +58,13 @@ How to read this file
 * `canvas of result` is read from the saved result image, not from the graph's widgets: a
   width/height widget in a saved workflow is frequently overridden by an incoming link, so
   the file that came out is the only trustworthy record of what was really generated
-* ⚠ means the two depth maps had different aspect ratios, so one was resampled to compare —
-  such a row is indicative only and is not comparable with the other methods
+* ⚠ in the verdict column has two meanings, both spelled out in `docs/metrics/measurements.json`
+  under `warning` / `pair_note`: either the two depth maps had different aspect ratios (the row
+  is indicative only, not comparable with the other methods), or the result image had to be
+  matched to the depth pair **by save time instead of by counter**, because that graph saves its
+  result under a prefix other than its measurement prefix. The second is a naming bug, listed
+  per graph in `workflows/manifest.json` (`result_prefix_note`); fix it there or in the graph's
+  SaveImage node and the flag goes away
 * time comes from the graph's own timer node (`LCTimer` keeps its history inside the
   workflow file); free VRAM is what ComfyUI reported it could see at collection time
 * what each method conditions on is described in `workflows/index.md`
@@ -100,7 +111,8 @@ def gather(pairs_to_keep: int) -> dict:
         prov = lib.provenance(entry)
         settings = settings_summary(prov)
         timers = [r for t in prov["timers"] for r in t["runs"]]
-        found = lib.find_measurement_pairs(manifest, entry["prefix"])
+        found = lib.find_measurement_pairs(manifest, entry["prefix"],
+                                           entry.get("result_prefix"))
         if not found:
             out["runs"].append({"id": entry["id"], "status": "no depth_in/depth_out pair found",
                                 "searched_prefix": entry["prefix"], "settings": settings,
@@ -112,6 +124,7 @@ def gather(pairs_to_keep: int) -> dict:
             canvas = image_size(pair["result"]) if "result" in pair else None
             out["runs"].append({
                 "id": entry["id"], "status": "scored", "pair": pair["key"], "files": files,
+                "pair_note": pair.get("note", ""),
                 "canvas_of_result": canvas,
                 "captured_at": dt.datetime.fromtimestamp(pair["mtime"]).isoformat(timespec="seconds"),
                 "scores": scores, "verdict": geometry_score.verdict(scores),
@@ -135,8 +148,10 @@ def render_rows(data: dict) -> list[str]:
         free = data["machine"].get("vram_free_mib")
         free_txt = f"{free} MiB" if free is not None else "server not running"
         canvas = "×".join(str(v) for v in run["canvas_of_result"]) if run.get("canvas_of_result") \
-            else "result image not found"
+            else "result image not matched"
         flag = " ⚠ different aspect" if s.get("aspect_mismatch") else ""
+        if run.get("pair_note"):
+            flag += " ⚠ result matched by save time, not counter"
         lines.append(
             f"| `{run['id']}` | `{run['pair']}` | {canvas} | **{s['pearson_r']}** | "
             f"{s['probe_1pct_r']} | {s['probe_4pct_r']} | {s['grad_r']} | "

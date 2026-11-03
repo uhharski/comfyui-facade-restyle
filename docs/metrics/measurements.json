@@ -1,9 +1,7 @@
 {
- "collected_at": "2026-11-03T21:01:06",
+ "collected_at": "2026-11-03T22:33:55",
  "machine": {
-  "vram_total_mib": 12199,
-  "vram_free_mib": 8231,
-  "comfyui_version": "0.43.2"
+  "error": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
  },
  "conditions": {
   "gpu": "RTX 5070 12 GB",
@@ -42,8 +40,46 @@
   },
   {
    "id": "moss_inpaint",
-   "status": "no depth_in/depth_out pair found",
-   "searched_prefix": "moss_inpaint",
+   "status": "scored",
+   "pair": "00001",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_in_00001_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\moss_inpaint_depth_out_00001_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-03_00012_.png"
+   },
+   "pair_note": "result image matched by save time (within 0 s), not by counter: this graph saves its result under a different prefix, so counters do not line up — treat the canvas column as indicative until the graph's result SaveImage node is renamed to the graph id",
+   "canvas_of_result": [
+    2052,
+    576
+   ],
+   "captured_at": "2026-11-03T22:03:35",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1820,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1820,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9947,
+    "probe_1pct_r": 0.9894,
+    "probe_4pct_r": 0.946,
+    "grad_r": 0.6008,
+    "mad": 0.0207,
+    "bad_frac_gt_0.15": 0.0038,
+    "tile_r_p10": 0.9252,
+    "tile_r_median": 0.9821,
+    "tiles_used": 46,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 2
+   },
+   "verdict": "global geometry held",
    "settings": {
     "vae": "flux2-vae_small.safetensors",
     "steps": 25,
@@ -70,8 +106,46 @@
   },
   {
    "id": "qwen_inpaint",
-   "status": "no depth_in/depth_out pair found",
-   "searched_prefix": "qwen_inpaint",
+   "status": "scored",
+   "pair": "00001",
+   "files": {
+    "depth_in": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_in_00001_.png",
+    "depth_out": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen_inpaint_depth_out_00001_.png",
+    "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00040.png"
+   },
+   "pair_note": "result image matched by save time (within 0 s), not by counter: this graph saves its result under a different prefix, so counters do not line up — treat the canvas column as indicative until the graph's result SaveImage node is renamed to the graph id",
+   "canvas_of_result": [
+    1049,
+    590
+   ],
+   "captured_at": "2026-11-03T22:08:07",
+   "scores": {
+    "size": [
+     512,
+     288
+    ],
+    "depth_in_raw_size": [
+     1821,
+     1024
+    ],
+    "depth_out_raw_size": [
+     1821,
+     1024
+    ],
+    "aspect_mismatch": false,
+    "pearson_r": 0.9993,
+    "probe_1pct_r": 0.9895,
+    "probe_4pct_r": 0.9461,
+    "grad_r": 0.9788,
+    "mad": 0.0089,
+    "bad_frac_gt_0.15": 0.0001,
+    "tile_r_p10": 0.9892,
+    "tile_r_median": 0.999,
+    "tiles_used": 48,
+    "tiles_flat_in_input": 0,
+    "tiles_flat_in_result": 0
+   },
+   "verdict": "global geometry held",
    "settings": {
     "input image": "DJI_0021.JPG",
     "megapixels": 0.59,

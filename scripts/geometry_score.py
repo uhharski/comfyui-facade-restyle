@@ -32,8 +32,11 @@ The verdict separates the two things a material swap affects differently:
 
 Calibration measured with this exact formula on the aerial photos of this project:
 identical = 1.00, nudged 1 % = 0.81, nudged 4 % = 0.56, a different frame of the same
-flight = about 0.0. Depth maps are smoother than photos, so their probes will sit higher —
-which is exactly why the probes are recomputed for every run instead of hard-coded.
+flight = about 0.0. Those are PHOTO numbers. The rows of the comparison table compare DEPTH
+maps, which are much smoother, so their probes sit far higher (measured on this source photo:
+0.99 at 1 %, 0.95 at 4 %) — the two scales must not be read against each other. This is
+exactly why the probes are recomputed for every run instead of hard-coded: each row is judged
+by the probe of its own input map.
 """
 from __future__ import annotations
 

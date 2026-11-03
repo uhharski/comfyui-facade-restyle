@@ -11,7 +11,7 @@
     "source_photo": "DJI_0021.JPG",
     "seed": 20261103,
     "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
-    "canvas_note": "NOT unified today, and this is a real difference in cost: the Krea2 graph resizes to 1024x576 before latent, the MOSS graph has an aspect node set to custom 1024x1024, the Qwen graph works on a ~0.59 megapixel crop chosen around the touched mask (about 1024x576). Each measurement row states the real size of the saved result image. Unifying would mean editing the MOSS graph's aspect node (custom height 576) — a decision, not an automatic fix"
+    "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 2052x576 (its aspect node is set to custom 1024x1024, but an incoming link overrides it — a widget value is not what ran), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent and has no measured run yet. Each row states the real size of the saved result image; unifying the canvases would mean editing the graphs, and that is a decision to make after the first complete comparison, not an automatic fix"
   },
   "workflows": [
     {
@@ -26,6 +26,8 @@
       "id": "moss_inpaint",
       "file": "moss_inpaint.json",
       "prefix": "moss_inpaint",
+      "result_prefix": "Test",
+      "result_prefix_note": "the measurement nodes save as moss_inpaint_depth_*, but the graph's own result nodes save under a date-typed prefix into a subfolder (`MOSS Box Edit/Test_2026-11-03_NNNNN_.png`). Counters restart per prefix, so the result image can only be matched to a depth pair by save time — the row is flagged. Fix in the graph: set those SaveImage nodes' prefix to `moss_inpaint`",
       "method": "color+depth control (MOSS) + layout boxes",
       "control": "depth (Depth Anything V2) + colour reference + bounding boxes",
       "expect": "expected to hold geometry: depth is an explicit control signal"
@@ -34,6 +36,8 @@
       "id": "qwen_inpaint",
       "file": "qwenImage_inpaint.json",
       "prefix": "qwen_inpaint",
+      "result_prefix": "qwen21_inpaint",
+      "result_prefix_note": "the graph's result node saves as qwen21_inpaint_NNNN.png while the measurement nodes save as qwen_inpaint_depth_*; the id of this entry is qwen_inpaint. Two names for one graph is a documentation bug — either rename the result node's prefix to qwen_inpaint or change this entry; until then the result image is matched by save time and the row is flagged",
       "method": "local inpaint by touched mask, result stitched back into the original pixels",
       "control": "manual mask",
       "expect": "geometry is preserved by construction outside the mask; only the masked region changes"

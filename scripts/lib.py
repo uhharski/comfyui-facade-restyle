@@ -27,7 +27,11 @@ OBJECT_INFO_CACHE = ROOT / ".object_info.json"
 MODEL_FILE_RE = re.compile(r"\.(safetensors|pth|ckpt|pt|onnx|gguf|safetensors\.\d+)$", re.I)
 SEED_MODES = {"fixed", "increment", "decrement", "randomize", "randomize until change",
               "fixed (keep)", "auto", "manual", "off"}
-COUNTER_RE = re.compile(r"-(\d{4,6})\.png$")
+# ComfyUI has used two counter forms over the versions on this machine: the old
+# "prefix-00001.png" and the current "prefix_00001_.png" (note the trailing underscore).
+# Both must group into the same pair key, otherwise depth_in and depth_out of one run look
+# like two different runs and no measurement is scored at all.
+COUNTER_RE = re.compile(r"[-_](\d{4,6})_?\.png$")
 
 # spec input name -> what to call it in the tables (labels only; values come from the graph)
 FIELD_LABELS = {
@@ -285,34 +289,77 @@ def output_dir(manifest: dict) -> Path:
     return Path(manifest["comfyui"]["output_dir"])
 
 
-def find_measurement_pairs(manifest: dict, prefix: str) -> list[dict]:
+RESULT_TIME_WINDOW_S = 1800     # how far apart the save times of one run may be
+
+
+def find_measurement_pairs(manifest: dict, prefix: str, result_prefix: str | None = None,
+                          ) -> list[dict]:
     """Pair what one run saved: the two depth maps (by SaveImage counter suffix) plus the
-    result image itself, whose real pixel size is the only trustworthy record of the canvas."""
+    result image itself, whose real pixel size is the only trustworthy record of the canvas.
+
+    result_prefix — the prefix the result SaveImage node really uses. It is a separate widget
+    in the graph and in two of our graphs it drifted from the measurement prefix (the Qwen
+    graph saves results as `qwen21_inpaint_*`, the MOSS graph as the default `ComfyUI_*`).
+    Counters restart per prefix, so a matching counter across two different prefixes is not a
+    proof of being the same run; the fallback match is therefore made by save time (inside
+    RESULT_TIME_WINDOW_S) and is labelled in the returned note, never presented as certain.
+    """
     root = output_dir(manifest)
     if not root.exists():
         return []
+    if isinstance(result_prefix, str):
+        result_prefixes = [result_prefix]
+    elif result_prefix:
+        result_prefixes = list(result_prefix)
+    else:
+        result_prefixes = [prefix]
     by_key: dict[str, dict] = {}
+    results: list[Path] = []
 
-    def add(kind: str, path: Path, key: str):
-        by_key.setdefault(key, {})[kind] = path
-
-    for path in glob.glob(str(root / "**" / "*.png"), recursive=True):
+    for path in sorted(glob.glob(str(root / "**" / "*.png"), recursive=True)):
         p = Path(path)
         name = p.name
-        if not name.startswith(prefix):
+        kind = ("depth_in" if f"{prefix}_depth_in" in name or f"{prefix}-depth_in" in name else
+                "depth_out" if f"{prefix}_depth_out" in name or f"{prefix}-depth_out" in name
+                else None)
+        if kind:
+            m = COUNTER_RE.search(name)
+            key = m.group(1) if m else p.stem
+            by_key.setdefault(key, {})[kind] = p
             continue
-        m = COUNTER_RE.search(name)
-        key = m.group(1) if m else p.stem
-        if name.startswith(f"{prefix}_depth_in"):
-            add("depth_in", p, key)
-        elif name.startswith(f"{prefix}_depth_out"):
-            add("depth_out", p, key)
-        elif name.startswith(f"{prefix}-") or name.startswith(f"{prefix}_"):
-            add("result", p, key)
+        if any(name.startswith(f"{rp}-") or name.startswith(f"{rp}_")
+               for rp in result_prefixes):
+            if COUNTER_RE.search(name):
+                results.append(p)        # a real run counter, matched below by time
 
     ready = []
     for key, found in by_key.items():
-        if "depth_in" in found and "depth_out" in found:
-            ready.append({"key": key, **found,
-                          "mtime": max(v.stat().st_mtime for v in found.values())})
+        if "depth_in" not in found or "depth_out" not in found:
+            continue                     # an interrupted run: not a measurement
+        pair_time = max(v.stat().st_mtime for v in found.values())
+        notes: list[str] = []
+
+        same_key = [p for p in results if COUNTER_RE.search(p.name).group(1) == key
+                    and (p.name.startswith(f"{prefix}_") or p.name.startswith(f"{prefix}-"))]
+        if same_key:
+            found["result"] = same_key[0]
+        else:
+            near = [p for p in results
+                    if abs(p.stat().st_mtime - pair_time) <= RESULT_TIME_WINDOW_S]
+            near.sort(key=lambda p: abs(p.stat().st_mtime - pair_time))
+            if near:
+                found["result"] = near[0]
+                notes.append(
+                    "result image matched by save time (within "
+                    f"{int(abs(near[0].stat().st_mtime - pair_time))} s), not by counter: this "
+                    "graph saves its result under a different prefix, so counters do not line "
+                    "up — treat the canvas column as indicative until the graph's result "
+                    "SaveImage node is renamed to the graph id")
+            else:
+                notes.append(
+                    "no result image found for this run — the graph's result SaveImage uses a "
+                    "different prefix (fix: set it to the graph id, or list it as "
+                    "result_prefix in workflows/manifest.json)")
+        ready.append({"key": key, **found, "note": "; ".join(notes),
+                      "mtime": pair_time})
     return sorted(ready, key=lambda x: x["mtime"], reverse=True)

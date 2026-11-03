@@ -6,6 +6,87 @@ a new agent session only needs to read both.
 
 ---
 
+## 2026-11-03 (late) — measurement scripts fixed, first two rows of the table are real
+
+⚠ The previous work session (03.11, 19:00–22:10) was **never written here** — the state below
+was reconstructed from git + files. Written now so a new session does not have to redo it.
+
+### What the 03.11 (19:00–22:10) session did (reconstructed)
+- Replaced the A/B/C plan with **three real comparison graphs, all on one input photo**
+  (`source/photos/DJI_0021.JPG`, aerial, no GPS): `workflows/krea2_edit.json` (edit only, no
+  control signal), `workflows/moss_inpaint.json` (MOSS color+depth control + layout boxes),
+  `workflows/qwenImage_inpaint.json` (mask inpaint + stitch back). The A/B/C letters are now a
+  writing decision, not a file-structure one (see the `_note` in `workflows/manifest.json`).
+- `workflows/manifest.json` became the single source of truth for the scripts (ids, prefixes,
+  conditions, seed 20261103 fixed in all three graphs).
+- All three graphs were instrumented identically (`workflows/_tools/`): `LCTimer` node, two
+  `DepthAnythingV2Preprocessor` + SaveImage nodes (`<prefix>_depth_in/_out`) — originals kept
+  in `_orig/`, the pre-unification state in `_pre-unify/`, and the log in `_tools/unify_report.txt`.
+- Wrote the measurement toolchain: `scripts/lib.py` (asks a running ComfyUI `/object_info`
+  which widgets are real, so a value overridden by a link is not reported as the setting),
+  `geometry_score.py` (pearson_r + self-nudged probes + gradient + 8×6 tile grid + flat-tile
+  counter), `collect_metrics.py`, `make_index.py`, `trace_size.py`, `photos.py`,
+  `import_api_from_history.py` (pulls the API graph of a run out of ComfyUI history instead of
+  hand-exporting), `run_workflow.py` (headless run + wall time + peak GPU memory).
+- `docs/metrics.md` created with the reading instructions; `workflows/index.md` generated.
+- Queued runs in the UI at 22:02–22:09: depth pairs exist for **moss_inpaint and qwen_inpaint**,
+  none for **krea2_edit**.
+
+### What this session did
+- Ran `collect_metrics.py`: it scored **nothing** although the pairs were on disk. Two real bugs:
+  1. `lib.COUNTER_RE` only knew the old `prefix-00001.png` counter form, while this ComfyUI
+     (0.43.2) writes `prefix_00001_.png` (trailing underscore). depth_in and depth_out of one
+     run got different pair keys → no pair ever formed. Fixed: the regex accepts both forms.
+  2. The result image is saved by the graphs under **different prefixes** than the measurement
+     nodes: the Qwen graph → `qwen21_inpaint_*`, the MOSS graph → a date prefix inside a
+     subfolder (`MOSS Box Edit/Test_2026-11-03_NNNNN_.png`). So the canvas column stayed empty.
+     `find_measurement_pairs()` now takes an explicit `result_prefix` (in the manifest, with a
+     `result_prefix_note` per graph) and falls back to matching by save time (±30 min) because
+     **counters restart per prefix** — such a row is flagged `⚠ result matched by save time`,
+     never presented as certain.
+- Filled the table (2 of 3 methods scored, first honest numbers):
+  - `moss_inpaint` 2052×576: r **0.9947** vs its own 1 % probe 0.9894 → geometry held, but
+    **edges r only 0.60** and **+2 flat tiles** — the fine structure (window/roof lines) was
+    repainted, some areas became texture blobs. Local change tiny (0.4 % of pixels), so this is
+    a warning about the method, not a success.
+  - `qwen_inpaint` 1049×590: r **0.9993**, edges **0.9788**, local change 0.01 % — geometry is
+    preserved **by construction** (stitch outside the mask), so the interesting question for
+    this method is only the quality inside the mask, which these numbers do not measure.
+  - Both probes (0.9894 / 0.946) are far above the photo calibration quoted in the header
+    (0.81 / 0.56). Not a contradiction: those were **photo** probes, depth maps are smoother.
+    The text in `docs/metrics.md`, `collect_metrics.py` and `geometry_score.py` now states the
+    two scales separately and quotes the measured depth-map probes, so a reader cannot mix them.
+- Corrected `manifest.json → canvas_note` from the real saved canvases: the MOSS graph generated
+  **2052×576**, not the 1024×1024 written in its aspect node — an incoming link overrides it.
+  Exactly the case the /object_info logic exists for; the note now says so.
+- Regenerated `workflows/index.md`, re-ran `collect_metrics.py` (idempotent, table only).
+
+### Problems found, not yet fixed
+- `krea2_edit` still has **no depth pair** → no third row. Its API graph *is* in
+  `workflows/_api/krea2_edit.api.json` (imported from history, includes the instrumentation
+  nodes), so `python scripts/run_workflow.py krea2_edit` is enough — ComfyUI has to be running.
+- **`LCTimer` recorded nothing** in any of the three graphs (`lc_runs` empty), so the
+  `graph timer (s)` column is “—” even though runs happened. `run_workflow.py` measures wall
+  time + peak GPU memory itself into `docs/metrics/run_*.json`, but **`collect_metrics.py` does
+  not read those files yet** — that merge is the missing link for the time/VRAM columns.
+- Naming bugs to fix in the graphs (or keep the manifest workarounds): result SaveImage prefix
+  should equal the graph id (`qwen21_inpaint` → `qwen_inpaint`, MOSS result nodes → `moss_inpaint`).
+- `index.md` still prints “parameter names unavailable” for the MOSS graph's Set/Get/Note nodes:
+  those types are not in the cached `.object_info.json`. Harmless for numbers (values are
+  positional there), but it should be stated rather than look like a script failure.
+
+### Next step
+1. Start ComfyUI, run `python scripts/run_workflow.py krea2_edit` → get the third depth pair and
+   the first real wall-time/VRAM record, then `collect_metrics.py`.
+2. Teach `collect_metrics.py` to pick up `docs/metrics/run_*.json` (time + peak VRAM per row)
+   instead of relying on the empty `LCTimer` history.
+3. Decide the canvas question: with 2052×576 vs 1049×590 vs (1024×576) the cost comparison is
+   unfair; unify the canvases in the graphs or state cost per megapixel in the table.
+4. Only after three rows exist: start writing the README arc and the A/B/C conclusions.
+5. Keep the rule: write here before closing a session (this entry is one session late).
+
+---
+
 ## 2026-10-25 (evening) — hardware measured, Workflow A unblocked
 
 **Done**

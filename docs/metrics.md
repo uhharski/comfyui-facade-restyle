@@ -132,8 +132,8 @@ façade materials and the result visibly re-finishes the whole façade, while th
 in that graph's `MaskByTouch` node are three points named *car*, *chair*, *table* in the lower half of the
 frame — which cannot explain that edit, so they are most likely leftover demo state from an earlier picture
 of the same size. Either way **the mask itself was never written to a file**, so what that run actually
-repainted is recorded nowhere. This is the weakest of the four rows, and saving that mask (NEXT.md A.3) is
-what would make it measurable in the first place.
+repainted is recorded nowhere. This is the weakest of the four rows, and saving that mask (README.md § 5,
+item 3) is what would make it measurable in the first place.
 
 **Cross-checks that calibrate the scale** (`metrics/appearance/control_*.json`, same code, same region):
 

@@ -168,6 +168,12 @@ output. Not a ranking yet; § 3 of `docs/metrics.md` says exactly what would be 
    prompt words", and its negative result would be just as publishable.
 6. Then the video/VR branch (UE5 turntable → image-to-video) and a small demo.
 
+**And before this is published** (decisions, not engineering): rename the folder and make it the repo —
+nothing in the repo depends on the directory name, but the rename has to happen while no shell has it as
+its working directory; re-read the anonymisation note in `source/3d-datasmith/README.md` and the Krea 2
+Community License line in § 8; cut a one-page version of this file for the application itself (the
+question, `docs/gallery/compare.jpg`, the finding about the blind metric, the two summary tables).
+
 ## 6. The 3D part
 
 `source/3d-datasmith/` holds the house as a **Datasmith export from ArchiCAD 29** (184 static meshes,

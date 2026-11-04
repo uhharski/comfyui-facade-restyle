@@ -107,11 +107,11 @@ were asked in words — there is **no depth signal and no mask** in this graph, 
 measured row: it is the first output of the next-steps item 6 (the video branch), not part of the A/B/C
 comparison.
 
-Two honest caveats, recorded in [`docs/gallery/MANIFEST.md`](docs/gallery/MANIFEST.md) rather than
-hidden: the prompt text aligns the two pictures at 0.00 s and 15.08 s of "the target video" while the
-duration widget said 5 s — the saved file is 5.17 s; and the ComfyUI folder carries the names
-`qwen21_inpaint_00014/00015.png` twice by date (02.11 and 04.11) with identical bytes, so the frames'
-provenance is pinned by the byte-identical repo copies above, not by their filenames.
+Two provenance wrinkles about this run are recorded in
+[`docs/gallery/MANIFEST.md`](docs/gallery/MANIFEST.md): the as-run prompt text predates the duration fix
+(the corrected graph is in the repo, the as-run one in git history at 54045d5), and the two frames'
+names exist twice in the ComfyUI folder with identical bytes - their provenance is pinned by the
+byte-identical repo copies above, not by names.
 
 Every image above is the actual file a run wrote. Where it came from — original filename, timestamp,
 native size, seed, steps/cfg, and the prompt that was asked — is in

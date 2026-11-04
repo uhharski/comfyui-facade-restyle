@@ -138,7 +138,10 @@ house of the same flight has to move the numbers or the region measures nothing)
 5. **The region is the weak point of metric 2.** Today it is the MOSS graph's leftover demo box: 59% of
    the frame, sky and lawn and a neighbour's roof included. Until a hand-drawn façade polygon replaces
    it, a global light change moves these numbers as much as a new façade does. So the finish numbers are
-   comparative, not a certificate.
+   comparative, not a certificate. The same weakness one level down: for the Qwen row the mask that was
+   edited **was never saved** (the graph still stores three demo touches named *car*, *chair*, *table*, which
+   cannot explain an edit of the whole façade, so they are stale state). All four appearance rows' images are
+   in `docs/gallery/` so a reader can look for themselves.
 6. **A widget is not what ran.** The MOSS graph's own size widgets say 1024×1024 while it generated
    1024×576, because with `resolution_source` off and an image linked into `AspectRatioSimplifier` the
    node takes the image's aspect and ignores `custom_width/custom_height`. The saved file's size is the
@@ -180,7 +183,8 @@ photo-first comparison that could actually be measured, and that decision is rec
 ```
 README.md                    this file: the question, the three methods, the results, what they mean
 docs/metrics.md              both metrics: definitions, the rows, the controls, what they cannot see
-docs/metrics/                raw machine-readable data (measurements.json, appearance/*.json, run_*.json)
+docs/metrics/                raw machine-readable data (measurements.json, appearance/*.json, run_*.json);
+                             appearance/inputs/ keeps the one control input that lived outside the repo
 docs/gallery/                the images + MANIFEST.md (file provenance) + prompts.json + compare.jpg
 workflows/                   the three graphs (UI format) + _api/ (API format) + manifest.json (conditions)
 source/photos/               the input photos (full-frame ones stay out of git; the repo has 2048px copies)

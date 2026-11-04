@@ -30,6 +30,7 @@ the ComfyUI canvas. `MANIFEST.json` is the machine-readable form of this table.
 | `qwen_inpaint/style_charred-plus-timber.jpg` | `qwen21_inpaint_00015.png` | 2026-11-02 12:31 | 4032x2268 | 551516032584579 | None / 1.0 | charred wood with warm timber accent slats around the entrance and window cutouts | style variant, same graph |
 | `qwen_inpaint/style_micro-cement-panels.jpg` | `qwen21_inpaint_00026.png` | 2026-11-02 12:46 | 4032x2268 | 21312943037179 | None / 1.0 | ultra-light grey vertical micro-cement panels front/rear, dark anthracite gable ends, dark metal frames | style variant, same graph |
 | `qwen_inpaint/style_offwhite-composite.jpg` | `qwen21_inpaint_00029.png` | 2026-11-02 12:49 | 4032x2268 | 403732651075716 | None / 1.0 | off-white vertical composite panels on the main volume, dark anthracite aluminium slats on the side wing | style variant, same graph |
+| `qwen_inpaint/appearance_row_00039.jpg` | `qwen21_inpaint_00039.png` | 2026-11-03 17:50 | 4032x2268 | 191308024412646 | 25 / 1.0 | a long material list: pale ash-grey facing brick with warm beige tones, smooth painted fibre-cement render with charcoal graphite walls, vertical larch slat cladding - all asked as one prompt, and 'keep everything else exactly the same' appended by the graph | the image the appearance-metric row method_qwen_full_00039.json was computed on. It is a full-frame 4032x2268 output of the same graph (this variant does not crop to the mask), which is exactly why it is the only Qwen row metric 2 could score against the source frame. What was masked is recorded NOWHERE: the mask was never written to a file, and the touches still stored in the node are three points named 'car', 'chair', 'table' - they cannot explain an edit that covers the whole facade, so they are most likely leftover demo state from an earlier picture of the same size. Weakest of the four appearance rows; NEXT.md A.3 (save the mask) is what would close it. |
 
 ## Depth pairs (PNG at native size - these two images are what the geometry metric compared)
 
@@ -43,5 +44,20 @@ the ComfyUI canvas. `MANIFEST.json` is the machine-readable form of this table.
 | `depth/qwen_pair00003_depth_out.png` | `qwen_inpaint_depth_out_00003_.png` |
 
 Not in the gallery on purpose: the 2052x576 files in `MOSS Box Edit/` are the node's own
-source+result side-by-side stitches, not canvases that were generated; and the 4032x2268 Qwen
-files were reduced, so their exact bytes are only in the ComfyUI folder.
+source+result side-by-side stitches, not canvases that were generated. The 4032x2268 Qwen
+outputs are reduced to 1600 px here, so their exact bytes exist only in the ComfyUI folder.
+
+## Which gallery image each appearance row was measured on
+
+The rows of `docs/metrics/appearance/` are numbers about specific files. Those files are here:
+
+| appearance record | the file it measured | gallery copy |
+|---|---|---|
+| `method_krea2_00111.json` | `krea2_edit_00111_.png` | `krea2_edit/pair00002.jpg` |
+| `method_moss_replay_00005.json` | `MOSS Box Edit/Test_2026-11-04_00005_.png` | `moss_inpaint/pair00002.jpg` (00001/00005/00009 are byte-identical files, so the gallery copy is that same image) |
+| `method_moss_not_a_replay_00007.json` | `MOSS Box Edit/Test_2026-11-04_00007_.png` | `moss_inpaint/not_a_replay.jpg` |
+| `method_qwen_full_00039.json` | `qwen21_inpaint_00039.png` | `qwen_inpaint/appearance_row_00039.jpg` |
+
+One control input is not in this folder, because it was never a ComfyUI output: the 'other house'
+control was measured against a file that lived in `AppData/Local/Temp` - its exact bytes are
+preserved in `docs/metrics/appearance/inputs/`.

@@ -218,5 +218,16 @@
   "cfg": 1.0,
   "asked_for": "off-white vertical composite panels on the main volume, dark anthracite aluminium slats on the side wing",
   "note": "style variant, same graph"
+ },
+ {
+  "gallery": "qwen_inpaint/appearance_row_00039.jpg",
+  "original_comfyui_file": "qwen21_inpaint_00039.png",
+  "captured": "2026-11-03 17:50",
+  "native_size": "4032x2268",
+  "seed": 191308024412646,
+  "steps": 25,
+  "cfg": 1.0,
+  "asked_for": "a long material list: pale ash-grey facing brick with warm beige tones, smooth painted fibre-cement render with charcoal graphite walls, vertical larch slat cladding - all asked as one prompt, and 'keep everything else exactly the same' appended by the graph",
+  "note": "the image the appearance-metric row method_qwen_full_00039.json was computed on. It is a full-frame 4032x2268 output of the same graph (this variant does not crop to the mask), which is exactly why it is the only Qwen row metric 2 could score against the source frame. What was masked is recorded NOWHERE: the mask was never written to a file, and the touches still stored in the node are three points named 'car', 'chair', 'table' - they cannot explain an edit that covers the whole facade, so they are most likely leftover demo state from an earlier picture of the same size. Weakest of the four appearance rows; NEXT.md A.3 (save the mask) is what would close it."
  }
 ]

@@ -11,10 +11,15 @@ measured, how to read every number, and what the two metrics cannot see.
 * GPU: RTX 5070 12 GB, ComfyUI 0.43.2. The agent backend *can* hold a model on the same card; each
   run record stores the free VRAM `/system_stats` reported just before that run, so nothing is assumed.
 * machine-readable data: `metrics/measurements.json` (geometry rows), `metrics/appearance/*.json`
-  (finish rows, one file per row, with the row's own probes inside), `metrics/run_*.json`
-  (time + VRAM, one file per headless run). This page is the human-readable view of those files.
+  (finish rows: **one file per measured pair**, each carrying its own region, grid, probes and noise
+  floor), `metrics/run_*.json` (time + VRAM, one file per headless run). This page is a *view* of those
+  files: every number below is copied from a record, and a record is what makes a number checkable.
+  The paths inside the records are **absolute and local to this machine** (repo files and this PC's
+  ComfyUI output folder); the one control input that lived in neither place is preserved with its own
+  note in `metrics/appearance/inputs/`.
 * the images these numbers were computed on are in `docs/gallery/`, mapped back to the exact files
-  the graphs wrote in `docs/gallery/MANIFEST.md`.
+  the graphs wrote in `docs/gallery/MANIFEST.md`, including a table of which gallery copy belongs to
+  which appearance row.
 
 ---
 
@@ -114,6 +119,21 @@ Which run-to-run floor was used, and it is itself a result:
   the crop's position, so no scale relates that crop to the reference frame. The row above is a
   full-frame output of the graph version before the instrumentation pass; the crop rows cannot be
   measured until either the crop is declared or the graph is made to save the stitched full frame.
+
+**The image behind each of these four records is in the gallery** — `krea2_edit_00111_.png` =
+`docs/gallery/krea2_edit/pair00002.jpg`; `Test_2026-11-04_00005_.png` is byte-identical to
+`_00001_.png` = `docs/gallery/moss_inpaint/pair00002.jpg`; `_00007_.png` =
+`docs/gallery/moss_inpaint/not_a_replay.jpg`; `qwen21_inpaint_00039.png` =
+`docs/gallery/qwen_inpaint/appearance_row_00039.jpg`. The mapping is repeated in
+`docs/gallery/MANIFEST.md`.
+
+One thing to say plainly about the Qwen row, since its image is now in the gallery: the prompt asks for
+façade materials and the result visibly re-finishes the whole façade, while the touched items still stored
+in that graph's `MaskByTouch` node are three points named *car*, *chair*, *table* in the lower half of the
+frame — which cannot explain that edit, so they are most likely leftover demo state from an earlier picture
+of the same size. Either way **the mask itself was never written to a file**, so what that run actually
+repainted is recorded nowhere. This is the weakest of the four rows, and saving that mask (NEXT.md A.3) is
+what would make it measurable in the first place.
 
 **Cross-checks that calibrate the scale** (`metrics/appearance/control_*.json`, same code, same region):
 

@@ -20,7 +20,9 @@ written; `PROGRESS.md` is the user's file.
    sibling files" problem (docs/metrics.md § 4.4).
 3. **Make C replayable headless.** Wire a `SaveImage` on `MaskByTouch`'s `MASK` output once in the UI,
    then replace the touch nodes with `LoadImage`+`LoadMask` in `_api/qwenImage_inpaint.api.json`. Removes
-   the only un-measurable cost row, and gives the crop the position record it lacks (see 4).
+   the only un-measurable cost row, gives the crop the position record it lacks (see 4), and records *what*
+   was masked — the measured Qwen appearance row currently cannot say (the touches stored in that graph are
+   named car/chair/table while its prompt talks about the façade; docs/metrics.md § 2).
 4. **Declare or remove the Qwen crop.** The current graph saves a 1049×590 crop and nothing stores where
    it came from, so those rows cannot be compared to the source frame. Either save the stitched full
    frame, or write the crop offsets next to the file.

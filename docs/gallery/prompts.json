@@ -100,5 +100,14 @@
    "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
   ],
   "negative": []
+ },
+ "qwen_inpaint/appearance_row_00039.jpg": {
+  "positive": [
+   "Crisp architectural photo of the house from the reference image, high-resolution source restoration, perfectly sharp lines, preserving the exact original building structure, exact wall proportions, window cutouts, and roofline shape,\nfacade finish, facing brick masonry cladding, pale ash-grey brick, warm light beige brick tones, running bond pattern, horizontal brick coursing, thin flush mortar joints, matte chalky brick texture, subtle surface imperfections, smooth painted fibre-cement render, charcoal graphite smooth walls, seamless flush joints, matte monolithic finish, vertical wood slat cladding, narrow vertical larch planks, warm natural wood tones, amber honey wood, smooth planed wood texture, visible wood grain, vertical rhythm, narrow shadow gaps, soft matte surfaces, no gloss, soft daylight, subtle joint shadows, architectural material study, high-resolution facade texture, PBR materials, physically accurate textures, photorealistic architectural visualization, detailed surface finish\nCompletely finished construction site photorealistic, 8k resolution, professional architectural photography, soft natural daylight, sharp focus.",
+   "graph-added sentence: 'Keep everything else exactly the same.'"
+  ],
+  "negative": [
+   "(none in this graph: the negative field is empty)"
+  ]
  }
 }

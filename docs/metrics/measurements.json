@@ -1,5 +1,5 @@
 {
- "collected_at": "2026-11-04T01:31:55",
+ "collected_at": "2026-11-04T11:55:44",
  "machine": {
   "error": "<urlopen error [WinError 10061] No connection could be made because the target machine actively refused it>"
  },
@@ -9,7 +9,7 @@
   "source_photo": "DJI_0021.JPG",
   "seed": 20261103,
   "seed_note": "fixed in all three graphs (the krea2 KSampler widget, the LCSeed node feeding the MOSS sampler, the Seed node of the Qwen graph); a stale seed number still stored in the MOSS sampler widget is overridden by its link",
-  "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576 (its aspect node shows custom 1024x1024, but an incoming link overrides that widget — a stored value is not what ran; the 2052x576 file in the same folder is the source+result stitch, not a canvas), the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask). The Krea2 graph resizes to 1024x576 before the latent. All three are now close to 1024x576, so the cost comparison is roughly fair — the remaining difference is the Qwen crop. Each row states the real size of the saved result image"
+  "canvas_note": "NOT unified today, and this is a real difference in cost. Measured from the saved result images on 03.11 (not from the graphs' widgets): the MOSS graph generated 1024x576, the Qwen graph generated 1049x590 (a ~0.59 megapixel crop chosen around the touched mask), the Krea2 graph resizes to 1024x576 before the latent. Why the MOSS widgets say 1024x1024 while it renders 1024x576, checked in the node code on 04.11: with resolution_source Off ('from the image/mask') and an image linked into AspectRatioSimplifier, the node uses the image's own aspect ratio and scales it so the longer side is max_resolution; custom_width/custom_height are ignored in that mode (ComfyUI_LC123_nodes/aspect_ratio.py, the resolution_source tooltip and the `has_source and not resolution_source` branch of run()). Setting a size deliberately needs resolution_source on. So the graphs that look mismatched on paper are in fact the same canvas, and the only real difference is the Qwen crop, which no size widget controls. The 2052x576 file in the MOSS folder is the source+result stitch, not a canvas. Each row states the real size of the saved result image"
  },
  "runs": [
   {

@@ -251,5 +251,16 @@
   "cfg": 1.0,
   "asked_for": "a single smooth hyper-stable drone glide along the western facade, starting exactly at the framing of Picture 1 (qwen21_inpaint_00015.png) and ending exactly at that of Picture 2 (qwen21_inpaint_00014.png), rigid geometry with no warping/morphing, plus drone ambience and a minimal cinematic soundtrack",
   "note": "the first video in the repo, made by workflows/MMH3.json (MiniMax H3 FL2V, first+last-frame-to-video); kept byte-exact at native size, not re-encoded. NOT a measured row: that graph has no depth/compare nodes. The prompt text aligns the frames at 0.00 s and 15.08 s while the duration widget is 5 s and the saved file is 5.17 s / 124 frames. Both input frames are preserved next to it: video/first_frame.jpg (byte-identical to the moved qwen_inpaint/style_charred-plus-timber.jpg, output qwen21_inpaint_00015.png) and video/last_frame.png (byte-identical to output qwen21_inpaint_00014.png). Name-collision note: the ComfyUI folder holds those two output names twice by date (02.11 12:2x and 04.11 12:32) with identical bytes - reused counter, exact bytes pinned by the repo copies. Sampler as saved: seed 4 fixed, 6 steps, cfg 1.0, res_multistep/simple."
+ },
+ {
+  "gallery": "video/video_03_preview.gif",
+  "original_comfyui_file": "derived, not a ComfyUI output: ffmpeg of video/video_03.mp4 (fps=12, scale=640:-2 lanczos, palettegen + paletteuse bayer dither)",
+  "captured": "2026-11-04 20:20",
+  "native_size": "640x360 @ 12 fps, GIF, no sound",
+  "seed": null,
+  "steps": null,
+  "cfg": null,
+  "asked_for": "-",
+  "note": "a derived preview for renderers that do not play MP4 inline, added on request; NOT a provenance file - the byte-exact MP4 is. Regenerable: the exact ffmpeg filter command is in docs/gallery/MANIFEST.md's video section / the git commit message."
  }
 ]

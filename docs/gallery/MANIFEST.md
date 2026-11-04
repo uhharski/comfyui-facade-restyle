@@ -41,7 +41,10 @@ the ComfyUI canvas. `MANIFEST.json` is the machine-readable form of this table.
 | `video/last_frame.png` | `qwen21_inpaint_00014.png`, byte-identical, 4032x2268 at native size | 2026-11-02 12:23 (file date, see the name-collision note below) | the **last frame** of the shot (LoadImage `qwen21_inpaint_00014.png`); its own embedded metadata says seed 139346433945169, euler/simple, cfg 1.0, prompt = black shou-sugi-ban charred siding + warm timber accents (the request between the 00013 and 00015 gallery rows, never catalogued). The README shows the resized display copy `video/last_frame_view.jpg` (1600 px, JPEG q92, same rule as the gallery images); the byte-pinned original stays as the PNG. |
 
 The file is the byte-exact ComfyUI output: 1024x576, 24 fps, 5.17 s, 124 frames, H.264 video + AAC
-stereo audio (the graph loads a separate audio VAE, so the video comes with sound). As saved, the graph
+stereo audio (the graph loads a separate audio VAE, so the video comes with sound). A derived preview -
+`video/video_03_preview.gif` (640 px, 12 fps, 9.4 MB, silent, ffmpeg palettegen/paletteuse) - exists for
+renderers that will not play an MP4 inline; it is a preview, not a provenance file, the MP4 is what
+matters. As saved, the graph
 ran seed 4 (fixed), 6 steps, cfg 1.0, `res_multistep`/`simple`; the duration widget says 5 s and a frame-
 count expression rounds it to 124 frames - while the prompt text itself aligns the two reference pictures
 at 0.00 s and 15.08 s of "the target video", so the prompt was written for a longer shot than what was

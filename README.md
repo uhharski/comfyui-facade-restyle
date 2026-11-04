@@ -96,7 +96,9 @@ frame-to-video model was asked to connect them with one smooth drone glide along
 <video src="docs/gallery/video/video_03.mp4" controls width="600"></video>
 
 <sub>The final video: <a href="docs/gallery/video/video_03.mp4">docs/gallery/video/video_03.mp4</a> —
-1024×576, 24 fps, 5.17 s, 124 frames, with sound (the graph has its own audio VAE).</sub>
+1024×576, 24 fps, 5.17 s, 124 frames, with sound (the graph has its own audio VAE). For renderers that
+will not play an MP4 inline: <a href="docs/gallery/video/video_03_preview.gif">video_03_preview.gif</a>
+(a derived 640 px / 12 fps preview, no sound — the MP4 stays the provenance file).</sub>
 
 What generated it: [`workflows/MMH3.json`](workflows/MMH3.json) — **MiniMax H3 FL2V**
 (first+last-frame-to-video, int8 pruned checkpoint, Qwen3-VL text encoder, video + audio VAEs) run in

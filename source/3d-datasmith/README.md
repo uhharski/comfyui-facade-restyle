@@ -15,7 +15,7 @@ Epic's interchange format for bringing architecture/BIM models into Unreal Engin
 | `v2_0_Assets/`      | Geometry (`.udsmesh`) and texture maps (`.tiff`), hashed filenames |
 
 Total size ≈ 41 MB, 184 meshes. Interiors are bare walls without furniture — intentional:
-bare geometry is the white-model input for the generative pipeline (see root `PROJECT.md` § 5.1).
+that is what a white-box input looks like.
 
 ## How to open / use
 
@@ -28,9 +28,13 @@ bare geometry is the white-model input for the generative pipeline (see root `PR
 
 ## Role in this project
 
-This scene is the ground-truth geometry: from it we render white-model views plus exact
-depth/lineart passes, which feed the Krea 2 Control pipeline (approach A in `PROJECT.md` § 3).
-The earlier VR walkthrough was also built from this model.
+This scene is the ground-truth geometry of the building. It is in this repo **as evidence of the 3D
+side of the work, not as an input to any measured run**: the comparison in the root README generates
+from a photograph, and none of the three graphs used it. The ArchiCAD→UE5 route (white-box views plus
+exact depth/lineart passes feeding a control pipeline) is the same problem approached from the model
+side, and the earlier VR walkthrough of this house was built from this export. That route was descoped
+on 04.11 — the reason is recorded in [`../../README.md`](../../README.md) § 6 and in the session log
+`../../PROGRESS.md`.
 
 **Privacy note (done 25.10):** the original export embedded the site address
 (“Pärtlemäe tee 6/9”), the city (Tallinn), the client company (Grandmodum OÜ), the design

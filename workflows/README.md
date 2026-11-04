@@ -1,79 +1,56 @@
-# Workflows (ComfyUI) — the reproducible part of the project
+# Workflows — the reproducible part
 
-This folder holds the **workflow definitions** that produced every generated image in this
-repo. A generated PNG without its workflow is not evidence; with the workflow + model list +
-metrics it is reproducible, which is exactly what the job requirements ask for
-("public work: ComfyUI workflows", "comparisons with conclusions" — see root `PROJECT.md` § 4).
+Three graphs, one input photo, one seed. Each graph is saved twice on purpose:
 
-## Layout
+| file | format | what it is for |
+|---|---|---|
+| `<id>.json` | ComfyUI UI format | the graph you open, look at and edit. Drag it onto the canvas |
+| `_api/<id>.api.json` | API format (`Save (API export)`) | the same graph posted to `POST /prompt` by a script. **Frozen**: it is the exact thing a headless run used |
+| `manifest.json` | — | machine-readable record of *what was set* in each graph: models, steps/cfg, seed, canvas size as executed, the region used by the appearance metric, and whether the graph can be replayed headless (`replay`) |
 
-```
-workflows/
-  README.md          this file
-  <id>_<short-name>.json     the workflow as used (see "Naming" below)
-  _api/                    API-format exports, used for headless / scripted runs
-  index.md                 table: id → what it does, which checkpoints/LoRAs, result, notes
-```
+Ids: `krea2_edit` (image-edit, no control) · `moss_inpaint` (depth+colour control, layout box) ·
+`qwenImage_inpaint` (inpaint mask, stitched back). The three ids match the rows in
+[`../docs/metrics.md`](../docs/metrics.md) and the `id` field of `../docs/metrics/measurements.json`.
 
-Put the `.json` files straight in this folder (flat list is fine at this project's scale);
-`_api/` is created when we first run something headless.
+## What to check before running one
 
-## Naming
+1. `LoadImage` → `DJI_0021.JPG` (the input photo, in the ComfyUI `input/` folder; the repo copy of it
+   is `../source/photos/web/DJI_0021.jpg`).
+2. The seed node: `KSampler.seed` (A), `LCSeed.base_seed` (B), `AUSBOSS_NODES_Seed.seed` (C) — all
+   `20261103` in the saved graphs.
+3. **A widget is not what ran.** In these graphs several size/seed widgets are overridden by an incoming
+   link (the MOSS sampler's stored seed, and `AspectRatioSimplifier.custom_width/height` which the node
+   ignores when an image is linked in and `resolution_source` is off). `manifest.json` records the size
+   **as executed**, taken from the saved output files, not from the widgets.
+4. Graph C needs a browser: `MaskByTouch` keeps its clicked points as browser state, so a headless
+   replay fails with *"the picks were made on another picture"*. To replay it unattended, save its `MASK`
+   output and feed `LoadMask` instead. See `manifest.json → replay`.
 
-`<approach><number>_<what>_<variant>.json`
+## Every output image carries its graph
 
-```
-A01_depth_lora_smoketest.json          approach A = depth control (Krea2 Control LoRA)
-A02_depth_plaster_variant.json
-B01_plan_direct_edit.json              approach B = 2D plan straight into edit
-C01_furniture_mask_inpaint.json        approach C = furniture blockers + masks
-```
+The saved PNGs keep the full workflow in their file metadata (that is ComfyUI's default), so any output
+file can be dragged back onto the canvas and the graph comes with it. The prompts, seeds, steps and cfg
+of the 20 gallery images are extracted in [`../docs/gallery/prompts.json`](../docs/gallery/prompts.json);
+which file each gallery image came from is in
+[`../docs/gallery/MANIFEST.md`](../docs/gallery/MANIFEST.md).
 
-Approach letters match `PROJECT.md` § 3. The number is a real experiment index, not a
-vague "final_final" — every run that we quote in the comparison table must be traceable
-to one file here.
+## The measurement nodes inside the graphs
 
-## Two formats, why both
+Each graph contains, next to the sampler, the nodes that make the run measurable:
 
-| Format                | How to get it in ComfyUI                        | Use                                            |
-|-----------------------|-------------------------------------------------|------------------------------------------------|
-| UI format (default `Save`) | menu → *Save (export)*                      | the human-editable graph, for the README/review |
-| API format                | menu → *Save (API format)* → `_api/…json`  | headless run via `POST /prompt`, no web UI      |
+* `DepthAnythingV2Preprocessor` (`depth_anything_v2_vits.pth`, res 1024) on the **input** and on the
+  **result**, saved as `<prefix>_depth_in-*` / `<prefix>_depth_out-*` — these two images are what
+  metric 1 compares;
+* overlay/compare nodes (`LCBatchImageComparer`, `LCImageStitchMulti`, `LCImageAddAlphaText`), saved to
+  a separate prefix, so the plain result stays clean.
 
-The UI-format JSON embeds node sizes/links and is what a reviewer opens in ComfyUI.
-The API-format one is what my scripts re-run to re-measure VRAM and time, so the numbers
-in `docs/metrics.md` are not a one-off screenshot.
+The result node and the measurement nodes are separate `SaveImage` nodes with independent counters, and
+two graphs save the result under a different prefix than the measurement nodes — which is why rows are
+matched by save time + aspect ratio, and why `manifest.json` can pin a file with `result_pick`.
 
-Also useful: ComfyUI PNG output keeps the workflow inside the PNG metadata, so a gallery
-image can be dragged back onto the canvas to recover its graph. Still commit the JSON —
-metadata disappears on resizing/re-encoding.
+## Removed from this folder
 
-## Per-workflow metadata to record
-
-For every workflow, add a short block at the top of `index.md` (or a `<id>.md` if it grows):
-
-```
-id:        A01
-goal:      prove the depth Control LoRA actually patches a fp8 mix
-checkpoint: models/diffusion_models/Krea 2/pornmasterKrea2_turboV1FP8.safetensors
-control lora: models/loras/Krea2/krea2_depth_control_lora.safetensors
-text enc:  Gemma (…)
-VAE:       Qwen (…)
-control:   Depth Anything preprocessor (grayscale / per_image_minmax / invert=false)
-size:      1024x…   steps: …   cfg/sigma: …   seed: …
-result:    works / patches but weak / fails (error text)
-peak VRAM: … MiB   time: … s/it, total … s
-verdict:   used / abandoned because …
-```
-
-The `verdict` line matters most for the README arc ("what I built → what broke → how I
-measured the fix"): a workflow that was abandoned is worth as much as one that worked.
-
-## Missing pieces to write down on purpose
-
-- **Machine-readable model provenance**: checkpoints are community fp8/INT8 mixes; note the
-  exact filename, not "Krea 2 fp8".
-- **Licenses**: the depth Control LoRA is under the **Krea 2 Community License** (not MIT) —
-  declared before publishing outputs.
-- **Seeds**: fixed seeds for anything shown in the before/after gallery, so a reviewer can
-  reproduce it.
+`index.md` (a generated table) is gone — the same information now lives in `manifest.json` (machine)
+and in the root README (human). The old `_orig/` and `_pre-unify/` snapshots and the `_tools/` graph
+mover are gone as well: git history has them (`git log -- workflows/`), and the working set is meant to
+be exactly the three graphs that produced the measured rows.

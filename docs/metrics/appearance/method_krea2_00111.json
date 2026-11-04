@@ -1,0 +1,80 @@
+{
+ "source": "J:\\Projects\\AI\\Test\\source\\photos\\web\\DJI_0021.jpg",
+ "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00111_.png",
+ "source_size": [
+  2048,
+  1152
+ ],
+ "result_size": [
+  1024,
+  576
+ ],
+ "work_grid": [
+  1024,
+  576
+ ],
+ "placement_note": "measured on a common grid of 1024x576: the reference was downsampled to the generator's own width, so nothing is resampled up and a difference in detail is a difference in the pictures, not in the file sizes",
+ "region": "rect:0.10790821369614417,0.051781612112339115,0.6530092312769444,0.9069201218383105",
+ "region_share_of_frame": 0.5932,
+ "region_status": "PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "pixels_measured": 349887,
+ "h_emd": 0.1721,
+ "s_emd": 0.06355,
+ "v_emd": 0.12678,
+ "colour_emd": 0.12081,
+ "hue_delta_deg": 128.5,
+ "mean_sat_delta": 0.0636,
+ "mean_val_delta": -0.1273,
+ "aligned": {
+  "h_emd": 0.17358,
+  "s_emd": 0.0643,
+  "v_emd": 0.12728,
+  "colour_emd": 0.12172,
+  "hue_delta_deg": 128.7,
+  "mean_sat_delta": 0.0643,
+  "mean_val_delta": -0.1278,
+  "pixels_measured": 349887
+ },
+ "colour_emd_aligned": 0.12172,
+ "shift_px": [
+  0,
+  -4
+ ],
+ "shift_pct_of_width": 0.0,
+ "shift_pct_of_height": 0.69,
+ "structure_corr_unshifted": 0.8245,
+ "structure_corr_at_shift": 0.8313,
+ "edge_corr_unshifted": 0.4631,
+ "edge_corr_at_shift": 0.3548,
+ "texture_energy_source": 0.04018,
+ "texture_energy_result": 0.03105,
+ "texture_ratio": 0.773,
+ "tile_ratio_p10": 0.54,
+ "tile_ratio_median": 0.746,
+ "tiles_measured": 30,
+ "tiles_flat_in_source": 0,
+ "probe": {
+  "probe_1pct_colour_emd": 0.0019,
+  "probe_1pct_structure_corr": 0.9043,
+  "probe_4pct_colour_emd": 0.00706,
+  "probe_4pct_structure_corr": 0.4807
+ },
+ "label": "method_krea2_00111",
+ "note": "Krea2, the run whose depth pair the geometry metric scored r=0.9991. --baseline is the other saved output of the same graph with the same prompt and the same seed 20261103: their distance from each other in this region is this method's own run-to-run floor (0.0045), and it is not zero, which is why the Krea2 rows of this project are described as not reproducible",
+ "workflow": "krea2_edit",
+ "workflow_title": "",
+ "noise_emd": 0.00445,
+ "noise_baseline": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\krea2_edit_00112_.png",
+ "noise_note": "the distance between two generations of the same graph, prompt and seed, measured between themselves in the same region: the floor any 'the finish changed' claim has to clear",
+ "noise_detail": {
+  "structure_corr_at_shift": 0.985,
+  "edge_corr_at_shift": 0.7549,
+  "h_emd": 0.00315,
+  "s_emd": 0.00303,
+  "v_emd": 0.00717,
+  "texture_ratio": 1.011,
+  "shift_pct_of_width": 0.0
+ },
+ "verdict": "work grid 1024x576: measured on a common grid of 1024x576: the reference was downsampled to the generator's own width, so nothing is resampled up and a difference in detail is a difference in the pictures, not in the file sizes; finish changed: colour EMD 0.12081 = 27.1x the floor of this row (views already in register; hue moved 128.5 deg, saturation +0.064, value -0.127); the same graph, prompt and seed twice differ by 0.00445 in this region, so the signal is 27.1x the method's own noise; the layout matches the reference (structure correlation 0.8313) while the edges do not (0.4631): the house stayed where it was and its surfaces changed — the difference the depth metric alone cannot make; gradient energy in the region is 0.773 of the reference. A material swap changes this legitimately, so the mean is a measure of change, not of quality. The number that means something on its own is the worst-decile tile ratio 0.54: no part of the region lost its structure wholesale; region: 59.3% of the frame — PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "measured_at": "2026-11-04T13:07:12"
+}

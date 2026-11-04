@@ -1,0 +1,66 @@
+{
+ "source": "J:\\Projects\\AI\\Test\\source\\photos\\web\\DJI_0021.jpg",
+ "result": "C:\\Users\\vikto\\AppData\\Local\\Temp\\shift1.jpg",
+ "source_size": [
+  2048,
+  1152
+ ],
+ "result_size": [
+  2048,
+  1152
+ ],
+ "work_grid": [
+  2048,
+  1152
+ ],
+ "placement_note": "measured on a common grid of 2048x1152: the reference was downsampled to the generator's own width, so nothing is resampled up and a difference in detail is a difference in the pictures, not in the file sizes",
+ "region": "rect:0.10790821369614417,0.051781612112339115,0.6530092312769444,0.9069201218383105",
+ "region_share_of_frame": 0.5926,
+ "region_status": "PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "pixels_measured": 1398210,
+ "h_emd": 0.00267,
+ "s_emd": 0.00157,
+ "v_emd": 0.00211,
+ "colour_emd": 0.00212,
+ "hue_delta_deg": 3.5,
+ "mean_sat_delta": -0.0006,
+ "mean_val_delta": 0.0021,
+ "aligned": {
+  "h_emd": 0.00045,
+  "s_emd": 0.00055,
+  "v_emd": 0.00061,
+  "colour_emd": 0.00054,
+  "hue_delta_deg": 0.0,
+  "mean_sat_delta": 0.0003,
+  "mean_val_delta": -0.0006,
+  "pixels_measured": 1398210
+ },
+ "colour_emd_aligned": 0.00054,
+ "shift_px": [
+  -24,
+  0
+ ],
+ "shift_pct_of_width": 1.17,
+ "shift_pct_of_height": 0.0,
+ "structure_corr_unshifted": 0.906,
+ "structure_corr_at_shift": 0.9955,
+ "edge_corr_unshifted": 0.2316,
+ "edge_corr_at_shift": 0.3476,
+ "texture_energy_source": 0.03165,
+ "texture_energy_result": 0.03214,
+ "texture_ratio": 1.015,
+ "tile_ratio_p10": 0.968,
+ "tile_ratio_median": 1.003,
+ "tiles_measured": 30,
+ "tiles_flat_in_source": 0,
+ "probe": {
+  "probe_1pct_colour_emd": 0.00189,
+  "probe_1pct_structure_corr": 0.9021,
+  "probe_4pct_colour_emd": 0.00703,
+  "probe_4pct_structure_corr": 0.4768
+ },
+ "label": "control_shift_1pct",
+ "note": "the same photo moved sideways by 1 % of its width (20 px): what a small camera nudge costs on this picture at this scale. The expected answer is 'the layout moved, the colour did not'",
+ "verdict": "work grid 2048x1152: measured on a common grid of 2048x1152: the reference was downsampled to the generator's own width, so nothing is resampled up and a difference in detail is a difference in the pictures, not in the file sizes; no measurable colour change inside the region: 0.00054 against a floor of 0.00189 (this row's 1 % camera nudge costs 0.00189) — with the views put back in register; the viewpoint also moved: at a shift of 1.17 % of the width and 0.0 % of the height the layout lines up better (0.906 -> 0.9955); raw colour difference 0.00212 versus 0.00054 when realigned; gradient energy in the region is 1.015 of the reference. A material swap changes this legitimately, so the mean is a measure of change, not of quality. The number that means something on its own is the worst-decile tile ratio 0.968: no part of the region lost its structure wholesale; region: 59.3% of the frame — PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "measured_at": "2026-11-04T13:06:36"
+}

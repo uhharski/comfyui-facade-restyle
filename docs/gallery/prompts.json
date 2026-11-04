@@ -1,0 +1,104 @@
+{
+ "krea2_edit/pair00004.jpg": {
+  "positive": [
+   "Same house, same camera angle, same time of day, same weather. Keep the building exactly as it is: geometry, volume, roofline and slopes, wall proportions, the exact positions and sizes of every window and door opening, the plot, the ground level and the surrounding trees. Change only the exterior finishes: light warm-grey plaster on the main wall volumes, dark graphite window frames and entrance door, a dark standing-seam metal roof. Photorealistic architectural photography, diffuse overcast daylight, natural colours, sharp focus."
+  ],
+  "negative": [
+   "people, cars, construction site machinery, new openings, extra storeys, changed roofline, warped walls, duplicate windows, text, watermark, blurry, low quality"
+  ]
+ },
+ "krea2_edit/pair00003.jpg": {
+  "positive": [
+   "Same house, same camera angle, same time of day, same weather. Keep the building exactly as it is: geometry, volume, roofline and slopes, wall proportions, the exact positions and sizes of every window and door opening, the plot, the ground level and the surrounding trees. Change only the exterior finishes: light warm-grey plaster on the main wall volumes, dark graphite window frames and entrance door, a dark standing-seam metal roof. Photorealistic architectural photography, diffuse overcast daylight, natural colours, sharp focus."
+  ],
+  "negative": [
+   "people, cars, construction site machinery, new openings, extra storeys, changed roofline, warped walls, duplicate windows, text, watermark, blurry, low quality"
+  ]
+ },
+ "krea2_edit/pair00002.jpg": {
+  "positive": [
+   "Same house, same camera angle, same time of day, same weather. Keep the building exactly as it is: geometry, volume, roofline and slopes, wall proportions, the exact positions and sizes of every window and door opening, the plot, the ground level and the surrounding trees. Change only the exterior finishes: light warm-grey plaster on the main wall volumes, dark graphite window frames and entrance door, a dark standing-seam metal roof. Photorealistic architectural photography, diffuse overcast daylight, natural colours, sharp focus."
+  ],
+  "negative": [
+   "people, cars, construction site machinery, new openings, extra storeys, changed roofline, warped walls, duplicate windows, text, watermark, blurry, low quality"
+  ]
+ },
+ "krea2_edit/style_three-materials.jpg": {
+  "positive": [
+   "Photorealistic architectural surface texturing, apply materials strictly over existing geometry: pale ash-grey facing brick masonry cladding with running bond pattern and thin flush mortar joints on designated wall sections; smooth seamless charcoal graphite render on monolithic walls; vertical larch wood slat cladding with narrow shadow gaps on accent architectural elements. Matte finish, zero gloss, high-resolution PBR textures, preserving exact original building structure and proportions.\n\nfacing brick masonry cladding, pale ash-grey brick, warm light beige brick tones, running bond pattern, horizontal brick coursing, thin flush mortar joints, matte chalky brick texture, subtle surface imperfections, smooth painted fibre-cement render, charcoal graphite smooth walls, seamless flush joints, matte monolithic finish, vertical wood slat cladding, narrow vertical larch planks, warm natural wood tones, amber honey wood, smooth planed wood texture, visible wood grain, vertical rhythm, narrow shadow gaps, soft matte surfaces, no gloss, soft daylight, subtle joint shadows, architectural material study, high-resolution facade texture, PBR materials, physically accurate textures, photorealistic architectural visualization, detailed surface finish\n\nCompletely finished construction site photorealistic, 8k resolution, professional architectural photography, soft natural daylight, sharp focus."
+  ],
+  "negative": [
+   "change face,change clothes, blurry, low quality, watermars"
+  ]
+ },
+ "krea2_edit/style_model-chooses.jpg": {
+  "positive": [
+   "High-resolution architectural visualization. Extremely strict adherence to the reference input geometry: exact replica of the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing. Apply modern facade finishing materials while keeping the architectural layout and silhouette 100% identical to the source structure, photorealistic render, crisp architectural lines, physically correct geometry.\n\nfacing brick masonry cladding, pale ash-grey brick, warm light beige brick tones, running bond pattern, horizontal brick coursing, thin flush mortar joints, matte chalky brick texture, subtle surface imperfections, smooth painted fibre-cement render, charcoal graphite smooth walls, seamless flush joints, matte monolithic finish, vertical wood slat cladding, narrow vertical larch planks, warm natural wood tones, amber honey wood, smooth planed wood texture, visible wood grain, vertical rhythm, narrow shadow gaps, soft matte surfaces, no gloss, soft daylight, subtle joint shadows, architectural material study, high-resolution facade texture, PBR materials, physically accurate textures, photorealistic architectural visualization, detailed surface finish\n\nCompletely finished construction site photorealistic, 8k resolution, professional architectural photography, soft natural daylight, sharp focus."
+  ],
+  "negative": [
+   "change face,change clothes, blurry, low quality, watermars"
+  ]
+ },
+ "krea2_edit/early_test_other_frame.jpg": {
+  "positive": [
+   "Architectural photo of the house from the reference image, preserving the exact original building structure, exact wall proportions, window cutouts, and roofline shape, finished with warm wooden panels, smooth white plaster, and large panoramic floor-to-ceiling glass windows, minimalist design.\n\nClean fully finished landscaping, neat green lawn, modern grey concrete block paved pathways, natural Baltic garden with pine trees, silver birches, spruce trees, and ornamental shrubs. Northern European atmosphere, Estonian coastal nature aesthetic, photorealistic, 8k resolution, highly detailed, professional architectural photography, soft natural daylight, sharp focus."
+  ],
+  "negative": [
+   "change face,change clothes, blurry, low quality, watermars"
+  ]
+ },
+ "moss_inpaint/pair00001.jpg": {
+  "positive": [
+   "High-resolution architectural visualization. \npreserve geometry, the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing from image 1\nExtremely strict adherence to the reference image geometry from image 1: exact replica of the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing. Apply modern facade finishing materials while keeping the architectural layout and silhouette 100% identical to the source structure, photorealistic render, crisp architectural lines, physically correct geometry.\n\nfacing brick masonry cladding, pale ash-grey brick, warm light beige brick tones, running bond pattern, horizontal brick coursing, thin flush mortar joints, matte chalky brick texture, subtle surface imperfections, smooth painted fibre-cement render, charcoal graphite smooth walls, seamless flush joints, matte monolithic finish, vertical wood slat cladding, narrow vertical larch planks, warm natural wood tones, amber honey wood, smooth planed wood texture, visible wood grain, vertical rhythm, narrow shadow gaps, soft matte surfaces, no gloss, soft daylight, subtle joint shadows, architectural material study, high-resolution facade texture, PBR materials, physically accurate textures, photorealistic architectural visualization, detailed surface finish\n\nphotorealistic, 8k resolution, professional architectural photography, soft natural daylight, sharp focus."
+  ],
+  "negative": []
+ },
+ "moss_inpaint/earlier_graph_version.jpg": {
+  "positive": [
+   "High-resolution architectural visualization. \npreserve geometry, the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing from image 1\nExtremely strict adherence to the reference image geometry from image 1: exact replica of the building volume, identical roofline and slopes, precise original window layout and door frame cutouts, exact building proportions and structural massing. Apply modern facade finishing materials while keeping the architectural layout and silhouette 100% identical to the source structure, photorealistic render, crisp architectural lines, physically correct geometry.\n\nfacing brick masonry cladding, pale ash-grey brick, warm light beige brick tones, running bond pattern, horizontal brick coursing, thin flush mortar joints, matte chalky brick texture, subtle surface imperfections, smooth painted fibre-cement render, charcoal graphite smooth walls, seamless flush joints, matte monolithic finish, vertical wood slat cladding, narrow vertical larch planks, warm natural wood tones, amber honey wood, smooth planed wood texture, visible wood grain, vertical rhythm, narrow shadow gaps, soft matte surfaces, no gloss, soft daylight, subtle joint shadows, architectural material study, high-resolution facade texture, PBR materials, physically accurate textures, photorealistic architectural visualization, detailed surface finish\n\nphotorealistic, 8k resolution, professional architectural photography, soft natural daylight, sharp focus."
+  ],
+  "negative": []
+ },
+ "qwen_inpaint/pair00001.jpg": {
+  "positive": [
+   "rebuild the surface here as light warm-grey plaster with a dark graphite window frame, photorealistic, keep the exact shape and position of the opening and everything around it",
+   "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+  ],
+  "negative": []
+ },
+ "qwen_inpaint/style_slate-larch.jpg": {
+  "positive": [
+   "Crisp high-resolution architectural photo of the house from the reference image, sharp lines, preserving exact building structure and wall proportions. Finished with textured dark slate stone masonry on the lower facade and rich dark larch wooden siding on upper section, modern alpine chalet style.\nCompletely finished construction site, photorealistic, 8k resolution, professional architectural photography, crisp lighting.",
+   "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+  ],
+  "negative": []
+ },
+ "qwen_inpaint/style_shou-sugi-ban.jpg": {
+  "positive": [
+   "Crisp high-resolution architectural photo of the house from the reference image, sharp lines, preserving exact building structure and wall proportions. Finished with black charred wood siding in Japanese Shou Sugi Ban style, minimalistic dark aluminum window frames, modern Nordic aesthetic.\nCompletely finished construction site, photorealistic, 8k resolution, professional architectural photography, crisp lighting.",
+   "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+  ],
+  "negative": []
+ },
+ "qwen_inpaint/style_charred-plus-timber.jpg": {
+  "positive": [
+   "Crisp high-resolution architectural photo of the house from the reference image, sharp lines, preserving exact building structure and wall proportions. Main facade finished with black charred wood siding in Japanese Shou Sugi Ban style, complemented by striking accent walls clad in warm natural timber slats around the main entrance and window cutouts, minimalistic dark aluminum window frames, modern Nordic aesthetic.\n\nCompletely finished construction site, 100% clean grounds, professional turnkey landscaping, perfectly manicured green lawn, modern stone paved patio and pathways, natural \n\nCompletely finished construction site, photorealistic, 8k resolution, professional architectural photography, crisp lighting.",
+   "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+  ],
+  "negative": []
+ },
+ "qwen_inpaint/style_micro-cement-panels.jpg": {
+  "positive": [
+   "Crisp high-resolution architectural photo of the house from the reference image, sharp lines, preserving exact building structure and wall proportions. Front and rear wall volumes rendered in solid ultra-light gray vertical micro-cement panels, with side gable end walls finished entirely in solid dark anthracite vertical composite siding, dark metal window frames, high-end minimalist design.\nCompletely finished construction site, photorealistic, 8k resolution, professional architectural photography, crisp lighting.",
+   "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+  ],
+  "negative": []
+ },
+ "qwen_inpaint/style_offwhite-composite.jpg": {
+  "positive": [
+   "Crisp high-resolution architectural photo of the house from the reference image, sharp lines, preserving exact building structure and wall proportions. Main residential living block walls finished in solid off-white light gray vertical composite panels, with the attached side wing walls finished entirely in solid dark anthracite vertical aluminum slats, sleek black window frames, modern tech aesthetic.\nCompletely finished construction site, photorealistic, 8k resolution, professional architectural photography, crisp lighting.",
+   "⬇️#2 Load your picture here.\n###### You can crop it with the blue handles."
+  ],
+  "negative": []
+ }
+}

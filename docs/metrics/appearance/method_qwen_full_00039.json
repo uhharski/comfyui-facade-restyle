@@ -1,0 +1,68 @@
+{
+ "source": "J:\\Projects\\AI\\Test\\source\\photos\\web\\DJI_0021.jpg",
+ "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\qwen21_inpaint_00039.png",
+ "source_size": [
+  2048,
+  1152
+ ],
+ "result_size": [
+  4032,
+  2268
+ ],
+ "work_grid": [
+  2048,
+  1152
+ ],
+ "placement_note": "measured on the reference grid of 2048x1152: the generator's output (4032x2268) is larger and was downsampled to it; nothing is resampled up",
+ "region": "rect:0.10790821369614417,0.051781612112339115,0.6530092312769444,0.9069201218383105",
+ "region_share_of_frame": 0.5926,
+ "region_status": "PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "pixels_measured": 1398210,
+ "h_emd": 0.15479,
+ "s_emd": 0.07647,
+ "v_emd": 0.0624,
+ "colour_emd": 0.09789,
+ "hue_delta_deg": 115.8,
+ "mean_sat_delta": 0.0762,
+ "mean_val_delta": -0.0627,
+ "aligned": {
+  "h_emd": 0.15479,
+  "s_emd": 0.07647,
+  "v_emd": 0.0624,
+  "colour_emd": 0.09789,
+  "hue_delta_deg": 115.8,
+  "mean_sat_delta": 0.0762,
+  "mean_val_delta": -0.0627,
+  "pixels_measured": 1398210
+ },
+ "colour_emd_aligned": 0.09789,
+ "shift_px": [
+  0,
+  0
+ ],
+ "shift_pct_of_width": 0.0,
+ "shift_pct_of_height": 0.0,
+ "structure_corr_unshifted": 0.9,
+ "structure_corr_at_shift": 0.9,
+ "edge_corr_unshifted": 0.6702,
+ "edge_corr_at_shift": 0.6702,
+ "texture_energy_source": 0.03165,
+ "texture_energy_result": 0.03735,
+ "texture_ratio": 1.18,
+ "tile_ratio_p10": 0.955,
+ "tile_ratio_median": 1.056,
+ "tiles_measured": 30,
+ "tiles_flat_in_source": 0,
+ "probe": {
+  "probe_1pct_colour_emd": 0.00189,
+  "probe_1pct_structure_corr": 0.9021,
+  "probe_4pct_colour_emd": 0.00703,
+  "probe_4pct_structure_corr": 0.4768
+ },
+ "label": "method_qwen_full_00039",
+ "note": "Qwen, a full-frame output from the graph version before the measurement pass. The Qwen rows of the current graph save a 1049x590 crop, and no scale relates a crop to the reference frame, so those rows cannot be measured until either the crop's position is declared (--crop) or the graph is made to save the stitched full frame again. This row is measured on the reference grid at 2048x1152 while the Krea2 and MOSS rows above are measured at 1024x576 — the grids are printed in every row for exactly that reason, and texture numbers across grids are not comparable",
+ "workflow": "qwen_inpaint",
+ "workflow_title": "",
+ "verdict": "work grid 2048x1152: measured on the reference grid of 2048x1152: the generator's output (4032x2268) is larger and was downsampled to it; nothing is resampled up; finish changed: colour EMD 0.09789 = 51.8x the floor of this row (views already in register; hue moved 115.8 deg, saturation +0.076, value -0.063); layout and edges both correspond to the reference (structure 0.9, edges 0.6702): whatever changed here, the surfaces did not change everywhere; gradient energy in the region is 1.18 of the reference. A material swap changes this legitimately, so the mean is a measure of change, not of quality. The number that means something on its own is the worst-decile tile ratio 0.955: no part of the region lost its structure wholesale; region: 59.3% of the frame — PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "measured_at": "2026-11-04T13:07:33"
+}

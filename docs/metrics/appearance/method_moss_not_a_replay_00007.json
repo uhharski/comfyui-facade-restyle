@@ -1,0 +1,68 @@
+{
+ "source": "J:\\Projects\\AI\\Test\\source\\photos\\web\\DJI_0021.jpg",
+ "result": "J:\\AI\\ComfyUI-Easy-Install\\ComfyUI\\output\\MOSS Box Edit\\Test_2026-11-04_00007_.png",
+ "source_size": [
+  2048,
+  1152
+ ],
+ "result_size": [
+  1024,
+  576
+ ],
+ "work_grid": [
+  1024,
+  576
+ ],
+ "placement_note": "measured on a common grid of 1024x576: the reference was downsampled to the generator's own width, so nothing is resampled up and a difference in detail is a difference in the pictures, not in the file sizes",
+ "region": "rect:0.10790821369614417,0.051781612112339115,0.6530092312769444,0.9069201218383105",
+ "region_share_of_frame": 0.5932,
+ "region_status": "PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "pixels_measured": 349887,
+ "h_emd": 0.07868,
+ "s_emd": 0.05716,
+ "v_emd": 0.18219,
+ "colour_emd": 0.10601,
+ "hue_delta_deg": 110.9,
+ "mean_sat_delta": 0.0573,
+ "mean_val_delta": -0.182,
+ "aligned": {
+  "h_emd": 0.07942,
+  "s_emd": 0.05675,
+  "v_emd": 0.18291,
+  "colour_emd": 0.10636,
+  "hue_delta_deg": 111.4,
+  "mean_sat_delta": 0.0568,
+  "mean_val_delta": -0.1825,
+  "pixels_measured": 349887
+ },
+ "colour_emd_aligned": 0.10636,
+ "shift_px": [
+  4,
+  -4
+ ],
+ "shift_pct_of_width": 0.39,
+ "shift_pct_of_height": 0.69,
+ "structure_corr_unshifted": 0.3677,
+ "structure_corr_at_shift": 0.3785,
+ "edge_corr_unshifted": 0.1913,
+ "edge_corr_at_shift": 0.1553,
+ "texture_energy_source": 0.04018,
+ "texture_energy_result": 0.02842,
+ "texture_ratio": 0.707,
+ "tile_ratio_p10": 0.434,
+ "tile_ratio_median": 0.647,
+ "tiles_measured": 30,
+ "tiles_flat_in_source": 0,
+ "probe": {
+  "probe_1pct_colour_emd": 0.0019,
+  "probe_1pct_structure_corr": 0.9043,
+  "probe_4pct_colour_emd": 0.00706,
+  "probe_4pct_structure_corr": 0.4807
+ },
+ "label": "method_moss_not_a_replay_00007",
+ "note": "MOSS, another file in the same folder, and this one is NOT byte-identical to the three replays. Deliberately not used as a baseline: five runs were written in that time window while only two headless submissions are recorded, so which run this file came from — and therefore whether the graph, the prompt or the seed differed — cannot be recovered from what is on disk. Its layout correlation is markedly lower than the replays', which is consistent with the note in PROGRESS.md that some MOSS runs moved the camera, but that is as far as it goes",
+ "workflow": "moss_inpaint",
+ "workflow_title": "",
+ "verdict": "work grid 1024x576: measured on a common grid of 1024x576: the reference was downsampled to the generator's own width, so nothing is resampled up and a difference in detail is a difference in the pictures, not in the file sizes; finish changed: colour EMD 0.10601 = 55.8x the floor of this row (layout does not correspond, so the smaller of the raw and aligned number is quoted; hue moved 110.9 deg, saturation +0.057, value -0.182); the layout inside the region does not correspond to the reference at any shift within +-4% of the width (structure correlation 0.3785): the camera moved, or the house was rebuilt somewhere else. geometry_score.py's r on the depth maps is what separates those two; this script cannot, and a colour difference here is partly a difference of content; gradient energy in the region is 0.707 of the reference. A material swap changes this legitimately, so the mean is a measure of change, not of quality. The number that means something on its own is the worst-decile tile ratio 0.434: no part of the region lost its structure wholesale; region: 59.3% of the frame — PROVISIONAL — the MOSS graph's layout box (node 105 of workflows/_api/moss_inpaint.api.json): declared and traceable, and for that method the only place an edit is allowed at all, but it is a leftover demo rectangle, not a facade outline: 59 % of the frame, sky, lawn and road included",
+ "measured_at": "2026-11-04T13:07:26"
+}

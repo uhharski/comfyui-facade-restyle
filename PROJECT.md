@@ -2,6 +2,13 @@
 
 > Working title (rename before publishing on GitHub:
 > `house-from-floorplan` / `krea2-architecture-pipeline`)
+>
+> **Status note (04.11) — read this first.** This file is the **original** brief: the pipeline as it was
+> planned (floor plan → white-box UE5 model → controlled generation of finishes), plus the job
+> requirements it was written from. What was actually built is a **photo-first comparison of three
+> finish methods with two metrics**: see [`README.md`](README.md) for the delivered project, and
+> `PROGRESS.md` + the git log for the sessions that re-scoped it. This brief is kept as written on
+> purpose — it is the record of the target the work was measured against, and of what was dropped.
 
 ## 1. Why
 

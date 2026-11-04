@@ -87,7 +87,7 @@ full-frame version of the same graph:
 Every image above is the actual file a run wrote. Where it came from — original filename, timestamp,
 native size, seed, steps/cfg, and the prompt that was asked — is in
 [`docs/gallery/MANIFEST.md`](docs/gallery/MANIFEST.md); the full prompt text of each run is in
-[`docs/gallery/prompts.json`](docs/gallery/MANIFEST.md).
+[`docs/gallery/prompts.json`](docs/gallery/prompts.json).
 
 ## 4. The two metrics, and what they caught
 

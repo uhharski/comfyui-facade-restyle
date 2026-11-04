@@ -187,7 +187,7 @@
   "note": "style variant, same graph"
  },
  {
-  "gallery": "qwen_inpaint/style_charred-plus-timber.jpg",
+  "gallery": "video/first_frame.jpg",
   "original_comfyui_file": "qwen21_inpaint_00015.png",
   "captured": "2026-11-02 12:31",
   "native_size": "4032x2268",
@@ -195,7 +195,7 @@
   "steps": null,
   "cfg": 1.0,
   "asked_for": "charred wood with warm timber accent slats around the entrance and window cutouts",
-  "note": "style variant, same graph"
+  "note": "style variant, same graph. On 2026-11-04 the file was moved from qwen_inpaint/style_charred-plus-timber.jpg to video/first_frame.jpg: it is byte-identical to the first frame the MMH3 graph loaded (qwen21_inpaint_00015.png in ComfyUI input/)."
  },
  {
   "gallery": "qwen_inpaint/style_micro-cement-panels.jpg",
@@ -229,5 +229,27 @@
   "cfg": 1.0,
   "asked_for": "a long material list: pale ash-grey facing brick with warm beige tones, smooth painted fibre-cement render with charcoal graphite walls, vertical larch slat cladding - all asked as one prompt, and 'keep everything else exactly the same' appended by the graph",
   "note": "the image the appearance-metric row method_qwen_full_00039.json was computed on. It is a full-frame 4032x2268 output of the same graph (this variant does not crop to the mask), which is exactly why it is the only Qwen row metric 2 could score against the source frame. What was masked is recorded NOWHERE: the mask was never written to a file, and the touches still stored in the node are three points named 'car', 'chair', 'table' - they cannot explain an edit that covers the whole facade, so they are most likely leftover demo state from an earlier picture of the same size. Weakest of the four appearance rows; the next-steps list in README.md section 5, item 3 (save the mask) is what would close it."
+ },
+ {
+  "gallery": "video/last_frame.png",
+  "original_comfyui_file": "qwen21_inpaint_00014.png",
+  "captured": "2026-11-02 12:23 (file date; the ComfyUI folder also has this name dated 2026-11-04 12:32 with byte-identical content - reused counter number)",
+  "native_size": "4032x2268",
+  "seed": 139346433945169,
+  "steps": null,
+  "cfg": 1.0,
+  "asked_for": "black charred wood siding (shou sugi ban) with warm natural timber slat accents around the entrance and window cutouts, minimalistic dark aluminium frames, Nordic aesthetic; finished site, turnkey landscaping",
+  "note": "the last frame of video/video_03.mp4 (the MMH3 graph loads it as qwen21_inpaint_00014.png). A qwen_inpaint style variant, never measured, kept at native size; its embedded run metadata (euler/simple, cfg 1.0, seed 139346433945169) is the source of the values in this entry. The prompt text sits between the 00013 shou-sugi-ban and 00015 charred-plus-timber rows and was not catalogued before."
+ },
+ {
+  "gallery": "video/video_03.mp4",
+  "original_comfyui_file": "2026-11-04/video_03.mp4",
+  "captured": "2026-11-04 19:01",
+  "native_size": "1024x576 @ 24 fps, 5.17 s, 124 frames, H.264 + AAC stereo audio",
+  "seed": 4,
+  "steps": 6,
+  "cfg": 1.0,
+  "asked_for": "a single smooth hyper-stable drone glide along the western facade, starting exactly at the framing of Picture 1 (qwen21_inpaint_00015.png) and ending exactly at that of Picture 2 (qwen21_inpaint_00014.png), rigid geometry with no warping/morphing, plus drone ambience and a minimal cinematic soundtrack",
+  "note": "the first video in the repo, made by workflows/MMH3.json (MiniMax H3 FL2V, first+last-frame-to-video); kept byte-exact at native size, not re-encoded. NOT a measured row: that graph has no depth/compare nodes. The prompt text aligns the frames at 0.00 s and 15.08 s while the duration widget is 5 s and the saved file is 5.17 s / 124 frames. Both input frames are preserved next to it: video/first_frame.jpg (byte-identical to the moved qwen_inpaint/style_charred-plus-timber.jpg, output qwen21_inpaint_00015.png) and video/last_frame.png (byte-identical to output qwen21_inpaint_00014.png). Name-collision note: the ComfyUI folder holds those two output names twice by date (02.11 12:2x and 04.11 12:32) with identical bytes - reused counter, exact bytes pinned by the repo copies. Sampler as saved: seed 4 fixed, 6 steps, cfg 1.0, res_multistep/simple."
  }
 ]

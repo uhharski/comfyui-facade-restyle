@@ -1,5 +1,5 @@
 {
-  "_note": "Machine-readable record of what the three graphs actually were set to. Human-readable version: ../README.md and ../docs/metrics.md. Local paths; ComfyUI is assumed to be already running.",
+  "_note": "Machine-readable record of what each graph actually was set to (the three measured ones plus the unmeasured video graph MMH3). Human-readable version: ../README.md and ../docs/metrics.md. Local paths; ComfyUI is assumed to be already running.",
   "comfyui": {
     "url": "http://127.0.0.1:8188",
     "output_dir": "J:/AI/ComfyUI-Easy-Install/ComfyUI/output",
@@ -64,6 +64,24 @@
         "why": "MaskByTouch keeps its touched points as browser state, not in the exported graph, so a headless replay fails with 'Mask by Touch: the picks were made on another picture' (04.11 00:39, prompt 590dee99, status error after 2.37 s, no file written).",
         "fix": "wire a SaveImage on the node's MASK output, then LoadImage+LoadMask in the API graph instead of touching the picture"
       }
+    },
+    {
+      "id": "MMH3",
+      "file": "MMH3.json",
+      "api": null,
+      "api_note": "No _api export was saved for this graph; it was run from the UI.",
+      "prefix": "%date%/video (VideoMakerV2, date folder yyyy-mm-dd) - which is where the sample video's folder name comes from",
+      "method": "frame-to-video generation (MiniMax H3 FL2V): first and last frames given as images, camera path and soundscape described in words",
+      "control": "first-frame + last-frame conditioning + text prompt; no depth signal, no mask, no measurement nodes in the graph",
+      "models": "diffusion_models/MiniMaxH3/minimax_h3_fl2va_pruned_int8_convrot.safetensors, text encoder qwen3vl_32b_..._minimax_h3_nvfp4, video VAE minimax_h3_video_vae_fp16, audio VAE minimax_h3_audio_vae_fp32, preview VAE taeh3; the turbo LoRA minimax_h3_fl2v_turbo_8step_v1.0 is stacked but NOT active in the saved graph",
+      "settings_as_saved": "KSampler seed 4 (fixed), 6 steps, cfg 1.0, res_multistep/simple, denoise 1; MiniMaxH3SigmaShift 10/3; duration widget 5 s -> frame count expression rounds a*24 up to the 17n+5 grid -> 124 frames",
+      "canvas_as_executed": "video 1024x576, 24 fps, 5.17 s (124 frames), H.264 + AAC stereo audio - recorded from the saved file docs/gallery/video/video_03.mp4, not from widgets (the prompt text aligns the pictures at 0.00 s and 15.08 s while the generated video is 5.2 s)",
+      "inputs": "first frame qwen21_inpaint_00015.png, last frame qwen21_inpaint_00014.png (loaded by name from ComfyUI input/). Both frames are now byte-pinned in the repo: ../docs/gallery/video/first_frame.jpg is the byte-identical former gallery row qwen_inpaint/style_charred-plus-timber.jpg (moved into video/ on 04.11), ../docs/gallery/video/last_frame.png is the byte-identical 4032x2268 output of 00014 (its embedded metadata: seed 139346433945169, euler/simple, cfg 1.0, a shou-sugi-ban-plus-timber style request between the 00013 and 00015 gallery rows). Wrinkle on the record: the ComfyUI folder carries the names qwen21_inpaint_00014/00015.png twice by date (02.11 12:2x and 04.11 12:32) with identical bytes - reused counter numbers, or exact reproduction at a fixed seed; the repo copies decide the bytes either way",
+      "replay": {
+        "headless": "not possible as shipped: no _api copy exists",
+        "determinism": "unmeasured: one run, 2026-11-04 19:01, the file docs/gallery/video/video_03.mp4"
+      },
+      "measured": "no rows in ../docs/metrics.md: the graph contains no depth/compare nodes"
     }
   ]
 }

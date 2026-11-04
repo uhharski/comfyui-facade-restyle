@@ -6,6 +6,41 @@ a new agent session only needs to read both.
 
 ---
 
+## 2026-11-04 (19:45) — first video: the MiniMax H3 graph and its sample
+
+### Done
+- `workflows/MMH3.json` entered the repo: a **MiniMax H3 FL2V** (first+last-frame-to-video) graph —
+  two Qwen-inpaint renders of the house as the first/last frame, the camera glide and the soundscape
+  asked in words, its own video+audio VAEs. It is the first output of the video branch (next-steps
+  item 6), and it is deliberately **not** part of the measured three: no depth/compare nodes, no
+  `_api` copy, no rows in `docs/metrics.md`.
+- Its single result, the ComfyUI output `2026-11-04/video_03.mp4` (19:01), is kept byte-exact at
+  `docs/gallery/video/video_03.mp4` (1024×576, 24 fps, 5.17 s, 124 frames, H.264 + AAC).
+- Provenance recorded where the repo's rules say it must be: a video section in `gallery/MANIFEST.md`
+  + an entry in `MANIFEST.json`, a fourth record in `workflows/manifest.json`, and the "three graphs"
+  wording in `workflows/README.md` / root README corrected to name the fourth graph.
+
+### Honest holes found while recording it (all written down, not papered over)
+- **The prompt and the widget disagree about length.** The prompt aligns the two pictures at 0.00 s
+  and 15.08 s of "the target video"; the duration widget says 5 s and the frame-count expression
+  made 124 frames → a 5.2 s file. Parameters were recorded from the saved file, per the standing rule.
+- **The two input frames had a name collision - now byte-pinned.** The graph loads them by name
+  (`qwen21_inpaint_00015/00014.png`) from ComfyUI `input/`, and the ComfyUI outputs of those names
+  exist twice by date (02.11 12:2x and 04.11 12:32) with **identical bytes** - reused counters, or a
+  fixed-seed style variant reproducing itself. During this session the frames were preserved in the
+  repo: `docs/gallery/video/first_frame.jpg` is the byte-identical former gallery row
+  `qwen_inpaint/style_charred-plus-timber.jpg` (moved into `video/`), `docs/gallery/video/last_frame.png`
+  is the byte-identical 4032x2268 output of `qwen21_inpaint_00014.png`, itself a previously
+  uncatalogued shou-sugi-ban-plus-timber style variant (its embedded seed 139346433945169).
+- The graph as saved runs seed 4 fixed, 6 steps, cfg 1.0, `res_multistep`; the turbo LoRA is stacked
+  but switched off.
+
+### Next step (only if the video branch is to be measured)
+- Add the depth/compare nodes to MMH3 like the measured graphs have, save the two frame inputs into
+  the repo, and make an `_api` export so the run can be replayed headless.
+
+---
+
 ## 2026-11-03 (23:00) — the third method ran; three rows exist; the metric itself is now the problem
 
 ### Done

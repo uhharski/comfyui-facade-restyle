@@ -166,7 +166,10 @@ output. Not a ranking yet; § 3 of `docs/metrics.md` says exactly what would be 
    installed on 25.10 and never used — the A graph here went through the identity-edit LoRA with no
    control). It is the cleanest test of "control the geometry with a control signal instead of with
    prompt words", and its negative result would be just as publishable.
-6. Then the video/VR branch (UE5 turntable → image-to-video) and a small demo.
+6. Then the video/VR branch (UE5 turntable → image-to-video) and a small demo. First step taken on
+   04.11: `workflows/MMH3.json` (MiniMax H3, first+last frame → 5 s video) produced
+   `docs/gallery/video/video_03.mp4` from two Qwen-inpaint renders of the house. It is unmeasured (no
+   depth/compare nodes in that graph) and the UE5 turntable side is still untouched.
 
 **And before this is published** (decisions, not engineering): rename the folder and make it the repo —
 nothing in the repo depends on the directory name, but the rename has to happen while no shell has it as
@@ -191,8 +194,8 @@ README.md                    this file: the question, the three methods, the res
 docs/metrics.md              both metrics: definitions, the rows, the controls, what they cannot see
 docs/metrics/                raw machine-readable data (measurements.json, appearance/*.json, run_*.json);
                              appearance/inputs/ keeps the one control input that lived outside the repo
-docs/gallery/                the images + MANIFEST.md (file provenance) + prompts.json + compare.jpg
-workflows/                   the three graphs (UI format) + _api/ (API format) + manifest.json (conditions)
+docs/gallery/                the images + one video + MANIFEST.md (file provenance) + prompts.json + compare.jpg
+workflows/                   the three measured graphs + MMH3.json (video, unmeasured) + _api/ (API format) + manifest.json (conditions)
 source/photos/               the input photos (full-frame ones stay out of git; the repo has 2048px copies)
 source/3d-datasmith/         ArchiCAD→Datasmith house model — a skills showcase, unused by the runs
 PROJECT.md · PROGRESS.md     the task as defined, and the session log of how it got re-scoped

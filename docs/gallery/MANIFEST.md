@@ -27,10 +27,44 @@ the ComfyUI canvas. `MANIFEST.json` is the machine-readable form of this table.
 | `qwen_inpaint/pair00003.jpg` | `qwen21_inpaint_00045.png` | 2026-11-04 00:38 | 1049x590 | 947104845645106 | None / 1.0 | the same mask region | measured row qwen_inpaint/00003 - produced from the UI, the graph cannot be replayed headless (the touched points live in the browser) |
 | `qwen_inpaint/style_slate-larch.jpg` | `qwen21_inpaint_00012.png` | 2026-11-02 12:19 | 4032x2268 | 614694269351546 | None / 1.0 | dark slate stone masonry on the lower volume + dark larch wood siding above, alpine chalet | a style variant of the whole facade, full 4032x2268 output of the graph before instrumentation - not a measured row |
 | `qwen_inpaint/style_shou-sugi-ban.jpg` | `qwen21_inpaint_00013.png` | 2026-11-02 12:20 | 4032x2268 | 305226617989783 | None / 1.0 | black charred wood siding (shou sugi ban), minimalistic dark aluminium frames, Nordic aesthetic | style variant, same graph |
-| `qwen_inpaint/style_charred-plus-timber.jpg` | `qwen21_inpaint_00015.png` | 2026-11-02 12:31 | 4032x2268 | 551516032584579 | None / 1.0 | charred wood with warm timber accent slats around the entrance and window cutouts | style variant, same graph |
+| `video/first_frame.jpg` (moved on 04.11 from `qwen_inpaint/style_charred-plus-timber.jpg`) | `qwen21_inpaint_00015.png` | 2026-11-02 12:31 | 4032x2268 (the repo copy is a 1600x900 JPEG) | 551516032584579 | None / 1.0 | charred wood with warm timber accent slats around the entrance and window cutouts | style variant, same graph; since 04.11 this same file is also the **first frame** of `video/video_03.mp4` |
 | `qwen_inpaint/style_micro-cement-panels.jpg` | `qwen21_inpaint_00026.png` | 2026-11-02 12:46 | 4032x2268 | 21312943037179 | None / 1.0 | ultra-light grey vertical micro-cement panels front/rear, dark anthracite gable ends, dark metal frames | style variant, same graph |
 | `qwen_inpaint/style_offwhite-composite.jpg` | `qwen21_inpaint_00029.png` | 2026-11-02 12:49 | 4032x2268 | 403732651075716 | None / 1.0 | off-white vertical composite panels on the main volume, dark anthracite aluminium slats on the side wing | style variant, same graph |
 | `qwen_inpaint/appearance_row_00039.jpg` | `qwen21_inpaint_00039.png` | 2026-11-03 17:50 | 4032x2268 | 191308024412646 | 25 / 1.0 | a long material list: pale ash-grey facing brick with warm beige tones, smooth painted fibre-cement render with charcoal graphite walls, vertical larch slat cladding - all asked as one prompt, and 'keep everything else exactly the same' appended by the graph | the image the appearance-metric row method_qwen_full_00039.json was computed on. It is a full-frame 4032x2268 output of the same graph (this variant does not crop to the mask), which is exactly why it is the only Qwen row metric 2 could score against the source frame. What was masked is recorded NOWHERE: the mask was never written to a file, and the touches still stored in the node are three points named 'car', 'chair', 'table' - they cannot explain an edit that covers the whole facade, so they are most likely leftover demo state from an earlier picture of the same size. Weakest of the four appearance rows; the next-steps list in README.md section 5, item 3 (save the mask) is what would close it. |
+
+## Video (kept at native size - nothing here was re-encoded or resized)
+
+| gallery file | came from | run at | what this video is |
+|---|---|---|---|
+| `video/video_03.mp4` | `2026-11-04/video_03.mp4` (`VideoMakerV2`, save prefix `%date%/video`) | 2026-11-04 19:01 | the first video in this repo: made by [`../../workflows/MMH3.json`](../../workflows/MMH3.json), a **MiniMax H3 FL2V** (frame-to-video) graph - the first and last frames of the shot are given as images, the camera move and the soundscape are asked in words. Not a measured row: that graph has no depth/compare nodes, and the video branch is only the next-steps item 6 in the root README, just started. |
+| `video/first_frame.jpg` | the gallery row `qwen_inpaint/style_charred-plus-timber.jpg` (`qwen21_inpaint_00015.png`), byte-identical, moved into `video/` on 04.11 | 2026-11-02 12:31 | the **first frame** the video was generated between (LoadImage `qwen21_inpaint_00015.png`) |
+| `video/last_frame.png` | `qwen21_inpaint_00014.png`, byte-identical, 4032x2268 at native size | 2026-11-02 12:23 (file date, see the name-collision note below) | the **last frame** of the shot (LoadImage `qwen21_inpaint_00014.png`); its own embedded metadata says seed 139346433945169, euler/simple, cfg 1.0, prompt = black shou-sugi-ban charred siding + warm timber accents (the request between the 00013 and 00015 gallery rows, never catalogued) |
+
+The file is the byte-exact ComfyUI output: 1024x576, 24 fps, 5.17 s, 124 frames, H.264 video + AAC
+stereo audio (the graph loads a separate audio VAE, so the video comes with sound). As saved, the graph
+ran seed 4 (fixed), 6 steps, cfg 1.0, `res_multistep`/`simple`; the duration widget says 5 s and a frame-
+count expression rounds it to 124 frames - while the prompt text itself aligns the two reference pictures
+at 0.00 s and 15.08 s of "the target video", so the prompt was written for a longer shot than what was
+generated. This is a case of the repo's standing rule: the recorded parameters are from the saved file,
+not from the widgets.
+
+The two frames the video is built between now sit next to it, byte-pinned: `first_frame.jpg` is the
+byte-identical gallery image of `qwen21_inpaint_00015.png` (the row `style_charred-plus-timber.jpg`
+above - on 04.11 the file was moved out of `qwen_inpaint/` into `video/`, and the graph's `LoadImage`
+name refers to the copy in ComfyUI's `input/`), and `last_frame.png` is the byte-identical full-size
+output `qwen21_inpaint_00014.png`, a shou-sugi-ban-plus-timber style variant whose prompt text sits
+between the 00013 and 00015 rows and was never catalogued before.
+
+One honest wrinkle stays on the record: the ComfyUI folder holds **two** files named
+`qwen21_inpaint_00014.png` / `_00015.png` by date - 02.11 12:2x and 04.11 12:32 - and the two bytes of
+a pair are **identical**, so either the fixed-seed style variant reproduced itself exactly on 04.11, or
+the same file was re-saved under a reused counter number. Either way the bytes that went into the video
+are now preserved in this folder, which is what provenance needs.
+
+What was asked of the model (the prompt in the graph, abbreviated): a fixed-lens, hyper-stable photoreal
+"drone shot" glide from left to right along the western facade, starting exactly at the framing of
+Picture 1 and ending exactly at that of Picture 2, rigid walls / straight lines / no warping or morphing
+throughout, plus a soft drone-propeller ambience and a minimal cinematic soundtrack (low cello, piano).
 
 ## Depth pairs (PNG at native size - these two images are what the geometry metric compared)
 

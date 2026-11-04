@@ -1,6 +1,8 @@
 # Workflows — the reproducible part
 
-Three graphs, one input photo, one seed. Each graph is saved twice on purpose:
+Three measured graphs, one input photo, one seed — plus one later graph (`MMH3.json`, MiniMax H3
+image-to-video) that belongs to the video branch and is *not* measured. Each measured graph is saved
+twice on purpose:
 
 | file | format | what it is for |
 |---|---|---|
@@ -11,6 +13,16 @@ Three graphs, one input photo, one seed. Each graph is saved twice on purpose:
 Ids: `krea2_edit` (image-edit, no control) · `moss_inpaint` (depth+colour control, layout box) ·
 `qwenImage_inpaint` (inpaint mask, stitched back). The three ids match the rows in
 [`../docs/metrics.md`](../docs/metrics.md) and the `id` field of `../docs/metrics/measurements.json`.
+
+The fourth file, `MMH3.json`, deliberately breaks that pattern: it is a **MiniMax H3 FL2V**
+(first+last-frame-to-video) graph run once on 04.11, it has no `_api` copy and no measurement nodes,
+and its one output is kept in [`../docs/gallery/video/`](../docs/gallery/video/). What it was set to is
+still recorded in `manifest.json` (same rule as the measured graphs: parameters taken from the saved
+file, not from the widgets) and its provenance is in
+[`../docs/gallery/MANIFEST.md`](../docs/gallery/MANIFEST.md). The model links (MiniMax H3 FL2V int8
+diffusion model, Qwen3-VL text encoder, video+audio VAEs, turbo LoRA) are in a note node inside the
+graph. Its two `LoadImage` inputs are *not* `DJI_0021.JPG` but two Qwen-inpaint renders used as the
+first and last frame of the shot.
 
 ## What to check before running one
 
@@ -53,4 +65,5 @@ matched by save time + aspect ratio, and why `manifest.json` can pin a file with
 `index.md` (a generated table) is gone — the same information now lives in `manifest.json` (machine)
 and in the root README (human). The old `_orig/` and `_pre-unify/` snapshots and the `_tools/` graph
 mover are gone as well: git history has them (`git log -- workflows/`), and the working set is meant to
-be exactly the three graphs that produced the measured rows.
+be exactly the graphs this project has used: the three measured ones plus `MMH3.json`, the video graph
+that produced the sample video.

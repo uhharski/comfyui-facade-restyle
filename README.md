@@ -91,7 +91,7 @@ frame-to-video model was asked to connect them with one smooth drone glide along
 
 | first frame (the C row "charred wood + timber accents", `qwen21_inpaint_00015.png`) | last frame (a shou-sugi-ban+timber variant between the 00013/00015 rows, `qwen21_inpaint_00014.png`) |
 |---|---|
-| <img src="docs/gallery/video/first_frame.jpg" width="300"> | <img src="docs/gallery/video/last_frame.png" width="300"> |
+| <img src="docs/gallery/video/first_frame.jpg" width="300"> | <img src="docs/gallery/video/last_frame_view.jpg" width="300"> |
 
 <video src="docs/gallery/video/video_03.mp4" controls width="600"></video>
 

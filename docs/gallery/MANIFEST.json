@@ -239,7 +239,7 @@
   "steps": null,
   "cfg": 1.0,
   "asked_for": "black charred wood siding (shou sugi ban) with warm natural timber slat accents around the entrance and window cutouts, minimalistic dark aluminium frames, Nordic aesthetic; finished site, turnkey landscaping",
-  "note": "the last frame of video/video_03.mp4 (the MMH3 graph loads it as qwen21_inpaint_00014.png). A qwen_inpaint style variant, never measured, kept at native size; its embedded run metadata (euler/simple, cfg 1.0, seed 139346433945169) is the source of the values in this entry. The prompt text sits between the 00013 shou-sugi-ban and 00015 charred-plus-timber rows and was not catalogued before."
+  "note": "the last frame of video/video_03.mp4 (the MMH3 graph loads it as qwen21_inpaint_00014.png). A qwen_inpaint style variant, never measured, kept at native size; its embedded run metadata (euler/simple, cfg 1.0, seed 139346433945169) is the source of the values in this entry. The prompt text sits between the 00013 shou-sugi-ban and 00015 charred-plus-timber rows and was not catalogued before. The README and any display use video/last_frame_view.jpg, a 1600 px JPEG q92 copy resized from this PNG (same display rule as the gallery images); the byte-pinned original stays as the PNG."
  },
  {
   "gallery": "video/video_03.mp4",

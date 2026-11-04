@@ -49,7 +49,9 @@ ran seed 4 (fixed), 6 steps, cfg 1.0, `res_multistep`/`simple`; the duration wid
 count expression rounds it to 124 frames - while the prompt text itself aligns the two reference pictures
 at 0.00 s and 15.08 s of "the target video", so the prompt was written for a longer shot than what was
 generated. This is a case of the repo's standing rule: the recorded parameters are from the saved file,
-not from the widgets.
+not from the widgets. (The prompt in `workflows/MMH3.json` was later fixed on the same evening to align
+the pictures at 5 s - the graph in this repo is no longer byte-identical to the one that made this
+video; the as-run text lives in git history, commit 54045d5.)
 
 The two frames the video is built between now sit next to it, byte-pinned: `first_frame.jpg` is the
 byte-identical gallery image of `qwen21_inpaint_00015.png` (the row `style_charred-plus-timber.jpg`

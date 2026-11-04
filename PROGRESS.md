@@ -34,6 +34,10 @@ a new agent session only needs to read both.
   uncatalogued shou-sugi-ban-plus-timber style variant (its embedded seed 139346433945169).
 - The graph as saved runs seed 4 fixed, 6 steps, cfg 1.0, `res_multistep`; the turbo LoRA is stacked
   but switched off.
+- **Then the user fixed the prompt in the graph itself** (~20:2x): all four "15.08 s" alignments became
+  "5 s". Correct — but it means `workflows/MMH3.json` is no longer byte-identical to the graph that
+  made `video_03.mp4`; the as-run text is in git history (54045d5), and `manifest.json` now carries a
+  `graph_edited_after_the_run` note saying exactly that.
 
 ### Next step (only if the video branch is to be measured)
 - Add the depth/compare nodes to MMH3 like the measured graphs have, save the two frame inputs into

@@ -84,6 +84,34 @@ full-frame version of the same graph:
 | <img src="docs/gallery/qwen_inpaint/pair00001.jpg" width="250"> | <img src="docs/gallery/qwen_inpaint/style_slate-larch.jpg" width="250"> | <img src="docs/gallery/qwen_inpaint/style_shou-sugi-ban.jpg" width="250"> | <img src="docs/gallery/qwen_inpaint/style_micro-cement-panels.jpg" width="250"> |
 | pair 00001 · r 0.9996 (outside the mask: identical by construction) | slate stone + larch, "alpine chalet" | charred wood, shou sugi ban | light grey micro-cement panels, dark gables |
 
+### D — a video made from two of these renders (MiniMax H3, not measured)
+
+The same Qwen graph's style renders were used as the **first and last frames** of a shot, and a
+frame-to-video model was asked to connect them with one smooth drone glide along the façade:
+
+| first frame (the C row "charred wood + timber accents", `qwen21_inpaint_00015.png`) | last frame (a shou-sugi-ban+timber variant between the 00013/00015 rows, `qwen21_inpaint_00014.png`) |
+|---|---|
+| <img src="docs/gallery/video/first_frame.jpg" width="300"> | <img src="docs/gallery/video/last_frame.png" width="300"> |
+
+<video src="docs/gallery/video/video_03.mp4" controls width="600"></video>
+
+<sub>The final video: <a href="docs/gallery/video/video_03.mp4">docs/gallery/video/video_03.mp4</a> —
+1024×576, 24 fps, 5.17 s, 124 frames, with sound (the graph has its own audio VAE).</sub>
+
+What generated it: [`workflows/MMH3.json`](workflows/MMH3.json) — **MiniMax H3 FL2V**
+(first+last-frame-to-video, int8 pruned checkpoint, Qwen3-VL text encoder, video + audio VAEs) run in
+ComfyUI on 04.11 19:01: seed 4 fixed, 6 steps, cfg 1.0, `res_multistep`. The camera path, the "no
+warping, no morphing, rigid geometry" requirement and a soundscape (drone hum + minimal cello/piano)
+were asked in words — there is **no depth signal and no mask** in this graph, so the video is not a
+measured row: it is the first output of the next-steps item 6 (the video branch), not part of the A/B/C
+comparison.
+
+Two honest caveats, recorded in [`docs/gallery/MANIFEST.md`](docs/gallery/MANIFEST.md) rather than
+hidden: the prompt text aligns the two pictures at 0.00 s and 15.08 s of "the target video" while the
+duration widget said 5 s — the saved file is 5.17 s; and the ComfyUI folder carries the names
+`qwen21_inpaint_00014/00015.png` twice by date (02.11 and 04.11) with identical bytes, so the frames'
+provenance is pinned by the byte-identical repo copies above, not by their filenames.
+
 Every image above is the actual file a run wrote. Where it came from — original filename, timestamp,
 native size, seed, steps/cfg, and the prompt that was asked — is in
 [`docs/gallery/MANIFEST.md`](docs/gallery/MANIFEST.md); the full prompt text of each run is in
